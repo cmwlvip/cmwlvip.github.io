@@ -1,0 +1,517 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Hadoop 生态 | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Apache Hadoop、HDFSApache Hadoop概述Hadoop介绍、发展简史、现状Hadoop介绍 狭义上Hadoop指的是Apache软件基金会的一款开源软件。  用java语言实现，开源允许用户使用简单的编程模型实现跨机器集群对海量数据进行分布式计算处理  Hadoop核心组件  Hadoop HDFS（分布式文件存储系统）：解决海量数据存储Hadoop YARN（集群资源管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 生态">
+<meta property="og:url" content="https://cmwlvip.github.io/2022/11/12/HadoopBase/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="Apache Hadoop、HDFSApache Hadoop概述Hadoop介绍、发展简史、现状Hadoop介绍 狭义上Hadoop指的是Apache软件基金会的一款开源软件。  用java语言实现，开源允许用户使用简单的编程模型实现跨机器集群对海量数据进行分布式计算处理  Hadoop核心组件  Hadoop HDFS（分布式文件存储系统）：解决海量数据存储Hadoop YARN（集群资源管理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg">
+<meta property="article:published_time" content="2022-11-12T13:31:16.000Z">
+<meta property="article:modified_time" content="2022-11-12T16:00:00.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg"><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://cmwlvip.github.io/2022/11/12/HadoopBase/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hadoop 生态',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-13 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar001.gif" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Ofra Serendipity</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Hadoop 生态</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-12T13:31:16.000Z" title="发表于 2022-11-12 21:31:16">2022-11-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-12T16:00:00.000Z" title="更新于 2022-11-13 00:00:00">2022-11-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Hadoop/">Hadoop</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Hadoop 生态"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Apache-Hadoop、HDFS"><a href="#Apache-Hadoop、HDFS" class="headerlink" title="Apache Hadoop、HDFS"></a>Apache Hadoop、HDFS</h2><h3 id="Apache-Hadoop概述"><a href="#Apache-Hadoop概述" class="headerlink" title="Apache Hadoop概述"></a>Apache Hadoop概述</h3><h4 id="Hadoop介绍、发展简史、现状"><a href="#Hadoop介绍、发展简史、现状" class="headerlink" title="Hadoop介绍、发展简史、现状"></a>Hadoop介绍、发展简史、现状</h4><h5 id="Hadoop介绍"><a href="#Hadoop介绍" class="headerlink" title="Hadoop介绍"></a>Hadoop介绍</h5><ul>
+<li><mark class="hl-label blue">狭义上Hadoop指的是Apache软件基金会的一款开源软件。</mark> 
+<p>用java语言实现，开源<br>允许用户使用<strong>简单的编程模型</strong>实现<strong>跨机器</strong>集群对海量数据进行<strong>分布式计算</strong>处理</p>
+</li>
+<li><mark class="hl-label blue">Hadoop核心组件</mark> 
+<p>Hadoop HDFS（分布式文件<strong>存储</strong>系统）：解决海量数据存储<br>Hadoop YARN（集群<strong>资源管理</strong>和任务调度框架）：解决资源任务调度<br>Hadoop MapReduce（分布式<strong>计算</strong>框架）：解决海量数据计算</p>
+</li>
+<li><mark class="hl-label blue">官网</mark> 
+<p><a target="_blank" rel="noopener" href="http://hadoop.apache.org/">http://hadoop.apache.org/</a></p>
+</li>
+<li><mark class="hl-label red">广义上Hadoop指的是围绕Hadoop打造的大数据生态圈。</mark> 
+<p><img src="/2022/11/12/HadoopBase/2022-11-12-22-38-08.png" alt="广义Hadoop"></p>
+</li>
+</ul>
+<h5 id="Hadoop发展简史"><a href="#Hadoop发展简史" class="headerlink" title="Hadoop发展简史"></a>Hadoop发展简史</h5><blockquote class="pullquote right"><p><img src="/2022/11/12/HadoopBase/2022-11-12-22-42-09.png" alt="Hadoop之父"></p>
+</blockquote>
+
+<ul>
+<li><mark class="hl-label blue">Hadoop之父</mark> 
+<p><strong>Doug Cutting</strong></p>
+</li>
+<li><mark class="hl-label blue">Hadoop起源于ApacheLucene子项目：Nutch</mark> 
+<p>Nutch的设计目标是构建一个大型的全网搜索引擎。<br>遇到瓶颈：如何解决数十亿网页的存储和索引问题</p>
+</li>
+<li><mark class="hl-label red">Google三篇论文</mark> 
+<p>《The Google file system》：谷歌分布式文件系统GFS<br>《MapReduce: Simplified Data Processing on Large Clusters》：谷歌分布式计算框架MapReduce<br>《Bigtable: A Distributed Storage System for Structured Data》：谷歌结构化数据存储系统</p>
+</li>
+</ul>
+<h5 id="Hadoop现状"><a href="#Hadoop现状" class="headerlink" title="Hadoop现状"></a>Hadoop现状</h5><ul>
+<li><strong>HDFS</strong>作为分布式文件存储系统，处在<strong>生态圈的底层与核心地位</strong>；</li>
+<li><strong>YARN</strong>作为分布式通用的集群资源管理系统和任务调度平台，<strong>支撑各种计算引擎运行</strong>，保证了Hadoop地位；</li>
+<li><strong>MapReduce</strong>作为大数据生态圈第一代分布式计算引擎，由于自身设计的模型所产生的弊端，导致企业一线<strong>几乎不再直接使用</strong>MapReduce进行编程处理，但是很多软件的底层依然在使用MapReduce引擎来处理数据。</li>
+</ul>
+<div class="note info modern"><ol>
+<li>狭义上Hadoop指软件，广义上Hadoop指生态圈</li>
+<li>Hadoop之父Doug Cutting</li>
+<li>Hadoop起源于Nutch项目</li>
+<li>受Google3篇论文启发</li>
+<li>2008年开源给Apache软件基金会</li>
+</ol>
+</div>
+
+<h4 id="Hadoop特性优点、国内外应用"><a href="#Hadoop特性优点、国内外应用" class="headerlink" title="Hadoop特性优点、国内外应用"></a>Hadoop特性优点、国内外应用</h4><h5 id="Hadoop特性优点"><a href="#Hadoop特性优点" class="headerlink" title="Hadoop特性优点"></a>Hadoop特性优点</h5><ol>
+<li><p><strong>扩容能力</strong> scalability<br>Hadoop是在可用的计算机集群间分配数据并完成计算任务的，这些集群可方便灵活的方式扩展到数以千计的节点。</p>
+</li>
+<li><p><strong>成本低</strong> Economical<br>Hadoop集群允许通过部署普通廉价的机器组成集群来处理大数据，以至于成本很低。看重的是集群整体能力。</p>
+</li>
+<li><p><strong>效率高</strong> efficiency<br>通过<strong>并发数据</strong>，Hadoop可以在节点之间动态<strong>并行</strong>的移动数据，使得速度非常快。</p>
+</li>
+<li><p>可靠性 reliability<br>能自动维护数据的多份复制，并且在任务失败后能自动地重新部署（redeploy）计算任务。所以Hadoop的按位存储和处理数据的能力值得人们信赖。</p>
+</li>
+</ol>
+<h5 id="Hadoop国外应用"><a href="#Hadoop国外应用" class="headerlink" title="Hadoop国外应用"></a>Hadoop国外应用</h5><ul>
+<li><p>Yahoo<br>支持广告系统<br>用户行为分析<br>支持Web搜索<br>反垃圾邮件系统</p>
+</li>
+<li><p>Facebook<br>存储处理数据挖掘和日志统计<br>构建基于Hadoop数据仓库平台（Apache Hive来自FB）</p>
+</li>
+<li><p>IBM<br>蓝云基础设施构建<br>商业化Hadoop发行、解决方案支持</p>
+</li>
+</ul>
+<h5 id="Hadoop国内应用"><a href="#Hadoop国内应用" class="headerlink" title="Hadoop国内应用"></a>Hadoop国内应用</h5><ul>
+<li><p>百度<br>用户搜索表征的需求数据、阿拉丁爬虫数据存储<br>数据分析和挖掘竞价排名</p>
+</li>
+<li><p>阿里巴巴<br>为电子商务网络平台提供底层的基础计算和存储服务<br>交易数据、信用数据</p>
+</li>
+<li><p>腾讯<br>用户关系数据<br>基于Hadoop、Hive构建TDW（腾讯分布式数据仓库）</p>
+</li>
+<li><p>华为<br>对Hadoop的HA方案，以及HBase领域有深入研究</p>
+</li>
+</ul>
+<div class="note info modern"><ul>
+<li><p>Hadoop成功的魅力–<strong>通用性</strong><br>精准区分做什么和怎么做<br>做什么属于业务问题怎么做属于技术问题。<br>用户负责业务Hadoop负责技术</p>
+</li>
+<li><p>Hadoop成功的魅力–<strong>简单</strong><br><strong>一个东西你用起来比较简单，可不是你的能力！</strong></p>
+</li>
+</ul>
+</div>
+
+<h4 id="Hadoop发行版本、架构变迁"><a href="#Hadoop发行版本、架构变迁" class="headerlink" title="Hadoop发行版本、架构变迁"></a>Hadoop发行版本、架构变迁</h4><h5 id="Hadoop发行版本"><a href="#Hadoop发行版本" class="headerlink" title="Hadoop发行版本"></a>Hadoop发行版本</h5><p><img src="/2022/11/12/HadoopBase/2022-11-12-23-32-21.png" alt="Hadoop发行版本"></p>
+<ul>
+<li><p>Apache开源社区版本<br><a target="_blank" rel="noopener" href="http://hadoop.apache.org/">http://hadoop.apache.org/</a></p>
+</li>
+<li><p>商业发行版本<br>Cloudera: <a target="_blank" rel="noopener" href="https://www.cloudera.com/products/open-source/apache-hadoop.html">https://www.cloudera.com/products/open-source/apache-hadoop.html</a><br>Hortonworks: <a target="_blank" rel="noopener" href="https://www.cloudera.com/products/hdp.html">https://www.cloudera.com/products/hdp.html</a></p>
+</li>
+</ul>
+<h5 id="Hadoop架构变迁（1-0-2-0变迁）"><a href="#Hadoop架构变迁（1-0-2-0变迁）" class="headerlink" title="Hadoop架构变迁（1.0-2.0变迁）"></a>Hadoop架构变迁（1.0-2.0变迁）</h5><ul>
+<li><p>Hadoop 1.0<br>HDFS（分布式文件存储）<br>MapReduce（资源管理和分布式数据处理）</p>
+</li>
+<li><p>Hadoop 2.0<br>HDFS（分布式文件存储）<br>MapReduce（分布式数据处理）<br><strong>YARN</strong>（集群资源管理、任务调度）</p>
+</li>
+</ul>
+<p><img src="/2022/11/12/HadoopBase/2022-11-12-23-38-22.png" alt="Hadoop架构变迁（1.0-2.0变迁）"></p>
+<h5 id="Hadoop架构变迁（3-0新版本）"><a href="#Hadoop架构变迁（3-0新版本）" class="headerlink" title="Hadoop架构变迁（3.0新版本）"></a>Hadoop架构变迁（3.0新版本）</h5><p><img src="/2022/11/12/HadoopBase/2022-11-12-23-39-05.png" alt="Hadoop架构变迁（3.0新版本）"><br>Hadoop 3.0架构组件和Hadoop 2.0类似,<strong>3.0着重于性能优化</strong>。</p>
+<ul>
+<li><p>通用方面<br>精简内核、类路径隔离、shell脚本重构</p>
+</li>
+<li><p>Hadoop HDFS<br>EC纠删码、多NameNode支持</p>
+</li>
+<li><p>Hadoop MapReduce<br>任务本地化优化、内存参数自动推断</p>
+</li>
+<li><p>Hadoop YARN<br>Timeline Service V2、队列配置</p>
+</li>
+</ul>
+<h3 id="Apache-Hadoop集群搭建"><a href="#Apache-Hadoop集群搭建" class="headerlink" title="Apache Hadoop集群搭建"></a>Apache Hadoop集群搭建</h3><h4 id="Hadoop集群简介"><a href="#Hadoop集群简介" class="headerlink" title="Hadoop集群简介"></a>Hadoop集群简介</h4><ul>
+<li>Hadoop集群包括两个集群：HDFS集群、YARN集群</li>
+<li>两个集群<strong>逻辑上分离、通常物理上在一起</strong>(可单独启动，部署于一台计算机)</li>
+<li>两个集群都是标准的<strong>主从架构</strong>集群</li>
+</ul>
+<p><img src="/2022/11/12/HadoopBase/2022-11-12-23-46-13.png" alt="Hadoop集群"><br><img src="/2022/11/12/HadoopBase/2022-11-12-23-48-36.png" alt="Hadoop集群"></p>
+<ul>
+<li><p>逻辑上分离<br>两个集群<strong>互相之间没有依赖、互不影响</strong></p>
+</li>
+<li><p>物理上在一起<br>某些角色进程往往<strong>部署在同一台物理服务器上</strong></p>
+</li>
+<li><p>MapReduce集群呢？<br>MapReduce是计算框架、代码层面的组件没有集群之说</p>
+</li>
+</ul>
+<h4 id="Hadoop集群模式-分布式-安装（Cluster-mode）"><a href="#Hadoop集群模式-分布式-安装（Cluster-mode）" class="headerlink" title="Hadoop集群模式(分布式)安装（Cluster mode）"></a>Hadoop集群模式(分布式)安装（Cluster mode）</h4><p>详细的集群搭建步骤可参考<a href="/2022/10/25/HadoopClusterBuilding3-3-4/" title="Hadoop 3.3.4 集群搭建">Hadoop 3.3.4 集群搭建</a></p>
+<h5 id="Hadoop源码编译"><a href="#Hadoop源码编译" class="headerlink" title="Hadoop源码编译"></a>Hadoop源码编译</h5><ul>
+<li>安装包、源码包下载地址<br><a target="_blank" rel="noopener" href="https://archive.apache.org/dist/hadoop/common/">https://archive.apache.org/dist/hadoop/common/</a><br><img src="/2022/11/12/HadoopBase/2022-11-13-00-08-55.png" alt="Hadoop版本"></li>
+<li>为什么要重新编译Hadoop源码?<br>匹配不同<strong>操作系统本地库环境</strong>，Hadoop某些操作比如压缩、IO需要调用系统本地库（*.so|*.dll）<br><strong>修改源码、重构源码</strong></li>
+<li>如何编译Hadoop<br>源码包根目录下文件：BUILDING.txt<br><img src="/2022/11/12/HadoopBase/2022-11-13-00-09-25.png" alt="如何编译Hadoop"></li>
+</ul>
+<h5 id="Step1-集群角色规划"><a href="#Step1-集群角色规划" class="headerlink" title="Step1:集群角色规划"></a>Step1:集群角色规划</h5><ul>
+<li><p>角色规划的准则<br>根据软件工作特性和服务器硬件资源情况合理分配<br>比如依赖内存工作的NameNode是不是部署在大内存机器上？</p>
+</li>
+<li><p>角色规划注意事项<br><strong>资源上有抢夺冲突的，尽量不要部署在一起</strong><br><strong>工作上需要互相配合的。尽量部署在一起</strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>服务器</th>
+<th>运行角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node1.itcast.cn</td>
+<td>namenode datanode resourcemanager nodemanager</td>
+</tr>
+<tr>
+<td>node2.itcast.cn</td>
+<td>secondarynamenode datanode nodemanager</td>
+</tr>
+<tr>
+<td>node3.itcast.cn</td>
+<td>datanode nodemanager</td>
+</tr>
+</tbody></table>
+<h5 id="Step2-服务器基础环境准备"><a href="#Step2-服务器基础环境准备" class="headerlink" title="Step2:服务器基础环境准备"></a>Step2:服务器基础环境准备</h5><ul>
+<li><p>主机名（3台机器）<br><code>vim /etc/hostname</code></p>
+</li>
+<li><p>Hosts映射（3台机器）<br><code>vim /etc/hosts</code></p>
+</li>
+<li><p>防火墙关闭（3台机器）<br><code>systemctl stop firewalld.service</code> #关闭防火墙<br><code>systemctl disable firewalld.service</code> #禁止防火墙开启自启</p>
+</li>
+<li><p>ssh免密登录<br><code>ssh-keygen</code>#4个回车生成公钥、私钥<br><code>ssh-copy-id node1</code>、<code>ssh-copy-id node2</code>、<code>ssh-copy-id node3</code></p>
+</li>
+<li><p>集群时间同步（3台机器）<br><code>yum -y install ntpdate</code><br><code>ntpdate ntp4.aliyun.com</code></p>
+</li>
+<li><p>创建统一工作目录（3台机器）</p>
+</li>
+</ul>
+<h5 id="Step3-上传安装包、解压安装包"><a href="#Step3-上传安装包、解压安装包" class="headerlink" title="Step3:上传安装包、解压安装包"></a>Step3:上传安装包、解压安装包</h5><ul>
+<li>JDK 1.8安装（3台机器）</li>
+<li>上传、解压Hadoop安装包</li>
+</ul>
+<h5 id="Step4-Hadoop安装包目录结构"><a href="#Step4-Hadoop安装包目录结构" class="headerlink" title="Step4:Hadoop安装包目录结构"></a>Step4:Hadoop安装包目录结构</h5><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>bin</strong></td>
+<td>Hadoop最基本的<strong>管理脚本</strong>和使用脚本的目录，这些脚本是sbin目录下管理脚本的基础实现，用户可以直接使用这些脚本管理和使用Hadoop。</td>
+</tr>
+<tr>
+<td><strong>etc</strong></td>
+<td>Hadoop<strong>配置文件</strong>所在的目录</td>
+</tr>
+<tr>
+<td>include</td>
+<td>对外提供的编程库头文件（具体动态库和静态库在lib目录中），这些头文件均是用C++定义的，通常用于C++程序访问HDFS或者编写MapReduce程序。</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>该目录包含了Hadoop对外提供的编程动态库和静态库，与include目录中的头文件结合使用。</td>
+</tr>
+<tr>
+<td>libexec</td>
+<td>各个服务对用的shell配置文件所在的目录，可用于配置日志输出、启动参数（比如JVM参数）等基本信息。</td>
+</tr>
+<tr>
+<td><strong>sbin</strong></td>
+<td>Hadoop管理脚本所在的目录，主要包含HDFS和YARN中各类服务的<strong>启动&#x2F;关闭脚本</strong>。</td>
+</tr>
+<tr>
+<td><strong>share</strong></td>
+<td>Hadoop各个模块编译后的<strong>jar包</strong>所在的目录，<strong>官方自带示例</strong>。</td>
+</tr>
+</tbody></table>
+<h5 id="配置文件概述"><a href="#配置文件概述" class="headerlink" title="配置文件概述"></a>配置文件概述</h5><ul>
+<li><p>官网文档<br><a target="_blank" rel="noopener" href="https://hadoop.apache.org/docs/">https://hadoop.apache.org/docs/</a></p>
+</li>
+<li><p>第一类1个: <strong>hadoop-env.sh</strong></p>
+</li>
+<li><p>第二类4个：xxxx-site.xml ,site表示的是用户定义的配置，会覆盖default中的默认配置。</p>
+<ul>
+<li><strong>core-site.xml</strong> 核心模块配置</li>
+<li><strong>hdfs-site.xml</strong> hdfs文件系统模块配置</li>
+<li><strong>mapred-site.xml</strong> MapReduce模块配置</li>
+<li><strong>yarn-site.xml</strong> yarn模块配置</li>
+</ul>
+</li>
+<li><p>第三类1个：<strong>workers</strong></p>
+</li>
+<li><p>上述的配置文件目录：$HADOOP_HOME&#x2F;etc&#x2F;hadoop</p>
+</li>
+</ul>
+<h5 id="Step5-编辑Hadoop配置文件-hadoop-env-sh"><a href="#Step5-编辑Hadoop配置文件-hadoop-env-sh" class="headerlink" title="Step5:编辑Hadoop配置文件 hadoop-env.sh"></a>Step5:编辑Hadoop配置文件 hadoop-env.sh</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=jdk安装路径</span><br><span class="line"><span class="comment">#文件最后添加</span></span><br><span class="line"><span class="built_in">export</span> HDFS_NAMENODE_USER=rootexport HDFS_DATANODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_SECONDARYNAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_RESOURCEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_NODEMANAGER_USER=root</span><br></pre></td></tr></table></figure>
+
+<h5 id="Step5-编辑Hadoop配置文件-core-site-xml"><a href="#Step5-编辑Hadoop配置文件-core-site-xml" class="headerlink" title="Step5:编辑Hadoop配置文件 core-site.xml"></a>Step5:编辑Hadoop配置文件 core-site.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--设置默认使用的文件系统Hadoop支持file、HDFS、GFS、ali|Amazon云等文件系统--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://node1:8020<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--设置Hadoop本地保存数据路径--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/export/data/hadoop-3.3.0<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--设置HDFS web UI用户身份--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.http.staticuser.user<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--整合hive 用户代理设置--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--垃圾桶文件保存时间--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.trash.interval<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1440<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Step5-编辑Hadoop配置文件hdfs-site-xml"><a href="#Step5-编辑Hadoop配置文件hdfs-site-xml" class="headerlink" title="Step5:编辑Hadoop配置文件hdfs-site.xml"></a>Step5:编辑Hadoop配置文件hdfs-site.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--设置SNN进程运行机器位置信息--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node2:9868<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Step5-编辑Hadoop配置文件-mapred-site-xml"><a href="#Step5-编辑Hadoop配置文件-mapred-site-xml" class="headerlink" title="Step5:编辑Hadoop配置文件 mapred-site.xml"></a>Step5:编辑Hadoop配置文件 mapred-site.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--设置MR程序默认运行模式：yarn集群模式local本地模式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--MR程序历史服务器端地址--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:10020<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--历史服务器web端地址--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.webapp.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1:19888<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.app.mapreduce.am.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=$&#123;HADOOP_HOME&#125;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.map.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=$&#123;HADOOP_HOME&#125;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=$&#123;HADOOP_HOME&#125;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Step5-编辑Hadoop配置文件-yarn-site-xml"><a href="#Step5-编辑Hadoop配置文件-yarn-site-xml" class="headerlink" title="Step5:编辑Hadoop配置文件 yarn-site.xml"></a>Step5:编辑Hadoop配置文件 yarn-site.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--设置YARN集群主角色运行机器位置--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>node1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--是否将对容器实施物理内存限制--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.pmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--是否将对容器实施虚拟内存限制。--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--开启日志聚集--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.log-aggregation-enable<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--设置yarn历史服务器地址--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.log.server.url<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>http://node1:19888/jobhistory/logs<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--保存的时间7天--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.log-aggregation.retain-seconds<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>604800<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Step5-编辑Hadoop配置文件-workers"><a href="#Step5-编辑Hadoop配置文件-workers" class="headerlink" title="Step5:编辑Hadoop配置文件 workers"></a>Step5:编辑Hadoop配置文件 workers</h5><pre><code class="highlight plaintext">node1.itcast.cn
+node2.itcast.cn
+node3.itcast.cn</code></pre>
+
+<h5 id="Step6-分发同步安装包"><a href="#Step6-分发同步安装包" class="headerlink" title="Step6:分发同步安装包"></a>Step6:分发同步安装包</h5><ul>
+<li>在node1机器上将Hadoop安装包scp同步到其他机器</li>
+</ul>
+<h5 id="Step7-配置Hadoop环境变量"><a href="#Step7-配置Hadoop环境变量" class="headerlink" title="Step7:配置Hadoop环境变量"></a>Step7:配置Hadoop环境变量</h5><ul>
+<li><p>在node1上配置Hadoop环境变量<br><code>vim /etc/profile</code><br><code>export HADOOP_HOME=hadoop安装路径</code><br><code>export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</code></p>
+</li>
+<li><p>将修改后的环境变量同步其他机器<br><code>scp /etc/profile root@node2:/etc/</code><br><code>scp /etc/profile root@node3:/etc/</code></p>
+</li>
+<li><p>重新加载环境变量验证是否生效（3台机器）<br><code>source /etc/profile</code><br><code>hadoop</code> #验证环境变量是否生效</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io/2022/11/12/HadoopBase/">https://cmwlvip.github.io/2022/11/12/HadoopBase/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://cmwlvip.github.io" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hadoop/">Hadoop</a><a class="post-meta__tags" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/11/07/TypeScript/"><img class="next-cover" src="/2022/11/07/TypeScript/TypeScript.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">TypeScript</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/10/25/HadoopClusterBuilding3-3-4/" title="Hadoop 3.3.4 集群搭建"><img class="cover" src="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-25</div><div class="title">Hadoop 3.3.4 集群搭建</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar001.gif" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Shiqing Huang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Hadoop%E3%80%81HDFS"><span class="toc-number">1.</span> <span class="toc-text">Apache Hadoop、HDFS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Apache-Hadoop%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">Apache Hadoop概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E4%BB%8B%E7%BB%8D%E3%80%81%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2%E3%80%81%E7%8E%B0%E7%8A%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">Hadoop介绍、发展简史、现状</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Hadoop介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E5%8F%91%E5%B1%95%E7%AE%80%E5%8F%B2"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">Hadoop发展简史</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E7%8E%B0%E7%8A%B6"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">Hadoop现状</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%89%B9%E6%80%A7%E4%BC%98%E7%82%B9%E3%80%81%E5%9B%BD%E5%86%85%E5%A4%96%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">Hadoop特性优点、国内外应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E7%89%B9%E6%80%A7%E4%BC%98%E7%82%B9"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Hadoop特性优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E5%9B%BD%E5%A4%96%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">Hadoop国外应用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E5%9B%BD%E5%86%85%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">Hadoop国内应用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%AC%E3%80%81%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">Hadoop发行版本、架构变迁</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%AC"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">Hadoop发行版本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81%EF%BC%881-0-2-0%E5%8F%98%E8%BF%81%EF%BC%89"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">Hadoop架构变迁（1.0-2.0变迁）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81%EF%BC%883-0%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%89"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">Hadoop架构变迁（3.0新版本）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apache-Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">Apache Hadoop集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">Hadoop集群简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F-%E5%88%86%E5%B8%83%E5%BC%8F-%E5%AE%89%E8%A3%85%EF%BC%88Cluster-mode%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">Hadoop集群模式(分布式)安装（Cluster mode）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Hadoop%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Hadoop源码编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step1-%E9%9B%86%E7%BE%A4%E8%A7%92%E8%89%B2%E8%A7%84%E5%88%92"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">Step1:集群角色规划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">Step2:服务器基础环境准备</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step3-%E4%B8%8A%E4%BC%A0%E5%AE%89%E8%A3%85%E5%8C%85%E3%80%81%E8%A7%A3%E5%8E%8B%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">Step3:上传安装包、解压安装包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step4-Hadoop%E5%AE%89%E8%A3%85%E5%8C%85%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">Step4:Hadoop安装包目录结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">配置文件概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-hadoop-env-sh"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">Step5:编辑Hadoop配置文件 hadoop-env.sh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-core-site-xml"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">Step5:编辑Hadoop配置文件 core-site.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6hdfs-site-xml"><span class="toc-number">1.2.2.9.</span> <span class="toc-text">Step5:编辑Hadoop配置文件hdfs-site.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-mapred-site-xml"><span class="toc-number">1.2.2.10.</span> <span class="toc-text">Step5:编辑Hadoop配置文件 mapred-site.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-yarn-site-xml"><span class="toc-number">1.2.2.11.</span> <span class="toc-text">Step5:编辑Hadoop配置文件 yarn-site.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step5-%E7%BC%96%E8%BE%91Hadoop%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-workers"><span class="toc-number">1.2.2.12.</span> <span class="toc-text">Step5:编辑Hadoop配置文件 workers</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step6-%E5%88%86%E5%8F%91%E5%90%8C%E6%AD%A5%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">1.2.2.13.</span> <span class="toc-text">Step6:分发同步安装包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Step7-%E9%85%8D%E7%BD%AEHadoop%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.2.14.</span> <span class="toc-text">Step7:配置Hadoop环境变量</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/12/HadoopBase/" title="Hadoop 生态"><img src="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hadoop 生态"/></a><div class="content"><a class="title" href="/2022/11/12/HadoopBase/" title="Hadoop 生态">Hadoop 生态</a><time datetime="2022-11-12T13:31:16.000Z" title="发表于 2022-11-12 21:31:16">2022-11-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/07/TypeScript/" title="TypeScript"><img src="/2022/11/07/TypeScript/TypeScript.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript"/></a><div class="content"><a class="title" href="/2022/11/07/TypeScript/" title="TypeScript">TypeScript</a><time datetime="2022-11-07T08:34:19.000Z" title="发表于 2022-11-07 16:34:19">2022-11-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/HexoTagPlugins/" title="Hexo Built-in Tag Plugins (Hexo内置标签外挂)"><img src="https://pic1.imgdb.cn/item/6364a40416f2c2beb1303eee.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo Built-in Tag Plugins (Hexo内置标签外挂)"/></a><div class="content"><a class="title" href="/2022/11/03/HexoTagPlugins/" title="Hexo Built-in Tag Plugins (Hexo内置标签外挂)">Hexo Built-in Tag Plugins (Hexo内置标签外挂)</a><time datetime="2022-11-03T06:08:31.000Z" title="发表于 2022-11-03 14:08:31">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/KeyboardShutcut/" title="实用快捷键"><img src="https://pic1.imgdb.cn/item/636637e316f2c2beb1011a65.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实用快捷键"/></a><div class="content"><a class="title" href="/2022/11/03/KeyboardShutcut/" title="实用快捷键">实用快捷键</a><time datetime="2022-11-02T16:49:59.000Z" title="发表于 2022-11-03 00:49:59">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/TheCharmOfMarkdown/" title="了不起的 Markdown"><img src="https://pic1.imgdb.cn/item/63676da116f2c2beb11fa14e.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="了不起的 Markdown"/></a><div class="content"><a class="title" href="/2022/10/27/TheCharmOfMarkdown/" title="了不起的 Markdown">了不起的 Markdown</a><time datetime="2022-10-27T07:15:43.000Z" title="发表于 2022-10-27 15:15:43">2022-10-27</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Shiqing Huang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
