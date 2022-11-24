@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title>C#</title>
+      <link href="/2022/11/25/CSharp/"/>
+      <url>/2022/11/25/CSharp/</url>
+      
+        <content type="html"><![CDATA[<h2 id="C-开发入门"><a href="#C-开发入门" class="headerlink" title="C#开发入门"></a>C#开发入门</h2><h3 id="NET-基础知识"><a href="#NET-基础知识" class="headerlink" title=".NET 基础知识"></a>.NET 基础知识</h3><h4 id="NET-Framework"><a href="#NET-Framework" class="headerlink" title=".NET Framework"></a>.NET Framework</h4><p>.NET Framework 是微软公司为开发应用程序而创建的一个<strong>全新的、集成的、面向对象的</strong>开发平台。使用.NET Framework 可以创建桌面应用程序、Web应用程序和其他各种类型的应用程序。</p><p>.NET Framework 位于操作系统和应用程序之间，负责管理在.NET Framework 上运行的各种应用程序。也就是说 <strong>.NET应用程序不依赖于操作系统，只依赖于.NET Framework</strong>。<br>.NET Framework核心部分：</p><ul><li><strong>公共语言运行库</strong>(Common Language Runtime, CLR): 它位于.NET Framework的最底层，主要负责管理.NET应用程序的编译、运行以及一些基础服务，它为.NET应用程序提供了一个虚拟运行环境。同时CLR 还负责为应用程序提供内存分配、线程管理以及垃圾回收等服务，并且负责对代码进行安全检查，以保证代码正常运行。</li><li><strong>.NET Framework的基础类库</strong>(Base Class Library, BCL): 它是微软公司提出的一组标准库，如集合类，可以提供给.NET Framework所有语言使用。当安装.NET Framework时，所有的基础类库被部署到全局程序集缓存(Global Assembly Cache, GAC)，所以不需要再工程中引用任何基础类库，它们会被自动引用。</li></ul><p>除此之外，.NET Framework还包括 Window 窗体、ASP.NET、ADD.NET 等模块，这些模块用于开发各种各样的应用程序，如桌面应用程序，网络应用程序。企业级应用程序。</p><h4 id="C-语言"><a href="#C-语言" class="headerlink" title="C#语言"></a>C#语言</h4><p>C#是微软公司在2000年6月发布的一种全新的、简单的、安全的、面向对象的程序设计语言，它专门用于开发 .NET 应用，从根本上保证了 C＃与 .NET Framework 的完美结合。 C#不仅吸收了 C++、 Visual Basic 、 Delphi , Java 等语言的优点，体现了当今最新的字设计技术的功能和精华，而且继承了 C 语言的语法风格、 C++ 的面向对象特性。 C#的主要特点如下。</p><ol><li><p><strong>面向对象</strong><br>C# 是由 C 和 C++衍生出来的面向对象的编程语言，因此它具有面向对象的一切特性（封装、继承和多态）。C# 在继承 C 语言和 C++强大功能的同时去掉了一些它们的复杂特性（例如没有宏和模板，不允许多重继承）正是由于 C# 面向对象的卓越设计，使它成为构建各类组件的理想之选。</p></li><li><p><strong>语言简洁</strong><br>在默认的情况下，C#的代码在 .NET Framework 提供的“可操纵”环境下运行，使得程序不能直接访问内存地址空间，因此不再提供对指针类型的支持，从而使 C# 程序更加健壮。另外，C#不再使用 C++中的操作符（例如<code>::</code> <code>-&gt;</code> <code>.,</code>)，它只支持一个操作符<code>.</code>，对于程序员来说，现在需要理解的仅是名字的嵌套而已。</p></li><li><p><strong>与 Web 的紧密结合</strong><br>.NET 中新的应用程序开发模型意味着越来越多的解决方案需要与 Web 标准相统一，例如超文本标记语言（ Hypertext Markup Language , HTML ）。现有的一些开发工具不能与 Web 紧密结合，简易对象访问协议（ Simple Object Access Protocol , SOAP ）的使用使 C#克服了这一缺陷，大规模保层次的分布式开发从此<br>成为可能。<br>由于有了 Web 服务框架的帮助，对程序员来说，网络服务看起来就像是 C# 的本地对象。程序员们能沙利用他们已有的面向对象的知识与技巧开发 Web 服务，仅需要便用简单的 C#语言结构， C# 组件就能够万便地被 Web 服务所使用，并允许它们通过 Internet 被运行在任何操作系统上的任何语言所调用。例如， XMl 已经成为网络中数据结构传递的标准，为了提高效率， C# 直接将 XML 数据映射成为结构，这样就可以伟众地处理各种数据。</p></li></ol><h3 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h3><p>Visual Studio 2019</p><p>……</p><h3 id="编写C-程序"><a href="#编写C-程序" class="headerlink" title="编写C#程序"></a>编写C#程序</h3><h3 id="运行原理"><a href="#运行原理" class="headerlink" title="运行原理"></a>运行原理</h3><h2 id="C-编程基础"><a href="#C-编程基础" class="headerlink" title="C# 编程基础"></a>C# 编程基础</h2><h3 id="C-基本语法"><a href="#C-基本语法" class="headerlink" title="C# 基本语法"></a>C# 基本语法</h3><h4 id="C-代码基本格式"><a href="#C-代码基本格式" class="headerlink" title="C#代码基本格式"></a>C#代码基本格式</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] <span class="keyword">class</span> 类名&#123;</span><br><span class="line">    程序代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol><li>每行的最后都必须用分号（英文格式）<code>;</code>结束。</li><li>C# 严格区分大小写。</li><li>为了便于阅读，通常使用缩进格式，但这不是必须的。</li></ol><h4 id="C-中的注释"><a href="#C-中的注释" class="headerlink" title="C#中的注释"></a>C#中的注释</h4><ol><li><strong>单行注释</strong> <code>//</code></li><li><strong>多行注释</strong> 用<code>/*</code>开头，以<code>*/</code>结尾</li><li><strong>文档注释</strong></li></ol><h5 id="文档注释"><a href="#文档注释" class="headerlink" title="文档注释"></a>文档注释</h5><p>文档注释用于对类或方法进行说明和描述。在类或方法前连续输入3个<code>/</code>，就会自动生成对应的文档注释，需要手动填写类或方法的描述信息，来完成文档注释。<br><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Add</span>()</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>上述代码中的<code>&lt;summary&gt;</code>标签用于对共有类型的类、方法、属性或字段进行注释。其他常用的文档注释标签如下：</p><div class="table-container"><table><thead><tr><th>标签</th><th>表示含义</th></tr></thead><tbody><tr><td><code>&lt;param&gt;</code></td><td>描述方法或构造函数的参数</td></tr><tr><td><code>&lt;include&gt;</code></td><td>包括来自外部文件的XML</td></tr><tr><td><code>&lt;returns&gt;</code></td><td>描述方法的返回值</td></tr><tr><td><code>&lt;value&gt;</code></td><td>描述属性</td></tr><tr><td><code>&lt;example&gt;</code></td><td>表示所含时示例</td></tr><tr><td><code>&lt;exception&gt;</code></td><td>标识方法可能引发异常</td></tr></tbody></table></div><h4 id="C-中的标识符"><a href="#C-中的标识符" class="headerlink" title="C#中的标识符"></a>C#中的标识符</h4><ul><li>标识符可以由<strong>任意顺序的大小写字母、数字、下划线(_)和@符号</strong>组成</li><li>不能以数字开头</li><li>不能是C#中的关键字</li></ul><p><strong>建议遵循的规范</strong>。</p><ul><li>类名、方法名、属性名：<strong>大驼峰命名法</strong>（也叫帕斯卡(Pascal)命名法）</li><li>字段名、变量名：<strong>小驼峰命名法</strong></li><li>常量名所有字母大写，单词之间下划线连接</li><li>尽量使用有意义的英文单词定义标识符</li></ul><h4 id="C-中的关键字"><a href="#C-中的关键字" class="headerlink" title="C#中的关键字"></a>C#中的关键字</h4><p>也称作保留字</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">abstract  do        in        protected   true</span><br><span class="line">as        double    int       public      try</span><br><span class="line">base      else      interface readonly    typeof</span><br><span class="line">bool      enum      internal  ref         uint</span><br><span class="line">break     event     is        return      ulong</span><br><span class="line">byte      explicit  lock      sbyte       unchecked</span><br><span class="line">case      extern    long      sealed      unsafe</span><br><span class="line">catch     false     namespace short       ushort</span><br><span class="line">char      finally   new       sizeof      using</span><br><span class="line">checked   fixed     null      stackalloc  virtual</span><br><span class="line">class     float     object    static      void</span><br><span class="line">const     for       operator  string      volatile</span><br><span class="line">continue  foreach   out       struct      while</span><br><span class="line">decimal   goto      override  switch</span><br><span class="line">default   if        params    this</span><br><span class="line">delegate  implicit  private   throw</span><br></pre></td></tr></table></figure><ul><li><strong>所有的关键字都是小写</strong></li><li><strong>程序中的标识符不能以关键字命名</strong></li></ul><h4 id="C-中的常量"><a href="#C-中的常量" class="headerlink" title="C#中的常量"></a>C#中的常量</h4><h5 id="整型常量"><a href="#整型常量" class="headerlink" title="整型常量"></a>整型常量</h5><h5 id="浮点数常量"><a href="#浮点数常量" class="headerlink" title="浮点数常量"></a>浮点数常量</h5><h5 id="字符常量"><a href="#字符常量" class="headerlink" title="字符常量"></a>字符常量</h5><h5 id="字符串常量"><a href="#字符串常量" class="headerlink" title="字符串常量"></a>字符串常量</h5><h5 id="布尔常量"><a href="#布尔常量" class="headerlink" title="布尔常量"></a>布尔常量</h5><ul><li><code>true</code></li><li><code>false</code></li></ul><h5 id="null常量"><a href="#null常量" class="headerlink" title="null常量"></a>null常量</h5><p>null 常量只有一个null，表示对象的引用为空。</p><h4 id="C-中的变量"><a href="#C-中的变量" class="headerlink" title="C#中的变量"></a>C#中的变量</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> C# </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C# </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>NVM</title>
+      <link href="/2022/11/24/NVM/"/>
+      <url>/2022/11/24/NVM/</url>
+      
+        <content type="html"><![CDATA[<h2 id="nvm是什么"><a href="#nvm是什么" class="headerlink" title="nvm是什么"></a>nvm是什么</h2><p>nvm全英文也叫node.js version management，是<strong>一个nodejs的版本管理工具</strong>。nvm和n都是node.js版本管理工具，为了解决node.js各种版本存在不兼容现象可以通过它可以<strong>安装和切换不同版本</strong>的<code>node.js</code>。</p><h2 id="nvm安装"><a href="#nvm安装" class="headerlink" title="nvm安装"></a>nvm安装</h2><p><a href="https://github.com/coreybutler/nvm-windows/releases">nvm下载</a></p><p>……</p><h2 id="nvm命令"><a href="#nvm命令" class="headerlink" title="nvm命令"></a>nvm命令</h2><div class="note info modern"><p>管理员身份下执行</p></div><h3 id="查看nvm版本"><a href="#查看nvm版本" class="headerlink" title="查看nvm版本"></a>查看nvm版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm version</span><br></pre></td></tr></table></figure><p><code>version</code> <strong>可简化为</strong> <code>v</code></p><h3 id="开启node-js版本管理"><a href="#开启node-js版本管理" class="headerlink" title="开启node.js版本管理"></a>开启node.js版本管理</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm on</span><br></pre></td></tr></table></figure><h3 id="关闭node-js版本管理"><a href="#关闭node-js版本管理" class="headerlink" title="关闭node.js版本管理"></a>关闭node.js版本管理</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm off</span><br></pre></td></tr></table></figure><h3 id="查看nvm安装路径"><a href="#查看nvm安装路径" class="headerlink" title="查看nvm安装路径"></a>查看nvm安装路径</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm root [path]</span><br></pre></td></tr></table></figure><p>可选参数<code>path</code>,使用表示设置路径</p><h3 id="查看已安装的Node-js版本"><a href="#查看已安装的Node-js版本" class="headerlink" title="查看已安装的Node.js版本"></a>查看已安装的Node.js版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm list</span><br></pre></td></tr></table></figure><p><code>list</code><strong>可简化为</strong><code>ls</code></p><h3 id="查看所有远程线上可以安装的版本"><a href="#查看所有远程线上可以安装的版本" class="headerlink" title="查看所有远程线上可以安装的版本"></a>查看所有远程线上可以安装的版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm list available</span><br></pre></td></tr></table></figure><h3 id="安装最新稳定版Node-js"><a href="#安装最新稳定版Node-js" class="headerlink" title="安装最新稳定版Node.js"></a>安装最新稳定版Node.js</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install latest</span><br></pre></td></tr></table></figure><h3 id="安装指定版本"><a href="#安装指定版本" class="headerlink" title="安装指定版本"></a>安装指定版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 版本号</span><br></pre></td></tr></table></figure><h3 id="切换Node-js版本"><a href="#切换Node-js版本" class="headerlink" title="切换Node.js版本"></a>切换Node.js版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use 版本号</span><br></pre></td></tr></table></figure><h3 id="卸载指定版本"><a href="#卸载指定版本" class="headerlink" title="卸载指定版本"></a>卸载指定版本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm uninstall 版本号</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> npm </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> nvm </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>React</title>
       <link href="/2022/11/20/React/"/>
       <url>/2022/11/20/React/</url>
@@ -33,7 +85,7 @@
       <link href="/2022/11/20/AboutNPM/"/>
       <url>/2022/11/20/AboutNPM/</url>
       
-        <content type="html"><![CDATA[<h2 id="About-npm"><a href="#About-npm" class="headerlink" title="About npm"></a>About npm</h2><h3 id="npm-是什么"><a href="#npm-是什么" class="headerlink" title="npm 是什么"></a>npm 是什么</h3><p>npm（“<strong>Node 包管理器</strong>”）是 JavaScript 运行时 Node.js 的默认程序包管理器。</p><h3 id="环境准本"><a href="#环境准本" class="headerlink" title="环境准本"></a>环境准本</h3><h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><p><a href="https://nodejs.org/">Node.js下载</a></p><h3 id="版本检测"><a href="#版本检测" class="headerlink" title="版本检测"></a>版本检测</h3><ul><li>检测node.js 版本：<code>node -v</code></li><li>检测npm 版本：<code>npm -v</code></li></ul><h2 id="npm-的使用"><a href="#npm-的使用" class="headerlink" title="npm 的使用"></a>npm 的使用</h2><h3 id="React"><a href="#React" class="headerlink" title="React"></a>React</h3><p>用于创建 <strong>React项目</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h2 id="About-npm"><a href="#About-npm" class="headerlink" title="About npm"></a>About npm</h2><h3 id="npm-是什么"><a href="#npm-是什么" class="headerlink" title="npm 是什么"></a>npm 是什么</h3><p>npm（“<strong>Node 包管理器</strong>”）是 JavaScript 运行时 Node.js 的默认程序包管理器。</p><h3 id="环境准本"><a href="#环境准本" class="headerlink" title="环境准本"></a>环境准本</h3><h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><p><a href="https://nodejs.org/">Node.js官网下载</a></p><a href="/2022/11/24/NVM/" title="NVM"><b>建议使用<code>nvm</code>安装 <em>Node.js</em></b></a><h3 id="版本检测"><a href="#版本检测" class="headerlink" title="版本检测"></a>版本检测</h3><ul><li>检测node.js 版本：<code>node -v</code></li><li>检测npm 版本：<code>npm -v</code></li></ul><h2 id="npm-的使用"><a href="#npm-的使用" class="headerlink" title="npm 的使用"></a>npm 的使用</h2><h3 id="React"><a href="#React" class="headerlink" title="React"></a>React</h3><p>用于创建 <strong>React项目</strong></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app</span><br></pre></td></tr></table></figure><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><p>快速、简洁且高效的博客框架</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -245,28 +297,6 @@
     
     <entry>
       <title></title>
-      <link href="/Gallery/wallpaper.html"/>
-      <url>/Gallery/wallpaper.html</url>
-      
-        <content type="html"><![CDATA[<div class="fj-gallery"><p><img src="https://i.loli.net/2019/11/10/lP3rLNUBaGtSVzc.png" alt="1"><br><img src="https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png" alt="2"><br><img src="https://i.loli.net/2019/11/10/53eTB2uiNRlXwFP.png" alt="3"><br><img src="https://i.loli.net/2019/11/10/xthHmnbdNerWOqP.png" alt="4"><br><img src="https://i.loli.net/2019/11/10/rJbFpE65tmxPv7R.png" alt="5"><br><img src="https://i.loli.net/2019/11/10/bEJsXxewpOGuRD8.png" alt="6"><br><img src="https://i.loli.net/2019/11/10/71wgohfPHqXRbG9.png" alt="7"><br><img src="https://i.loli.net/2019/11/10/gcnavZbmepS8d4u.png" alt="8"><br><img src="https://i.loli.net/2019/11/10/3wkO7fuQpgda6vz.png" alt="9"><br><img src="https://i.loli.net/2019/11/10/egVhFWopA5mP2Hk.png" alt="10"></p>          </div>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>categories</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
       <link href="/Gallery/ohmygirl.html"/>
       <url>/Gallery/ohmygirl.html</url>
       
@@ -293,6 +323,28 @@
       <url>/Gallery/%E8%B2%82%E8%9D%89.html</url>
       
         <content type="html"><![CDATA[<div class="fj-gallery"><p><img src="https://pic1.imgdb.cn/item/6364a57b16f2c2beb131e55a.jpg" alt="貂蝉——唤灵魅影"><br><img src="https://pic1.imgdb.cn/item/6364abd016f2c2beb13c6aac.jpg" alt="貂蝉——遇见胡旋1"><br><img src="https://pic1.imgdb.cn/item/6364a52216f2c2beb13178e4.jpg" alt="貂蝉——异域舞娘"><br><img src="https://pic1.imgdb.cn/item/6364a52216f2c2beb13178b5.jpg" alt="貂蝉——绝世舞姬"><br><img src="https://pic1.imgdb.cn/item/6364a52216f2c2beb13178d8.jpg" alt="貂蝉——圣诞恋歌"><br><img src="https://pic1.imgdb.cn/item/6364a56216f2c2beb131c7dd.jpg" alt="貂蝉——仲夏夜之梦"><br><img src="https://pic1.imgdb.cn/item/6364a56a16f2c2beb131d0ba.jpg" alt="貂蝉——逐梦之音"><br><img src="https://pic1.imgdb.cn/item/6364a52216f2c2beb1317895.jpg" alt="貂蝉——金色仲夏夜之梦"><br><img src="https://pic1.imgdb.cn/item/6364a52216f2c2beb13178cd.jpg" alt="貂蝉——猫影幻舞"><br><img src="https://pic1.imgdb.cn/item/6364a55c16f2c2beb131c06e.jpg" alt="貂蝉——遇见胡旋"></p>          </div>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>categories</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/Gallery/wallpaper.html"/>
+      <url>/Gallery/wallpaper.html</url>
+      
+        <content type="html"><![CDATA[<div class="fj-gallery"><p><img src="https://i.loli.net/2019/11/10/lP3rLNUBaGtSVzc.png" alt="1"><br><img src="https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png" alt="2"><br><img src="https://i.loli.net/2019/11/10/53eTB2uiNRlXwFP.png" alt="3"><br><img src="https://i.loli.net/2019/11/10/xthHmnbdNerWOqP.png" alt="4"><br><img src="https://i.loli.net/2019/11/10/rJbFpE65tmxPv7R.png" alt="5"><br><img src="https://i.loli.net/2019/11/10/bEJsXxewpOGuRD8.png" alt="6"><br><img src="https://i.loli.net/2019/11/10/71wgohfPHqXRbG9.png" alt="7"><br><img src="https://i.loli.net/2019/11/10/gcnavZbmepS8d4u.png" alt="8"><br><img src="https://i.loli.net/2019/11/10/3wkO7fuQpgda6vz.png" alt="9"><br><img src="https://i.loli.net/2019/11/10/egVhFWopA5mP2Hk.png" alt="10"></p>          </div>]]></content>
       
     </entry>
     
