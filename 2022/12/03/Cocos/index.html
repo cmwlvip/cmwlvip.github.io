@@ -1,0 +1,327 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Cocos | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="cocos游戏开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos">
+<meta property="og:url" content="https://cmwlvip.github.io/2022/12/03/Cocos/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="cocos游戏开发">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cmwlvip.github.io/2022/12/03/Cocos/cocos.jpg">
+<meta property="article:published_time" content="2022-12-03T14:46:46.000Z">
+<meta property="article:modified_time" content="2022-11-03T16:00:00.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="cocos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cmwlvip.github.io/2022/12/03/Cocos/cocos.jpg"><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://cmwlvip.github.io/2022/12/03/Cocos/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Cocos',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-04 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar001.gif" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.imgdb.cn/item/638b68b716f2c2beb14d07d1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Ofra Serendipity</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Cocos</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-03T14:46:46.000Z" title="发表于 2022-12-03 22:46:46">2022-12-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-03T16:00:00.000Z" title="更新于 2022-11-04 00:00:00">2022-11-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/cocos/">cocos</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Cocos"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="note info modern"><p>这里使用的是2.4.9版本,使用的脚本语言为TS</p>
+</div>
+<h2 id="使用Cocos-Creator"><a href="#使用Cocos-Creator" class="headerlink" title="使用Cocos Creator"></a>使用Cocos Creator</h2><h3 id="新建脚本模板"><a href="#新建脚本模板" class="headerlink" title="新建脚本模板"></a>新建脚本模板</h3><p>下载好Cocos Creator新建脚本如下<br><img src="/2022/12/03/Cocos/2022-12-03-23-55-15.png" alt="NewScript"></p>
+<p>如若想更改，可修改<code>CocosDashboard_1.2.2(Cocos Creator安装路径下)\resources\.editors\Creator\2.4.9\resources\static\template\new-script.ts</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;ccclass, property&#125; = cc.<span class="property">_decorator</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ccclass</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">NewClass</span> <span class="keyword">extends</span> <span class="title class_ inherited__">cc.Component</span> &#123;</span><br><span class="line">    <span class="comment">//@property</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// LIFE-CYCLE CALLBACKS:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// onLoad () &#123;&#125;</span></span><br><span class="line"></span><br><span class="line">    start () &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// update (dt) &#123;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于-TS下-Cocos使用"><a href="#关于-TS下-Cocos使用" class="headerlink" title="关于(TS下)Cocos使用"></a>关于(TS下)Cocos使用</h3><p>报错：<strong>无法重新声明块范围变量</strong><br><code>let</code>声明过的变量无法再用<code>let</code>或<code>var</code>重新声明，全用<code>var</code>不会报错<br><img src="/2022/12/03/Cocos/2022-12-04-20-04-26.png" alt="无法再用`let`重新声明"><br><img src="/2022/12/03/Cocos/2022-12-04-20-06-14.png" alt="无法再用`let`重新声明"><br><img src="/2022/12/03/Cocos/2022-12-04-20-07-56.png" alt="全用`var`不会报错"></p>
+<h2 id="Cocos脚本开发"><a href="#Cocos脚本开发" class="headerlink" title="Cocos脚本开发"></a>Cocos脚本开发</h2><h3 id="TS"><a href="#TS" class="headerlink" title="TS"></a>TS</h3><h4 id="TS取整"><a href="#TS取整" class="headerlink" title="TS取整"></a>TS取整</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//向上取整数(小数舍去,正数部分+1)</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">ceil</span>(<span class="number">1.111</span>));<span class="comment">//=2</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">ceil</span>(<span class="number">1.6666</span>));<span class="comment">//=2</span></span><br><span class="line"><span class="comment">//向下取整数(小数直接舍去)</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="number">1.111</span>));<span class="comment">//=1</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="number">1.666</span>));<span class="comment">//=1</span></span><br><span class="line"><span class="comment">//四舍五入</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">round</span>(<span class="number">1.111</span>));<span class="comment">//1</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="title class_">Math</span>.<span class="title function_">round</span>(<span class="number">1.666</span>));<span class="comment">//2</span></span><br><span class="line"><span class="comment">//保留小数</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="number">1.1111</span>.<span class="title function_">toFixed</span>());<span class="comment">//1</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="number">1.1111</span>.<span class="title function_">toFixed</span>(<span class="number">2</span>));<span class="comment">//1.11</span></span><br><span class="line">cc.<span class="title function_">log</span>(<span class="number">1.1111</span>.<span class="title function_">toFixed</span>(<span class="number">3</span>));<span class="comment">//1.111</span></span><br></pre></td></tr></table></figure>
+<h4 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h4><div class="note info modern"><p><strong>(method) cc.Component.schedule(callback: Function, interval?: number, repeat?: number, delay?: number): void</strong><br>!#en Schedules a custom selector. If the selector is already scheduled, then the interval parameter will be updated without scheduling it again. !#zh 调度一个自定义的回调函数。 如果回调函数已调度，那么将不会重复调度它，只会更新时间间隔参数。<br>@param callback — The callback function<br>@param interval — Tick interval in seconds. 0 means tick every frame.<br>@param repeat — The selector will be executed (repeat + 1) times, you can use cc.macro.REPEAT_FOREVER for tick infinitely.<br>@param delay — The amount of time that the first tick will wait before execution. Unit: s</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> timeCallback = <span class="keyword">function</span> (<span class="params">dt</span>) &#123;</span><br><span class="line">    cc.<span class="title function_">log</span>(<span class="string">&quot;time: &quot;</span> + dt);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">schedule</span>(timeCallback, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<div class="note info modern"><p><strong>(method) cc.Component.scheduleOnce(callback: Function, delay?: number): void</strong><br>!#en Schedules a callback function that runs only once, with a delay of 0 or larger. !#zh 调度一个只运行一次的回调函数，可以指定 0 让回调函数在下一帧立即执行或者在一定的延时之后执行。<br>@param callback — A function wrapped as a selector<br>@param delay — The amount of time that the first tick will wait before execution. Unit: s</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> timeCallback = <span class="keyword">function</span> (<span class="params">dt</span>) &#123;</span><br><span class="line">  cc.<span class="title function_">log</span>(<span class="string">&quot;time: &quot;</span> + dt);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">scheduleOnce</span>(timeCallback, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<div class="note info modern"><p><strong>(method) cc.Component.unscheduleAllCallbacks(): void</strong><br>!#en unschedule all scheduled callback functions: custom callback functions, and the ‘update’ callback function. Actions are not affected by this method. !#zh 取消调度所有已调度的回调函数：定制的回调函数以及 update 回调函数。动作不受此方法影响。</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="title function_">unscheduleAllCallbacks</span>();</span><br></pre></td></tr></table></figure>
+<h3 id="挂载资源"><a href="#挂载资源" class="headerlink" title="挂载资源"></a>挂载资源</h3><p><code>@property()</code></p>
+<figure class="highlight ts"><figcaption><span>示例</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用于number型变量</span></span><br><span class="line"><span class="meta">@property</span>(cc.<span class="property">Integer</span>)</span><br><span class="line"><span class="attr">num</span>:<span class="built_in">number</span>=<span class="number">0</span>;</span><br><span class="line"><span class="comment">//字符串</span></span><br><span class="line"><span class="meta">@property</span>(cc.<span class="property">String</span>)</span><br><span class="line"><span class="attr">text</span>: <span class="built_in">string</span> = <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line"><span class="comment">//Boolean</span></span><br><span class="line"><span class="meta">@property</span>(cc.<span class="property">Boolean</span>)</span><br><span class="line"><span class="attr">isTrue</span>:<span class="built_in">boolean</span>=<span class="literal">false</span>;</span><br><span class="line"><span class="comment">//图片数组</span></span><br><span class="line"><span class="meta">@property</span>(cc.<span class="property">SpriteFrame</span>)</span><br><span class="line"><span class="attr">picArr</span>:cc.<span class="property">SpriteFrame</span>[]=[];</span><br></pre></td></tr></table></figure>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><h4 id="获取组件"><a href="#获取组件" class="headerlink" title="获取组件"></a>获取组件</h4><div class="note info modern"><p><strong>(method) cc._BaseNode.getComponent&lt;cc.Component&gt;(type: {<br>    prototype: cc.Component;<br>}): cc.Component (+1 overload)</strong><br>!#en Returns the component of supplied type if the node has one attached, null if it doesn’t. You can also get component in the node by passing in the name of the script. !#zh 获取节点上指定类型的组件，如果节点有附加指定类型的组件，则返回，如果没有则为空。 传入参数也可以是脚本的名称。<br>@param typeOrClassName — typeOrClassName</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get sprite component</span></span><br><span class="line"><span class="keyword">let</span> sprite = <span class="variable language_">this</span>.<span class="property">node</span>.<span class="title function_">getComponent</span>(cc.<span class="property">Sprite</span>);</span><br><span class="line"><span class="comment">// get custom test class</span></span><br><span class="line"><span class="keyword">let</span> test = <span class="variable language_">this</span>.<span class="property">node</span>.<span class="title function_">getComponent</span>(<span class="string">&quot;Test&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="预制体"><a href="#预制体" class="headerlink" title="预制体"></a>预制体</h3><p>克隆指定的任意类型的对象，或者从 Prefab 实例化出新节点</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@property</span>(cc.<span class="property">Prefab</span>)</span><br><span class="line"><span class="attr">prefabAsset</span>:cc.<span class="property">Prefab</span>=<span class="literal">null</span>;</span><br><span class="line">onLoad () &#123;</span><br><span class="line">    <span class="comment">// instantiate node from prefab</span></span><br><span class="line">    <span class="keyword">let</span> <span class="attr">scene</span>:cc.<span class="property">Scene</span>=cc.<span class="property">director</span>.<span class="title function_">getScene</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="attr">node</span>:cc.<span class="property">Node</span>=cc.<span class="title function_">instantiate</span>(<span class="variable language_">this</span>.<span class="property">prefabAsset</span>);</span><br><span class="line">    node.<span class="property">parent</span> = scene;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@property</span>(cc.<span class="property">Node</span>)</span><br><span class="line"><span class="attr">targetNode</span>:cc.<span class="property">Node</span>=<span class="literal">null</span>;</span><br><span class="line">onLoad () &#123;</span><br><span class="line">    <span class="comment">// clone node</span></span><br><span class="line">    <span class="keyword">let</span> scene = cc.<span class="property">director</span>.<span class="title function_">getScene</span>();</span><br><span class="line">    <span class="keyword">let</span> node = cc.<span class="title function_">instantiate</span>(<span class="variable language_">this</span>.<span class="property">targetNode</span>);</span><br><span class="line">    node.<span class="property">parent</span> = scene;</span><br><span class="line">    node.<span class="title function_">setPosition</span>(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><h4 id="切换场景"><a href="#切换场景" class="headerlink" title="切换场景"></a>切换场景</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cc.<span class="property">director</span>.<span class="title function_">loadScene</span>(<span class="string">&quot;game&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="节点-cc-Node"><a href="#节点-cc-Node" class="headerlink" title="节点(cc.Node)"></a>节点(cc.Node)</h3><h4 id="新结点"><a href="#新结点" class="headerlink" title="新结点"></a>新结点</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">bullet</span>:cc.<span class="property">Node</span>=<span class="keyword">new</span> cc.<span class="title class_">Node</span>()</span><br></pre></td></tr></table></figure>
+<h4 id="寻找节点"><a href="#寻找节点" class="headerlink" title="寻找节点"></a>寻找节点</h4><p><code>cc.find()</code><br><div class="note info modern"><p><strong>function cc.find(path: string, referenceNode?: cc.Node): cc.Node</strong><br>Finds a node by hierarchy path, the path is case-sensitive. It will traverse the hierarchy by splitting the path using ‘/‘ character. This function will still returns the node even if it is inactive. It is recommended to not use this function every frame instead cache the result at startup.<br>@param path — path<br>@param referenceNode — referenceNode</p>
+</div></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cc.<span class="title function_">find</span>(<span class="string">&quot;Canvas/startButton/Background/start&quot;</span>).<span class="title function_">getComponent</span>(cc.<span class="property">Label</span>).<span class="property">string</span>=<span class="string">&quot;重新开始&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>getChildByName(&quot;name&quot;)</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">node</span>.<span class="title function_">getChildByName</span>(<span class="string">&quot;Background&quot;</span>).<span class="title function_">getChildByName</span>(<span class="string">&quot;start&quot;</span>).<span class="title function_">getComponent</span>(cc.<span class="property">Label</span>).<span class="property">string</span>=<span class="string">&quot;重新开始&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h4><p>拥有更高 <code>zIndex</code> 的节点将被排在后面</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">playagain</span> = cc.<span class="title function_">find</span>(<span class="string">&quot;main/start&quot;</span>, <span class="variable language_">this</span>.<span class="property">node</span>);</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">playagain</span>.<span class="property">zIndex</span> = <span class="number">100</span>;<span class="comment">//拥有更高 zIndex 的节点将被排在后面</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">playagain</span>.<span class="property">active</span> = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="距离"><a href="#距离" class="headerlink" title="距离"></a>距离</h3><h4 id="向量减法"><a href="#向量减法" class="headerlink" title="向量减法"></a>向量减法</h4><div class="note info modern"><p><strong>(method) cc.Vec2.sub(vector: cc.Vec2, out?: cc.Vec2): cc.Vec2</strong><br>!#en Subtracts one vector from this, and returns the new result. !#zh 向量减法，并返回新结果。<br>@param vector — vector<br>@param out — optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> v :cc.<span class="property">Vec2</span>= cc.<span class="title function_">v2</span>(<span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line">v.<span class="title function_">sub</span>(cc.<span class="title function_">v2</span>(<span class="number">5</span>, <span class="number">5</span>));      <span class="comment">// return Vec2 &#123;x: 5, y: 5&#125;;</span></span><br><span class="line"><span class="keyword">let</span> v1 = <span class="keyword">new</span> cc.<span class="title class_">Vec2</span>();</span><br><span class="line">v.<span class="title function_">sub</span>(cc.<span class="title function_">v2</span>(<span class="number">5</span>, <span class="number">5</span>), v1);  <span class="comment">// return Vec2 &#123;x: 5, y: 5&#125;;结果放于v1</span></span><br></pre></td></tr></table></figure>
+<h4 id="向量长度"><a href="#向量长度" class="headerlink" title="向量长度"></a>向量长度</h4><div class="note info modern"><p><strong>(method) cc.Vec2.mag(): number</strong><br>!#en Returns the length of this vector. !#zh 返回该向量的长度。</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> v = cc.<span class="title function_">v2</span>(<span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line">v.<span class="title function_">mag</span>(); <span class="comment">// return 14.142135623730951;</span></span><br></pre></td></tr></table></figure>
+<h3 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">node</span>.<span class="title function_">on</span>(<span class="string">&#x27;mousedown&#x27;</span>,<span class="variable language_">this</span>.<span class="property">playGame</span>,<span class="variable language_">this</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="触摸事件"><a href="#触摸事件" class="headerlink" title="触摸事件"></a>触摸事件</h3><p>开始坐标左下角是00</p>
+<h3 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h3><div class="note info modern"><p><strong>method) cc.audioEngine.playEffect(clip: cc.AudioClip, loop: boolean): number</strong><br>!#en Play effect audio. !#zh 播放音效<br>@param clip — The audio clip to play.<br>@param loop — Whether the music loop or not.</p>
+</div>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@property</span>(cc.<span class="property">AudioClip</span>)</span><br><span class="line"><span class="keyword">private</span> <span class="attr">jumpAudio</span>:cc.<span class="property">AudioClip</span>=<span class="literal">null</span></span><br><span class="line">cc.<span class="property">audioEngine</span>.<span class="title function_">playEffect</span>(<span class="variable language_">this</span>.<span class="property">jumpAudio</span>, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="碰撞系统"><a href="#碰撞系统" class="headerlink" title="碰撞系统"></a>碰撞系统</h2><h3 id="碰撞系统接口"><a href="#碰撞系统接口" class="headerlink" title="碰撞系统接口"></a>碰撞系统接口</h3><p>获取碰撞检测系统</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> manager = cc.<span class="property">director</span>.<span class="title function_">getCollisionManager</span>()</span><br></pre></td></tr></table></figure>
+<p>默认碰撞检测系统是禁用的</p>
+<figure class="highlight ts"><figcaption><span>开启默认碰撞检测系统</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.<span class="property">enabled</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>默认碰撞检测系统的 <code>debug</code> 绘制是禁用的</p>
+<figure class="highlight ts"><figcaption><span>开启碰撞系统绘制</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.<span class="property">enabledDebugDraw</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><figcaption><span>显示碰撞组件的包围盒</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.<span class="property">enabledDrawBoundingBox</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="碰撞系统回调"><a href="#碰撞系统回调" class="headerlink" title="碰撞系统回调"></a>碰撞系统回调</h3><p>当碰撞系统检测到有碰撞产生时，将会以回调的方式通知使用者，如果产生碰撞的碰撞组件依附的节点下挂的脚本中有实现以下函数，则会自动调用以下函数，并传入相关的参数。<br><div class="note info modern"><p>@param  {Collider} other 产生碰撞的另一个碰撞组件<br>@param  {Collider} self  产生碰撞的自身的碰撞组件</p>
+</div></p>
+<h4 id="碰撞产生的时候调用"><a href="#碰撞产生的时候调用" class="headerlink" title="碰撞产生的时候调用"></a>碰撞产生的时候调用</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">onCollisionExit</span>(<span class="params">other, self</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;on collision exit&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="碰撞中调用"><a href="#碰撞中调用" class="headerlink" title="碰撞中调用"></a>碰撞中调用</h4><p>当碰撞产生后，碰撞结束前的情况下，每次计算碰撞结果后调用</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">onCollisionStay</span>(<span class="params">other, self</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;on collision stay&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="碰撞结束后调用"><a href="#碰撞结束后调用" class="headerlink" title="碰撞结束后调用"></a>碰撞结束后调用</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">onCollisionExit</span>(<span class="params">other, self</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;on collision exit&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://cmwlvip.github.io/2022/12/03/Cocos/">https://cmwlvip.github.io/2022/12/03/Cocos/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://cmwlvip.github.io" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cocos/">cocos</a></div><div class="post_share"><div class="social-share" data-image="/2022/12/03/Cocos/cocos.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/12/03/Git/"><img class="next-cover" src="/2022/12/03/Git/git.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar001.gif" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Shiqing Huang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Cocos-Creator"><span class="toc-number">1.</span> <span class="toc-text">使用Cocos Creator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.1.</span> <span class="toc-text">新建脚本模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-TS%E4%B8%8B-Cocos%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">关于(TS下)Cocos使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cocos%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">Cocos脚本开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TS"><span class="toc-number">2.1.</span> <span class="toc-text">TS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TS%E5%8F%96%E6%95%B4"><span class="toc-number">2.1.1.</span> <span class="toc-text">TS取整</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83"><span class="toc-number">2.1.2.</span> <span class="toc-text">回调</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E8%B5%84%E6%BA%90"><span class="toc-number">2.2.</span> <span class="toc-text">挂载资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">2.3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%BB%84%E4%BB%B6"><span class="toc-number">2.3.1.</span> <span class="toc-text">获取组件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%88%B6%E4%BD%93"><span class="toc-number">2.4.</span> <span class="toc-text">预制体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-number">2.5.</span> <span class="toc-text">场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E5%9C%BA%E6%99%AF"><span class="toc-number">2.5.1.</span> <span class="toc-text">切换场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9-cc-Node"><span class="toc-number">2.6.</span> <span class="toc-text">节点(cc.Node)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E7%BB%93%E7%82%B9"><span class="toc-number">2.6.1.</span> <span class="toc-text">新结点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E8%8A%82%E7%82%B9"><span class="toc-number">2.6.2.</span> <span class="toc-text">寻找节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%B1%82%E6%AC%A1"><span class="toc-number">2.6.3.</span> <span class="toc-text">节点层次</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.7.</span> <span class="toc-text">距离</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E5%87%8F%E6%B3%95"><span class="toc-number">2.7.1.</span> <span class="toc-text">向量减法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E9%95%BF%E5%BA%A6"><span class="toc-number">2.7.2.</span> <span class="toc-text">向量长度</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.8.</span> <span class="toc-text">鼠标事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.9.</span> <span class="toc-text">触摸事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E9%9F%B3"><span class="toc-number">2.10.</span> <span class="toc-text">声音</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.</span> <span class="toc-text">碰撞系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.1.</span> <span class="toc-text">碰撞系统接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E7%B3%BB%E7%BB%9F%E5%9B%9E%E8%B0%83"><span class="toc-number">3.2.</span> <span class="toc-text">碰撞系统回调</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E6%97%B6%E5%80%99%E8%B0%83%E7%94%A8"><span class="toc-number">3.2.1.</span> <span class="toc-text">碰撞产生的时候调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E4%B8%AD%E8%B0%83%E7%94%A8"><span class="toc-number">3.2.2.</span> <span class="toc-text">碰撞中调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E7%BB%93%E6%9D%9F%E5%90%8E%E8%B0%83%E7%94%A8"><span class="toc-number">3.2.3.</span> <span class="toc-text">碰撞结束后调用</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/12/03/Cocos/" title="Cocos"><img src="/2022/12/03/Cocos/cocos.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Cocos"/></a><div class="content"><a class="title" href="/2022/12/03/Cocos/" title="Cocos">Cocos</a><time datetime="2022-12-03T14:46:46.000Z" title="发表于 2022-12-03 22:46:46">2022-12-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/03/Git/" title="Git"><img src="/2022/12/03/Git/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git"/></a><div class="content"><a class="title" href="/2022/12/03/Git/" title="Git">Git</a><time datetime="2022-12-03T04:10:02.000Z" title="发表于 2022-12-03 12:10:02">2022-12-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/25/CSharp/" title="C#"><img src="/2022/11/25/CSharp/CSharp.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C#"/></a><div class="content"><a class="title" href="/2022/11/25/CSharp/" title="C#">C#</a><time datetime="2022-11-24T16:22:35.000Z" title="发表于 2022-11-25 00:22:35">2022-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/24/NVM/" title="NVM"><img src="/2022/11/24/NVM/nvm.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NVM"/></a><div class="content"><a class="title" href="/2022/11/24/NVM/" title="NVM">NVM</a><time datetime="2022-11-24T07:42:25.000Z" title="发表于 2022-11-24 15:42:25">2022-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/20/React/" title="React"><img src="/2022/11/20/React/React.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React"/></a><div class="content"><a class="title" href="/2022/11/20/React/" title="React">React</a><time datetime="2022-11-20T04:43:12.000Z" title="发表于 2022-11-20 12:43:12">2022-11-20</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://pic.imgdb.cn/item/638b68b716f2c2beb14d07d1.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Shiqing Huang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/movies/"]):not([href="/books/"]):not([href="/games/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
