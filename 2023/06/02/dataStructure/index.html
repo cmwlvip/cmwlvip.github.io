@@ -1,0 +1,561 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>数据结构 | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C语言记录快速开始main()1234567#include&lt;stdio.h&gt;#include &lt;stdlib.h&gt;int main() &amp;#123;	system(&quot;pause&quot;);	return 0;&amp;#125; 选择菜单栏1234567891011121314151617181920212223242526272829303132while (tr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构">
+<meta property="og:url" content="https://www.huangshiqing.website/2023/06/02/dataStructure/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="C语言记录快速开始main()1234567#include&lt;stdio.h&gt;#include &lt;stdlib.h&gt;int main() &amp;#123;	system(&quot;pause&quot;);	return 0;&amp;#125; 选择菜单栏1234567891011121314151617181920212223242526272829303132while (tr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png">
+<meta property="article:published_time" content="2023-06-02T13:12:25.000Z">
+<meta property="article:modified_time" content="2023-06-01T16:00:00.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png"><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://www.huangshiqing.website/2023/06/02/dataStructure/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据结构',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-02 00:00:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.imgdb.cn/item/6484622a1ddac507cc13349a.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Ofra Serendipity</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据结构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-02T13:12:25.000Z" title="发表于 2023-06-02 21:12:25">2023-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-01T16:00:00.000Z" title="更新于 2023-06-02 00:00:00">2023-06-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title="数据结构"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="C语言记录"><a href="#C语言记录" class="headerlink" title="C语言记录"></a>C语言记录</h2><h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><h4 id="main"><a href="#main" class="headerlink" title="main()"></a>main()</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="选择菜单栏"><a href="#选择菜单栏" class="headerlink" title="选择菜单栏"></a>选择菜单栏</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		ListMenu();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;请输入您的选择：\n&quot;</span>);</span><br><span class="line">		<span class="type">int</span> choice = intCin();</span><br><span class="line">		<span class="keyword">switch</span> (choice)</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			ExitSystem();<span class="comment">//退出程序</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">			system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">			system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">			  <span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">			system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">			system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">			  <span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">			system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">			system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">			  <span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;非法输入，请重新输入！\n&quot;</span>);</span><br><span class="line">			system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">			system(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ListMenu</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;*******************************************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************菜单*************************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************0.退出***********************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************1.**************************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************2.***************************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************3.***************************\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;**************10.*************************\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ExitSystem</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;欢迎下次使用!\n&quot;</span>);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">0</span>);<span class="comment">//退出程序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">intCin</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="type">int</span> num;</span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;等待输入中 ……\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		<span class="comment">// 获取整数输入</span></span><br><span class="line">		<span class="keyword">if</span> (scanf_s(<span class="string">&quot;%d&quot;</span>, &amp;num) != <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="comment">// 输入不正确，清空缓冲区</span></span><br><span class="line">			<span class="keyword">while</span> (getchar() != <span class="string">&#x27;\n&#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;输入格式错误(输入的不是整数)！请重新输入：\n&quot;</span>);</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="格式化输出字符"><a href="#格式化输出字符" class="headerlink" title="格式化输出字符"></a>格式化输出字符</h3><ul>
+<li><code>%d</code>：有符号十进制整数，用于格式化输出 <code>int</code>, <code>long</code>, <code>short</code> 等有符号整型变量。</li>
+<li><code>%u</code>：无符号十进制整数，用于格式化输出 <code>unsigned int</code>, <code>unsigned long</code>, <code>unsigned short</code> 等无符号整型变量。</li>
+<li><code>%f</code>：浮点数，用于格式化输出 <code>float</code> 和 <code>double</code> 类型的浮点数。</li>
+<li><code>%c</code>：字符，用于格式化输出 <code>char</code> 类型的变量或表达式。</li>
+<li><code>%s</code>：字符串，用于格式化输出字符串。</li>
+</ul>
+<p>除此之外，还有一些用于格式化输出指针地址、长整型、短整型等类型的格式化输出字符。</p>
+<ul>
+<li><code>%p</code>：指针地址，格式化输出 <code>void</code>* 指针类型变量或表达式的地址。</li>
+<li><code>%ld</code> 或 %li：长整形有符号十进制整数，用于格式化输出 <code>long</code> 类型的变量。</li>
+<li><code>%lu</code>：长整形无符号十进制整数，用于格式化输出 <code>unsigned long</code> 类型的变量。</li>
+<li><code>%hd</code> 或 <code>%hi</code>：短整形有符号十进制整数，用于格式化输出 <code>short</code> 类型的变量。</li>
+<li><code>%hu</code>：短整形无符号十进制整数，用于格式化输出 <code>unsigned short</code> 类型的变量。</li>
+</ul>
+<div class="note info modern"><p><code>%i</code> 是C语言中的格式化输出字符，用于以有符号十进制整数形式输出整型变量。</p>
+<p>与 <code>%d</code> 格式化输出字符不同的是，<code>%i</code> 格式化输出字符可以根据数据前缀的不同来自动判断要转换的数据类型</p>
+<ul>
+<li>如果数据前缀是<code>0x</code>或<code>0X</code>，则按照十六进制有符号整数进行输出。</li>
+<li>如果数据前缀是<code>0</code>，则会按照八进制有符号整数进行输出。</li>
+<li>如果数据前缀是其他字符或者没有前缀，则按照十进制有符号整数进行输出。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%i\n&quot;</span>, x); <span class="comment">// 输出 100</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> y = <span class="number">0xA0</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%i\n&quot;</span>, y); <span class="comment">// 输出 160</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> z = <span class="number">0123</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%i\n&quot;</span>, z); <span class="comment">// 输出 83</span></span><br></pre></td></tr></table></figure></div>
+<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><div class="note info modern"><p>在 C 语言中，结构体本身并不支持构造函数的概念，必须通过手动初始化结构体变量来赋值。</p>
+</div>
+<p>不过，可以通过一些技巧来实现类似构造函数的功能，可以使用结构体初始化器来对结构体成员进行初始化，在定义结构体时给每个成员提供默认值。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">char</span> name[<span class="number">16</span>];</span><br><span class="line">	<span class="type">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 定义结构体时提供默认值</span></span><br><span class="line">ElemType <span class="title function_">create_struct</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* name, <span class="type">int</span> age)</span> &#123;</span><br><span class="line">	ElemType e = &#123; <span class="string">&quot;&quot;</span>, <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="comment">// 将传入的参数赋值给结构体成员</span></span><br><span class="line">	<span class="keyword">if</span> (name != <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="comment">//后面赋值给前面</span></span><br><span class="line">		strncpy_s(e.name, <span class="keyword">sizeof</span>(e.name) ,name, <span class="keyword">sizeof</span>(e.name)<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	e.age = age;</span><br><span class="line">	<span class="keyword">return</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h4><div class="tabs" id="io"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#io-1">scanf_s()</button></li><li class="tab"><button type="button" data-href="#io-2">scanf_s使用</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="io-1"><div class="note info modern"><p><code>scanf_s</code>是C语言中输入函数scanf的安全版本。</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">scanf_s</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *format, ...)</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> num;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Enter a number: &quot;</span>);</span><br><span class="line">    scanf_s(<span class="string">&quot;%d&quot;</span>, &amp;num, <span class="keyword">sizeof</span>(num));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;You entered: %d\n&quot;</span>, num);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="io-2"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> name[<span class="number">16</span>];</span><br><span class="line">scanf_s(<span class="string">&quot;s&quot;</span>, name, <span class="keyword">sizeof</span>(name)); <span class="comment">// 获取名字</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "/img/loading.gif" data-lazy-src="/2023/06/02/dataStructure/2023-06-03-16-43-58.png" alt="警告"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scanf_s(<span class="string">&quot;%15s&quot;</span>, name, <span class="keyword">sizeof</span>(name)); <span class="comment">// 获取名字</span></span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><div class="note info modern"><p>在 C 语言中，使用<strong>字符数组</strong>来表示字符串。字符串是由一系列字符组成的数据类型，以 null 字符(‘\0’) 结束</p>
+</div>
+<figure class="highlight c"><figcaption><span>可以这样声明字符串</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str_array[数组大小][最大字符串长度] = &#123;字符串<span class="number">1</span>, 字符串<span class="number">2</span>, ..., 字符串n&#125;;</span><br></pre></td></tr></table></figure>
+<div class="tabs" id="string"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#string-1">strncpy_s()</button></li><li class="tab"><button type="button" data-href="#string-2">strcmp()</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="string-1"><div class="note info modern"><p><code>strncpy_s()</code>是一个C标准库函数，用于将一个字符串的指定长度复制到另一个字符数组中。</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">errno_t</span> <span class="title function_">strncpy_s</span><span class="params">(<span class="type">char</span>* dest, <span class="type">size_t</span> destSize, <span class="type">const</span> <span class="type">char</span>* src, <span class="type">size_t</span> count)</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>dest</code>表示目标字符串</li>
+<li><code>destSize</code>表示目标字符串的长度</li>
+<li><code>src</code>表示源字符串</li>
+<li><code>count</code>表示要拷贝的字符数</li>
+</ul>
+<p>和strcpy不同，strncpy_s会在拷贝过程中检查目标字符串的长度是否足够。如果目标字符串的长度(destSize)小于等于要拷贝的字符数(count)，则会终止拷贝，并返回错误码（通过errno_t返回）。否则，将源字符串的前count个字符复制到目标字符串中，并在目标字符串的最后一位添加一个’\0’，以保证目标字符串的正确性。</p>
+<div class="note info modern"><p>由于<code>strncpy_s</code>函数会强制在目标字符串末尾追加’\0’，因此在使用时需要保证目标字符串的长度(destSize)大于等于要拷贝的字符数(count)+1，以避免内存溢出等问题</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strncpy_s(e.name, <span class="keyword">sizeof</span>(e.name) ,name, <span class="keyword">sizeof</span>(e.name)<span class="number">-1</span>);</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="string-2"><div class="note info modern"><p><code>strcmp()</code> 是 C 标准库中的一个用于比较两个字符串是否相等的函数。定义在 <code>string.h</code>头文件中</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">strcmp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str1, <span class="type">const</span> <span class="type">char</span> *str2)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>str1 和 str2 分别是两个要比较的字符串。该函数会从两个字符串的第一个字符开始逐个比较，直到遇到第一个不同的字符或者字符串的结尾。<br><strong>如果两个字符串相等，则返回值为 <code>0</code>；</strong><br>如果 str1 小于 str2，则返回值为负数；<br>如果 str1 大于 str2，则返回值为正数。</p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><div class="tabs" id="memory"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#memory-1">malloc()</button></li><li class="tab"><button type="button" data-href="#memory-2">realloc()</button></li><li class="tab"><button type="button" data-href="#memory-3">memcpy</button></li><li class="tab"><button type="button" data-href="#memory-4">free()</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="memory-1"><div class="note info modern"><p><code>malloc()</code>是 C 语言中的标准库函数，用于动态分配内存空间。</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span>* <span class="title function_">malloc</span><span class="params">(<span class="type">size_t</span> size)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>size</code> 表示需要分配的内存大小，单位为字节。该函数返回一个指向分配内存空间起始地址的指针，如果分配失败，则返回 NULL。</p>
+<p><code>malloc()</code> 函数申请的内存空间通常是在堆（heap）中分配的，而非在栈（stack）中分配。由于在使用完内存后需要显式地调用 <code>free()</code> 函数来释放空间，因此 <code>malloc()</code> 函数能够帮助程序员更灵活地管理内存空间，避免浪费和泄漏等问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span>* arr = (<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * n);</span><br><span class="line"><span class="keyword">if</span> (arr == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;申请内存失败！\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    arr[i] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用完内存后，需要调用 free() 函数释放空间</span></span><br><span class="line"><span class="built_in">free</span>(arr);</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="memory-2"><div class="note info modern"><p><code>realloc()</code>是 C 语言中的标准库函数，用于重新分配内存空间</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span>* <span class="title function_">realloc</span><span class="params">(<span class="type">void</span>* ptr, <span class="type">size_t</span> size)</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>ptr</code> 表示原先已经分配的内存空间地址，<code>size</code> 表示需要重新分配的内存大小，单位为字节。该函数返回一个指向重新分配内存空间起始地址的指针，如果分配失败，则返回 NULL。</p>
+<p><code>realloc()</code> 函数的作用是在堆（heap）中重新分配内存空间，可以用于修改已经分配的内存大小和释放未使用的内存空间。当需要扩展或缩小内存空间时，<code>realloc()</code>函数能够有效地避免浪费内存资源的问题。</p>
+<p>在使用 <code>realloc()</code> 函数修改已经分配的内存大小时，需要确保原先已经分配的内存空间地址有效（即非空指针），同时也需要确保新的内存大小不小于 0。当 <code>size</code> 小于原先已经分配的内存大小时，<code>realloc()</code> 函数会将多余的部分从堆（heap）中释放掉，并返回一个指向已经缩小后的内存空间起始地址的指针。需要注意的是，在缩小内存空间时，如果原先已经分配的内存空间中仍有数据未被复制到新的内存空间中，这些数据可能会丢失。在重新分配内存时，<code>realloc()</code> 函数会<strong>自动将原先内存中的数据复制到新的内存空间中</strong>，并且返回新的指针供程序使用。在程序中使用完内存后，还需要调用 <code>free()</code> 函数来手动释放已经分配的内存空间。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span>* arr = (<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * n);</span><br><span class="line"><span class="keyword">if</span> (arr == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;申请内存失败！\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 扩展数组长度</span></span><br><span class="line"><span class="type">int</span>* newSpace = (<span class="type">int</span>*)<span class="built_in">realloc</span>(arr, <span class="keyword">sizeof</span>(<span class="type">int</span>) * n * <span class="number">2</span>);</span><br><span class="line"><span class="keyword">if</span> (newSpace == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;申请新内存失败！\n&quot;</span>);</span><br><span class="line">    <span class="built_in">free</span>(arr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    arr = newSpace;</span><br><span class="line">    n *= <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用扩展后的数组</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    arr[i] = i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用完内存后，需要调用 free() 函数释放空间</span></span><br><span class="line"><span class="built_in">free</span>(arr);</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="memory-3"><div class="note info modern"><p><code>memcpy()</code> 函数的作用是将一个源内存地址的数据复制到目标内存地址</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *<span class="title function_">memcpy</span><span class="params">(<span class="type">void</span> *dest, <span class="type">const</span> <span class="type">void</span> *src, <span class="type">size_t</span> n)</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>dest</code>：目标内存地址，即要拷贝到的地址。</li>
+<li><code>src</code>：源内存地址，即要拷贝的地址。</li>
+<li><code>n</code>：要拷贝的字节数。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> src[] = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="type">char</span> dest[<span class="number">16</span>];</span><br><span class="line">    <span class="type">size_t</span> len = <span class="built_in">strlen</span>(src) + <span class="number">1</span>;<span class="comment">//字符串长度加一</span></span><br><span class="line">    <span class="comment">//因为在C语言中，字符串是以空字符(&#x27;\0&#x27;)作为结尾的，空字符也被认为是字符串的一部分，确保整个字符串被复制完整</span></span><br><span class="line">    <span class="built_in">memcpy</span>(dest, src, len);  <span class="comment">// 将 src 复制到 dest</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;src = %s\n&quot;</span>, src);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;dest = %s\n&quot;</span>, dest);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出结果</span></span><br><span class="line"><span class="comment">//src = Hello World!</span></span><br><span class="line"><span class="comment">//dest = Hello World!</span></span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="memory-4"><div class="note info modern"><p><code>free()</code>函数用于释放动态分配的内存空间，确保本次申请的内存空间不再使用，避免内存泄漏。</p>
+</div>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">free</span><span class="params">(<span class="type">void</span> *ptr)</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>ptr</code>：指向需要释放的内存的指针</li>
+</ul>
+<p>在程序中调用 <code>free()</code> 函数时，需要传入需要被释放掉的内存地址。该函数会释放该地址上的内存，并将其还给操作系统。<strong>只有使用 <code>malloc()</code>、<code>calloc()</code> 或 <code>realloc()</code> 等动态内存分配函数分配的内存空间才需要使用 <code>free()</code> 函数进行释放，否则会导致程序异常或崩溃</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> *arr;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    arr = (<span class="type">int</span>*)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));  <span class="comment">// 动态分配内存</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        arr[i] = i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(arr);  <span class="comment">// 释放内存</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h3 id="关于C的使用问题"><a href="#关于C的使用问题" class="headerlink" title="关于C的使用问题"></a>关于C的使用问题</h3><h4 id="size-t"><a href="#size-t" class="headerlink" title="size_t"></a><code>size_t</code></h4><p><code>size_t</code> 是一种定义在 C 语言标准库 <code>&lt;stddef.h&gt;</code> 中的无符号整型数据类型，用于表示一个对象的大小或一个数组的元素个数。它的长度通常和 <code>unsigned int</code> 或 <code>unsigned long</code> 相同，但是具体长度取决于编译器和平台的实现。</p>
+<p>在 C 语言程序中，我们通常使用 <code>size_t</code> 来避免在不同平台上出现不同的整型长度所带来的问题。例如，当我们需要动态分配内存时，往往会使用 malloc() 函数，而该函数接受一个参数，即需要分配的内存大小。这个大小通常使用 <code>size_t</code> 类型来表示，以确保程序在不同平台上的兼容性。</p>
+<p>另外，一些标准库函数（如 <code>strlen()</code>、<code>sizeof()</code> 等）也会返回 <code>size_t</code> 类型的值，表示对象的长度或大小。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stddef.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">size_t</span> size = <span class="keyword">sizeof</span>(<span class="type">int</span>);  <span class="comment">// 求整型的字节数</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;size of int: %zu bytes\n&quot;</span>, size);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> str[] = <span class="string">&quot;Hello World!&quot;</span>; </span><br><span class="line">    <span class="type">size_t</span> len = <span class="built_in">strlen</span>(str);   <span class="comment">// 求字符串长度</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;length of string: %zu\n&quot;</span>, len); <span class="comment">//这种类型的值用%zu输出</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//结果</span></span><br><span class="line"><span class="comment">//size of int: 4 bytes</span></span><br><span class="line"><span class="comment">//length of string: 12</span></span><br></pre></td></tr></table></figure>
+<h4 id="数组越界访问"><a href="#数组越界访问" class="headerlink" title="数组越界访问"></a>数组越界访问</h4><p>如下代码在C中是可以运行的（只会报警告）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> arr[<span class="number">9</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, arr[<span class="number">99</span>]);</span><br></pre></td></tr></table></figure>
+<div class="note warning modern"><p>这段代码的输出结果是未定义行为（Undefined Behavior），意味着无法确定输出的结果会是什么。</p>
+<p>在C/C++中，数组越界访问是一种未定义行为。在这里，数组arr只有9个元素，却试图访问它的第100个元素（即arr[99]），这超出了数组arr的边界，因此会导致未定义行为。</p>
+<p>虽然在一些编译器和计算机架构上，这段代码可能不会引发任何错误，但是在其他情况下，它可能会导致程序崩溃或产生不可预测的结果。因此，<strong>应该尽量避免数组越界访问</strong>。</p>
+</div>
+<h4 id="清空输入缓冲区"><a href="#清空输入缓冲区" class="headerlink" title="清空输入缓冲区"></a>清空输入缓冲区</h4><div class="note danger modern"><p>当使用 <code>scanf_s</code> 函数读取输入时，如果输入不符合格式要求【 <code>scanf_s(&quot;%d&quot;, &amp;num);</code>输入汉字】，<code>scanf_s</code> 会将非法字符从输入缓冲区中移除，但这可能会导致下一次输入不能正确进行。</p>
+</div>
+<p>为了解决这个问题，我们可以手动清空输入缓冲区，以确保下一次输入的准确性。</p>
+<p>在输入错误时，我们先调用 getchar 函数逐个读取非法字符并将其丢弃，直到读取到换行符为止，以清空输入缓冲区。然后输出提示信息，终止程序执行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> num;</span><br><span class="line"><span class="type">int</span> ret = scanf_s(<span class="string">&quot;%d&quot;</span>, &amp;num, <span class="keyword">sizeof</span>(num));</span><br><span class="line"><span class="keyword">if</span> (ret != <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// 输入错误，需要清空输入缓冲区</span></span><br><span class="line">    <span class="keyword">while</span>(getchar() != <span class="string">&#x27;\n&#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;输入错误！\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 正确进行下一次输入</span></span><br></pre></td></tr></table></figure>
+<h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><h3 id="顺序表"><a href="#顺序表" class="headerlink" title="顺序表"></a>顺序表</h3><div class="note info modern"><p>线性表的顺序存储又称<code>顺序表</code></p>
+</div>
+<h4 id="顺序表（静态分配）"><a href="#顺序表（静态分配）" class="headerlink" title="顺序表（静态分配）"></a>顺序表（静态分配）</h4><p><a target="_blank" rel="noopener" href="https://gitee.com/cmwlvip/code_test/tree/master/C/DataStructure/SequentialList">CodeOcean</a></p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website/2023/06/02/dataStructure/">https://www.huangshiqing.website/2023/06/02/dataStructure/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.huangshiqing.website" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/C/">C</a></div><div class="post_share"><div class="social-share" data-image="https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.png" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/img/wechat.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/05/27/HadoopDemo/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hadoop生态综合案例</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/10/virtualBox/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/648456981ddac507cc049e1e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">VirtualBox虚拟机磁盘扩容</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Twikoo</span><span class="switch-btn"></span><span class="second-comment">Waline</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Shiqing Huang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/cmwlvip" target="_blank" title="Gitee"><i class="fab fa-git"></i></a><a class="social-icon" href="mailto:2689050828@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E8%AE%B0%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">C语言记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="toc-number">1.1.</span> <span class="toc-text">快速开始</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main"><span class="toc-number">1.1.1.</span> <span class="toc-text">main()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E8%8F%9C%E5%8D%95%E6%A0%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">选择菜单栏</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">格式化输出字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IO"><span class="toc-number">1.4.1.</span> <span class="toc-text">IO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.4.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.3.</span> <span class="toc-text">内存管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EC%E7%9A%84%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">关于C的使用问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#size-t"><span class="toc-number">1.5.1.</span> <span class="toc-text">size_t</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E8%B6%8A%E7%95%8C%E8%AE%BF%E9%97%AE"><span class="toc-number">1.5.2.</span> <span class="toc-text">数组越界访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E7%A9%BA%E8%BE%93%E5%85%A5%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.5.3.</span> <span class="toc-text">清空输入缓冲区</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">线性表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E8%A1%A8"><span class="toc-number">2.1.</span> <span class="toc-text">顺序表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E8%A1%A8%EF%BC%88%E9%9D%99%E6%80%81%E5%88%86%E9%85%8D%EF%BC%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">顺序表（静态分配）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text">链表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/10/virtualBox/" title="VirtualBox虚拟机磁盘扩容"><img src= "/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/648456981ddac507cc049e1e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VirtualBox虚拟机磁盘扩容"/></a><div class="content"><a class="title" href="/2023/06/10/virtualBox/" title="VirtualBox虚拟机磁盘扩容">VirtualBox虚拟机磁盘扩容</a><time datetime="2023-06-10T11:35:23.000Z" title="发表于 2023-06-10 19:35:23">2023-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/02/dataStructure/" title="数据结构"><img src= "/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构"/></a><div class="content"><a class="title" href="/2023/06/02/dataStructure/" title="数据结构">数据结构</a><time datetime="2023-06-02T13:12:25.000Z" title="发表于 2023-06-02 21:12:25">2023-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/27/HadoopDemo/" title="Hadoop生态综合案例"><img src= "/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hadoop生态综合案例"/></a><div class="content"><a class="title" href="/2023/05/27/HadoopDemo/" title="Hadoop生态综合案例">Hadoop生态综合案例</a><time datetime="2023-05-27T06:32:15.000Z" title="发表于 2023-05-27 14:32:15">2023-05-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/17/rdd/" title="RDD"><img src= "/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/64219d12a682492fcc086ebb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RDD"/></a><div class="content"><a class="title" href="/2023/05/17/rdd/" title="RDD">RDD</a><time datetime="2023-05-17T01:43:41.000Z" title="发表于 2023-05-17 09:43:41">2023-05-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/09/java-home/" title="Java环境变量配置（多版本）"><img src= "/img/loading.gif" data-lazy-src="https://pic2.imgdb.cn/item/645b35d50d2dde5777454474.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java环境变量配置（多版本）"/></a><div class="content"><a class="title" href="/2023/05/09/java-home/" title="Java环境变量配置（多版本）">Java环境变量配置（多版本）</a><time datetime="2023-05-09T15:29:03.000Z" title="发表于 2023-05-09 23:29:03">2023-05-09</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://pic.imgdb.cn/item/6484622a1ddac507cc13349a.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Shiqing Huang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.huangshiqing.website/',
+      region: 'ap-shanghai',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.huangshiqing.website/',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script><script>function loadWaline () {
+  function insertCSS () {
+    const link = document.createElement("link")
+    link.rel = "stylesheet"
+    link.href = "https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css"
+    document.head.appendChild(link)
+  }
+
+  function initWaline () {
+    const waline = Waline.init(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://waline.huangshiqing.website/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+  }
+
+  if (typeof Waline === 'function') initWaline()
+  else {
+    insertCSS()
+    getScript('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js').then(initWaline)
+  }
+}
+
+if ('Twikoo' === 'Waline' || !false) {
+  if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+  else setTimeout(loadWaline, 0)
+} else {
+  function loadOtherComment () {
+    loadWaline()
+  }
+}</script></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo.huangshiqing.website/',
+        region: 'ap-shanghai',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.innerHTML= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/movies/"]):not([href="/books/"]):not([href="/games/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
