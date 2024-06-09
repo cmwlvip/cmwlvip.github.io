@@ -1839,7 +1839,10 @@ Vimeo 是一个视频分享平台，类似于 YouTube。
 `{% asset_img post-image hexo.png %}`测试
 {% asset_img post-image hexo.png %}
 `{% asset_img hexo.png "title'alt'" %}`
-{% asset_img hexo.png "title'alt'" %}
+
+{% asset_img ../HexoTagPlugins/hexo.png %}
+
+{% asset_img hexo.png %}
 
 ## Raw
 
