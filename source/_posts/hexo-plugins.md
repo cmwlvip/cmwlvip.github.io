@@ -1,7 +1,7 @@
 ---
 title: hexo-plugins
 date: 2023-02-23 12:22:55
-updated: 2023-03-02
+updated: 2024-06-09
 tags: 
     - Hexo
     - Butterfly
@@ -240,3 +240,14 @@ livere:
 <!-- endtab -->
 
 {% endtabs %}
+
+## hexo-douban
+
+一个在 [Hexo](https://hexo.io/) 页面中嵌入豆瓣个人主页的小插件。
+
+### 配置
+
+将配置文件写入站点的配置文件 `_config.yml` 里(不是主题的配置文件)。
+
+{% gist 848ffcc4fd6769d0b24e48f951f504f6 m %}
+{% gist 848ffcc4fd6769d0b24e48f951f504f6 [filename] %}

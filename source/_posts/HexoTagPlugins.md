@@ -1,7 +1,7 @@
 ---
 title: Hexo Built-in Tag Plugins (Hexo内置标签外挂)
 date: 2022-11-03 14:08:31
-updated: 2022-11-27
+updated: 2024-06-09
 sticky: 
 categories: Hexo
 tags:
@@ -1589,19 +1589,34 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## jsFiddle
 
+`jsFiddle`标签用于在 Hexo 文章中嵌入 [JSFiddle](https://jsfiddle.net/) 的示例代码。
+[Jsfiddle](https://jsfiddle.net/)是一个在线的前端代码编辑和分享工具，它允许用户编写 `HTML`、`CSS` 和 `JavaScript` 代码，并实时预览代码的运行结果。用户可以在 Jsfiddle 上创建自己的代码示例，然后将链接分享给其他人或嵌入到网页中。
+
 ```plaintext
 {% jsfiddle shorttag [tabs] [skin] [width] [height] %}
 ```
 
-好像加载不出来
+| option | description | example |
+| --- | --- | --- |
+| `shorttag` | [必需]指定 JSFiddle 示例的短代码，代码位于`JSFiddle`示例的`URL`中 |  `{% jsfiddle 0bokL4h3 %}` |
+| `tabs` | [可选]`"html,css,js,result"` 的组合，同时也指定了顺序，默认显示所有（四个）选项卡 | `{% jsfiddle 0bokL4h3 html,css,result %}` |
+| `skin` | [可选] JSFiddle 的外观皮肤， `light`（浅色）或 `dark`（深色）。默认`light` | `{% jsfiddle 0bokL4h3 html,css,js,result dark %}` |
+| `width` | [可选]指定 JSFiddle 示例的宽度，像素值或百分比值 | `{% jsfiddle 0bokL4h3 html,css,js,result dark 80% %}`<br>(见下图) |
+| `height` | [可选]指定 JSFiddle 示例的高度，像素值或百分比值 | `{% jsfiddle 0bokL4h3 html,css,result dark 300 50% %}` |
+
+{% jsfiddle 0bokL4h3 html,css,js,result dark 80% %}
 
 ## Gist
+
+`GitHub Gist`是 GitHub 提供的一个在线代码托管服务，允许用户轻松地分享和嵌入代码片段。
+每个代码片段称为一个`Gist`，可以包含单个文件或多个文件。用户可以在 Gist 中分享代码、笔记、片段或任何其他文本内容，并且可以选择将其公开或保留私密。
+![在GitHub创建一个Gist](2024-06-09-15-24-11.png)
 
 ```plaintext
 {% gist gist_id [filename] %}
 ```
 
-还不明白怎么用
+{% gist 848ffcc4fd6769d0b24e48f951f504f6 %}
 
 ## iframe
 
@@ -1628,7 +1643,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 {% img [png] /HexoTagPlugins/hexo.png 160 90 '"图片标题和鼠标放上时显示" "图片没有正常加载时显示"' %}
 ```
 
-{% img [png] /HexoTagPlugins/hexo.png 160 90 '"图片标题和鼠标放上时显示" "图片没有正常加载时显示"' %}
+{% img [png] /HexoTagPlugins/hexo.png 160 90 '"hexo.png" "图片没有正常加载时显示"' %}
+
+{% note info modern %}
+`Image`图片标签外挂路径用的是**相对路径**。
+{% endnote %}
 
 ## Link
 
@@ -1638,8 +1657,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 {% link text url [external] [title] %}
 ```
 
-**tip:[external]不知道是什么**
-{% link 百度一下 https://www.baidu.com 不知道这是什么 title %}
+`external` 是一个可选参数，用于指示链接是否为外部链接。
+实际上,在 `Hexo` 中使用 `{% link %}` 标签时，添加 `external` 参数并不会有特别大的影响，因为 `Hexo` 默认并不会对外部链接做特殊处理。这个参数可能更多地是为了标记链接的属性，而不是改变其行为。
+
+{% link 百度一下 https://www.baidu.com  百度一下，你就知道 %}
 
 ## Include Code
 
@@ -1688,6 +1709,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 id在url中
 
 ## Vimeo
+
+Vimeo 是一个视频分享平台，类似于 YouTube。
 
 ```plaintext
 {% vimeo video_id [width] [height] %}
@@ -1746,14 +1769,77 @@ id在url中
 
 ## Include Assets
 
+引用本文章的资源，与[资源文件夹](https://hexo.io/zh-cn/docs/asset-folders)一起使用。
+
 ```plaintext
 {% asset_path filename %}
-{% asset_img filename [title] %}
+{% asset_img [class names] slug [width] [height] [title text [alt text]] %}
 {% asset_link filename [title] [escape] %}
 ```
 
-好像是使用文章中出现的资源，
-不知道怎么用
+`hexo.png`位于{% post_link HexoTagPlugins %} **(本文章)** 资源文件夹`HexoTagPlugins`下。
+
+{% note info danger %}
+开启了资源文件夹`post_asset_folder: true`，本地调试图片是不能正常显示的。
+[Hexo中Markdown嵌入图片](https://hexo.io/zh-cn/docs/asset-folders#%E4%BD%BF%E7%94%A8-Markdown-%E5%B5%8C%E5%85%A5%E5%9B%BE%E7%89%87)用`![](image.jpg)`方式插入的图片本地调试同样不能正常显示。
+{% endnote %}
+
+{% tabs Assets %}
+<!-- tab asset_path -->
+```Markdown
+{% asset_path hexo.png %}
+```
+
+{% asset_path hexo.png %}
+<!-- endtab -->
+
+<!-- tab asset_img -->
+**默认（无选项）**
+{% raw %}
+`{% asset_img hexo.png %}`
+{% endraw %}
+{% codeblock line_number:false wrap:false %}
+<img src="/2022/11/03/HexoTagPlugins/hexo.png" class="">
+{% endcodeblock %}
+
+**自定义class属性**
+{% raw %}
+`{% asset_img post-image hexo.png %}`
+{% endraw %}
+{% codeblock line_number:false wrap:false %}
+<img src="/2022/11/03/HexoTagPlugins/hexo.png" class="post-image">
+{% endcodeblock %}
+
+**展示尺寸**
+{% raw %}
+`{% asset_img hexo.png 500 400 %}`
+{% endraw %}
+{% codeblock line_number:false wrap:false %}
+<img src="/2022/11/03/HexoTagPlugins/hexo.png" class="" width="500" height="400">
+{% endcodeblock %}
+
+**title 和 alt 属性**
+{% raw %}
+`{% asset_img hexo.png "title'alt'" %}`
+{% endraw %}
+{% codeblock line_number:false wrap:false %}
+<img src="/2022/11/03/HexoTagPlugins/hexo.png" class="" title="title" alt="alt">
+{% endcodeblock %}
+<!-- endtab -->
+
+<!-- tab asset_link -->
+```Markdown
+{% asset_link hexo.png '下载hexo.png' %}
+```
+
+{% asset_link hexo.png '下载hexo.png' %}
+<!-- endtab -->
+{% endtabs %}
+
+`{% asset_img post-image hexo.png %}`测试
+{% asset_img post-image hexo.png %}
+`{% asset_img hexo.png "title'alt'" %}`
+{% asset_img hexo.png "title'alt'" %}
 
 ## Raw
 
