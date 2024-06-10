@@ -1780,8 +1780,10 @@ Vimeo 是一个视频分享平台，类似于 YouTube。
 `hexo.png`位于{% post_link HexoTagPlugins %} **(本文章)** 资源文件夹`HexoTagPlugins`下。
 
 {% note info danger %}
-开启了资源文件夹`post_asset_folder: true`，本地调试图片是不能正常显示的。
-[Hexo中Markdown嵌入图片](https://hexo.io/zh-cn/docs/asset-folders#%E4%BD%BF%E7%94%A8-Markdown-%E5%B5%8C%E5%85%A5%E5%9B%BE%E7%89%87)用`![](image.jpg)`方式插入的图片本地调试同样不能正常显示。
+值得注意的是：
+
+- 大概是从 `Hexo 5` 开始，[hexo-asset-image](https://github.com/xcodebuild/hexo-asset-image) 已无效，由于图片路径中有**时间格式**导致`hexo-asset-image`不能正确转换图片路径。可以使用[hexo-asset-img](https://github.com/yiyungent/hexo-asset-img)。
+- 高版本中无需使用 `asset_img` 标签插件就可以在 [markdown中嵌入图片](https://hexo.io/zh-cn/docs/asset-folders#%E4%BD%BF%E7%94%A8-Markdown-%E5%B5%8C%E5%85%A5%E5%9B%BE%E7%89%87)，使用`![](image.jpg)`方式插入图片便能正常显示，使用该方式需要开启资源文件夹`post_asset_folder: true`。
 {% endnote %}
 
 {% tabs Assets %}
@@ -1835,14 +1837,6 @@ Vimeo 是一个视频分享平台，类似于 YouTube。
 {% asset_link hexo.png '下载hexo.png' %}
 <!-- endtab -->
 {% endtabs %}
-
-`{% asset_img post-image hexo.png %}`测试
-{% asset_img post-image hexo.png %}
-`{% asset_img hexo.png "title'alt'" %}`
-
-{% asset_img ../HexoTagPlugins/hexo.png %}
-
-{% asset_img hexo.png %}
 
 ## Raw
 
