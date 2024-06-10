@@ -1,7 +1,7 @@
 ---
 title: hexo-plugins
 date: 2023-02-23 12:22:55
-updated: 2024-06-09
+updated: 2024-06-10
 tags: 
     - Hexo
     - Butterfly
@@ -16,27 +16,68 @@ top_img: https://pic.imgdb.cn/item/63f9b264f144a010070a34c0.jpg
 
 音乐界面使用了插件 `hexo-tag-aplayer`
 
+{% note default modern %}
+插件[文档手册](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)
+{% endnote %}
+
 ### hexo-tag-aplayer下载
 
 {% codeblock lang:bash %}
 npm install --save hexo-tag-aplayer
 {% endcodeblock %}
 
+### hexo-tag-aplayer说明
+
+{% note danger modern %}
+`aplayer`似乎适用于大多为**ejs**创造的主题，butterfly主题使用的是**pug**，使用`aplayer`不能显示。解决方法如下：
+1.hexo安装目录下执行`npm install aplayer`
+2.主题目录`\layout\includes`新建`aplayer.pug`文件，内容如下
+3.重新生成网站
+{% endnote %}
+
+{% codeblock aplayer.pug lang:plaintext %}
+link(rel="stylesheet" type='text/css', href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css")
+script(type='text/javascript', src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js")
+script(type='text/javascript', src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js")
+{% endcodeblock %}
+
 ### hexo-tag-aplayer基本使用
 
 ```markdown
-{% aplayer title author url [picture_url, narrow, autoplay, width:xxx, lrc:xxx] %}
+{% aplayer title author url [picture_url narrow autoplay width:xxx lrc:xxx] %}
 ```
 
-使用参考插件[文档](https://github.com/MoePlayer/hexo-tag-aplayer/blob/master/docs/README-zh_cn.md)
+>示例
 
-{% note danger modern %}
-不知道怎么错了，搞不定！！ 加载本地音乐就没成功过！！！
-{% endnote %}
+```markdown
+{% aplayer "Windy Hill" "羽肿" "https://xxx.mp3" "https://p2.music.126.net/R5wdneWJADdilEDtqBev-w==/109951169463411528.jpg" "autoplay" %}
+```
 
-但是3.0新版本的Aplayer已经支持`MeingJS`了，**MetingJS**是基于Meting API 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、网易云音乐、虾米、酷狗、百度等平台的音乐播放。
+其会被插件渲染为
+{% codeblock lang:html %}
+{% aplayer "Windy Hill" "羽肿" "https://xxx.mp3" "https://p2.music.126.net/R5wdneWJADdilEDtqBev-w==/109951169463411528.jpg" "autoplay" %}
+{% endcodeblock %}
+
+{% aplayer "Windy Hill" "羽肿" "/music/Windy Hill.mp3" "https://p2.music.126.net/R5wdneWJADdilEDtqBev-w==/109951169463411528.jpg" "autoplay" %}
+
+当开启`Hexo`的[文章资源文件夹](https://hexo.io/zh-cn/docs/asset-folders.html#%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%B9) 功能时，可以将图片、音乐文件、歌词文件放入与文章对应的资源文件夹中，然后直接引用。
+
+```markdown
+{% aplayer "title" "author1 author2" "title.mp3" "picture.jpg" "lrc:title.txt" %}
+```
+
+>示例
+
+```markdown
+{% aplayer "城南花已开" "三亩地" "城南花已开.mp3" "/img/avatar003.jpg" "lrc:城南花已开.lrc" %}
+```
+
+{% aplayer "城南花已开" "三亩地" "城南花已开.mp3" "/img/avatar003.jpg" "lrc:城南花已开.lrc" %}
+
 
 ### Meing JS支持(3.0 新功能)
+
+但是3.0新版本的Aplayer已经支持`MeingJS`了，**MetingJS**是基于Meting API 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、**网易云音乐**、虾米、酷狗、百度等平台的音乐播放。
 
 修改Hexo配置文件`_config.yml`
 {% codeblock lang:yaml %}
@@ -49,18 +90,33 @@ aplayer:
 {% label "简单示例(id,server,type)" green %}
 
 ```markdown
-{% meting "0009DtA34CLrKk" "tencent" "song" %}
+{% meting "427606780" "netease" "song" %}
 ```
+<!-- windy Hill(427606780) -->
 
-{% meting "0009DtA34CLrKk" "tencent" "song" %}
+标签被渲染为
+
+{% codeblock lang:html %}
+{% meting "427606780" "netease" "song" %}
+{% endcodeblock %}
+
+如果不想使用插件，就需要在markdown中用html的格式书写，同时把主题配置文件中的`aplayerInject`开启
+
+{% meting "427606780" "netease" "song" %}
 
 {% label 进阶示例 green %}
 
 ```markdown
-{% meting "0009DtA34CLrKk" "tencent" "song" "autoplay" "mutex:false" "preload:none" "theme:#ad7a86"%}
+{% meting "427606780" "netease" "song" "autoplay" "mutex:false" "preload:none" "theme:#00e500"%}
 ```
 
-{% meting "0009DtA34CLrKk" "tencent" "song" "autoplay" "mutex:false" "preload:none" "theme:#ad7a86"%}
+标签会被渲染为
+
+{% codeblock lang:html %}
+{% meting "427606780" "netease" "song" "autoplay" "mutex:false" "preload:none" "theme:#00e500"%}
+{% endcodeblock %}
+
+{% meting "427606780" "netease" "song" "autoplay" "mutex:false" "preload:none" "theme:#00e500"%}
 
 有关 `{% meting %}` 的选项列表如下:
 

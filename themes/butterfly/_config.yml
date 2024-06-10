@@ -913,6 +913,7 @@ inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
+    # - <div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false" > </div>
     # - <div class="aplayer no-destroy" data-id="8332009741" data-server="tencent" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false" > </div>
     # - 官方示例{% meting "60198" "netease" "playlist" %}
     #8332009741QQ音乐轻音乐歌单 8331981931QQ音乐歌单

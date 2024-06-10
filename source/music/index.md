@@ -3,27 +3,23 @@ title: music
 date: 2023-02-25 02:34:31
 ---
 
-<div class="aplayer no-destroy" data-id="8332009741" data-server="tencent" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false" > </div>
+<!-- 网易 语·花印 歌单(10157232716) -->
+<div class="aplayer no-destroy" data-id="10157232716" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-autoplay="false" > </div>
 
 ## 穿越灵魂的轻音乐
 
-<!-- 往后余生 -->
-{% meting "0021KaCz32dS7C" "tencent" "song" %}
-
 <!-- Windy Hill  -->
-{% meting "0009DtA34CLrKk" "tencent" "song" %}
 
-<!-- 红色高跟鞋 -->
-{% meting "002Bj8nB1qLBK3" "tencent" "song" %}
+{% meting "427606780" "netease" "song" %}
 
 ## 悦
 
 <!-- 起风了 -->
-{% meting "0004jPDk2eB2dt" "tencent" "song" %}
+{% meting "1330348068" "netease" "song" %}
 
 ## 我的歌单
 
-{% meting "8331981931" "tencent" "playlist" %}
+<!-- 网易 缘·心结歌单(10157158028) -->
+{% meting "10157158028" "netease" "playlist" %}
 
 <!-- meting "7031241143" "netease" "playlist" %} -->
-
