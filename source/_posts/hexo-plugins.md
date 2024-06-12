@@ -253,7 +253,7 @@ twikoo:
 | ---- | ---- |
 | envId | 环境 ID（配置好的评论系统网址）这里我用的是[Vercel](https://vercel.com/)部署 |
 | region | 环境地域，默认为 ap-shanghai，如果您的环境地域不是上海，需传此参数 |
-| visitor | 是否显示文章閲读数 |
+| visitor | 是否显示文章阅读数 |
 | option | 可选配置 |
 
 {% note info modern %}
@@ -299,11 +299,137 @@ livere:
 
 ## hexo-douban
 
-一个在 [Hexo](https://hexo.io/) 页面中嵌入豆瓣个人主页的小插件。
+[hexo-douban](https://github.com/mythsman/hexo-douban)一个在 [Hexo](https://hexo.io/) 页面中嵌入豆瓣个人主页的小插件。
+
+### 安装
+
+{% note warning modern %}
+node 版本要求 >= v18
+{% endnote %}
+
+{% codeblock lang:bash %}
+npm install hexo-douban --save
+{% endcodeblock %}
 
 ### 配置
 
 将配置文件写入站点的配置文件 `_config.yml` 里(不是主题的配置文件)。
 
-{% gist 848ffcc4fd6769d0b24e48f951f504f6 m %}
-{% gist 848ffcc4fd6769d0b24e48f951f504f6 [filename] %}
+#### 精简配置
+
+{% codeblock lang:yml %}
+douban:
+  id: 
+  book:
+    title: "This is my book title"
+  movie:
+    title: "This is my movie title"
+  game:
+    title: "This is my game title"
+  song:
+    title: "This is my song title"
+{% endcodeblock %}
+
+#### 完整配置
+
+{% codeblock lang:yml %}
+douban:
+  id:
+  builtin: true
+  dynamic: false
+  item_per_page: 10
+  meta_max_line: 4
+  customize_layout: page
+  book:
+    path: books/index.html
+    title: 知识海洋
+    quote: 你迷茫的原因在于读书太少而想的太多
+    actions:
+      - do
+      - wish
+      - collect
+    option:
+  movie:
+    path: movies/index.html
+    title: 那些人，那些事
+    quote: 总有不期而遇的温暖
+    actions:
+      - do
+      - wish
+      - collect
+    option:
+  game:
+    path: games/index.html
+    title: Games
+    quote: 正当的游玩，是辛苦的慰安，是工作的预备
+    actions:
+      - do
+      - wish
+      - collect
+    option:
+  song:
+    path: songs/index.html
+    title: 旋律
+    quote: 音乐是灵魂的语言
+    actions:
+      - do
+      - wish
+      - collect
+    option:
+{% endcodeblock %}
+
+| options | descriptions |
+| --- | --- |
+| `id` | 豆瓣ID。 |
+| `builtin` |  是否将`hexo douban`命令默认嵌入进`hexo g、hexo s`，使其自动执行`hexo douban`命令。默认关闭。 |
+| `dynamic` | 豆瓣页面是否在访问时实时请求接口，默认为`false`，推送时更新。<br>设置为`true`页面会在访问页面时更新豆瓣信息，接口挂了，页面自然也没有了 |
+| `item_per_page` | 每页展示的条目数，默认10。 |
+| `meta_max_line` | 每个条目展示的详细信息的最大行数，超过该行数则会以"..."省略，默认4。 |
+| `customize_layout` | 自定义布局文件。默认值为`page`。无特别需要，留空即可。若配置为`abcd`，则表示指定`//theme/hexo-theme/layout/abcd.ejs`文件渲染豆瓣页面。 |
+| `path` | 生成页面后的路径，默认生成在`//blog-root/books/index.html` 等下面。如需自定义路径，则可以修改这里。 |
+| `title` | 该页面的标题。 |
+| `quote` | 写在页面开头的一段话，支持`html`语法，可以为空。 |
+| `actions` | 一个字符串列表，表示生成的页面中的`“已X”` `“想X”` `“X过”` 的标签配置，默认会自动聚焦在第一个标签。可选项为: `do,wish,collect`。 |
+| `option` | 该页面额外的Front-matter配置，参考[Hexo文档](https://hexo.io/zh-cn/docs/front-matter.html)。无特别需要，留空即可。 |
+
+### 使用
+
+**展示帮助文档**
+{% codeblock lang:bash %}
+hexo douban -h
+{% endcodeblock %}
+
+**主动生成豆瓣页面**
+{% codeblock lang:bash %}
+hexo douban
+{% endcodeblock %}
+
+{% note warning modern %}
+通常大家都喜欢用`hexo d`来作为`hexo deploy`命令的简化，但是当安装了`hexo douban`之后，就不能用`hexo d`了，因为`hexo douban`跟`hexo deploy`的前缀都是`hexo d`。
+{% endnote %}
+
+### 升级
+
+可以用下面的方法来更新:
+
+1. 修改`package.json`内`hexo-douban`的版本号至最新。(my blog version:2.3.5)
+2. 重新安装最新版本`npm install hexo-douban --save`或者使用`npm install hexo-douban --update --save`直接更新。
+
+### 菜单
+
+配置成功后，即可在相应的`path`界面查看结果。
+如果上面的显示没有问题就可以在主题的配置文件`_config.yml`里添加如下配置来为这些页面添加菜单链接。
+
+{% codeblock lang:yml %}
+menu:
+  Home: /
+  Archives: /archives
+  Books: /books #This is your books page
+  Movies: /movies #This is your movies page
+  Games: /games #This is your games page
+  Songs: /songs #This is your songs page
+{% endcodeblock %}
+
+{% note default modern %}
+[更多hexo-douban使用详情](https://github.com/mythsman/hexo-douban)
+{% endnote %}

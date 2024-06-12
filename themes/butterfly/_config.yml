@@ -366,7 +366,7 @@ facebook_comments:
 twikoo:
   envId: https://twikoo.huangshiqing.website/ # https://twikoo-api-wheat.vercel.app/(被墙)
   region: ap-shanghai
-  visitor: true
+  visitor: true # 开启 visitor 后，文章页的访问人数将改为 Twikoo 提供，而不是 不蒜子
   option:
 
 # Giscus

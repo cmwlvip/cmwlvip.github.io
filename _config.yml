@@ -172,19 +172,42 @@ douban:
   #官网提供 162448367
   # id: 264702681
   id: 264721125
-  builtin: true 
   #直接使用命令`hexo g`即在生成静态页面前爬取豆瓣数据，不需要先执行 `hexo douban`
+  builtin: true 
+  dynamic: false
+  item_per_page: 10
+  meta_max_line: 4
+  customize_layout: page
   book:
     path: books/index.html
     title: 知识海洋
     quote: 你迷茫的原因在于读书太少而想的太多
+    actions:
+      - do
+      - wish
+      - collect
   movie:
     path: movies/index.html
     title: 那些人，那些事
     quote: 总有不期而遇的温暖
+    actions:
+      - do
+      - wish
+      - collect
   game:
     path: games/index.html
     title: Games
     quote: 正当的游玩，是辛苦的慰安，是工作的预备
-  
+    actions:
+      - do
+      - wish
+      - collect
+  song:
+    path: songs/index.html
+    title: 旋律
+    quote: 音乐是灵魂的语言
+    actions:
+      - collect
+    option:
+      - aside: false
   timeout: 10000 
