@@ -24,6 +24,7 @@ menu:
     Game: /games/ || fab fa-steam
     Song: /songs/ || fas fa-music
     Music: /music/ || fas fa-headphones
+  Link: /link/ || fas fa-link
   Reference|| fas fa-star:
     Acwing: /2023/02/26/acwing/ || fas fa-arrow-right
     实用快捷键: /2022/11/03/KeyboardShutcut/ || fas fa-arrow-right
@@ -361,7 +362,7 @@ valine:
 # https://waline.js.org/
 waline:
   serverURL: https://waline.huangshiqing.website/ # Waline server address url
-  bg: # waline background
+  bg: # waline background(800*160)
   pageview: false
   option:
 
