@@ -1,7 +1,7 @@
 ---
 title: hexo-plugins
 date: 2023-02-23 12:22:55
-updated: 2024-06-10
+updated: 2024-06-16
 tags: 
     - Hexo
     - Butterfly
@@ -433,3 +433,55 @@ menu:
 {% note default modern %}
 [更多hexo-douban使用详情](https://github.com/mythsman/hexo-douban)
 {% endnote %}
+
+## 在线聊天
+
+从3.0开始，`Butterfly`主题内置了多种在线聊天工具。可以选择开启一种，方便与访客的交流。
+
+{% tabs ChatOnline %}
+<!-- tab 通用设置 -->
+这些工具都提供了一个**按钮**可以打开/关闭聊天窗口。
+主题也提供了一个集合主题特色的按钮来替换这些工具本身的按钮，这个聊天按钮将会出现在右下角里。
+只需要把`chat_btn`打开就行。
+
+修改`主题配置`文件
+{% codeblock lang:yml %}
+# Chat Button [recommend]
+# It will create a button in the bottom right corner of website, and hide the origin button
+chat_btn: true
+{% endcodeblock %}
+
+![将聊天按钮集成在博客中](2024-06-19-00-12-56.png)
+
+为了不影响访客的体验，主题提供一个`chat_hide_show`配置。
+设为`true`后，使用工具提供的按钮时，只有向上滚动才会显示聊天按钮，向下滚动时会隐藏按钮。
+
+修改`主题配置`文件
+{% codeblock lang:yml %}
+# The origin chat button is displayed when scrolling up, and the button is hidden when scrolling down
+chat_hide_show: true
+{% endcodeblock %}
+
+{% note info modern %}
+如果使用工具自带的聊天按钮，按钮位置可能会遮挡右下角图标，请配置`rightside-bottom`调正右下角图标位置
+{% endnote %}
+<!-- endtab -->
+
+<!-- tab chatra -->
+配置chatra,需要知道`Public key`。
+打开[chatra](https://chatra.com/cn/)并注册账号。
+![查看Public key](2024-06-16 221617.jpg)
+
+修改**主题配置文件**
+{% codeblock lang:yml %}
+# chatra
+# https://chatra.io/
+chatra:
+  enable: true
+  id: xxxxxxxx
+{% endcodeblock %}
+
+chatra的样式你可以`Chat Widget`自行配置
+![聊天界面配置](2024-06-16-22-24-15.png)
+<!-- endtab -->
+{% endtabs %}

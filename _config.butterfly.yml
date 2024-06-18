@@ -24,6 +24,8 @@ menu:
     Game: /games/ || fab fa-steam
     Song: /songs/ || fas fa-music
     Music: /music/ || fas fa-headphones
+  Tools||fas fa-wrench:
+    Translation: /translation/ || fas fa-language
   Link: /link/ || fas fa-link
   Reference|| fas fa-star:
     Acwing: /2023/02/26/acwing/ || fas fa-arrow-right
@@ -424,22 +426,22 @@ artalk:
 
 # Chat Button [recommend]
 # It will create a button in the bottom right corner of website, and hide the origin button
-chat_btn: false
+chat_btn: true
 
 # The origin chat button is displayed when scrolling up, and the button is hidden when scrolling down
-chat_hide_show: false
+chat_hide_show: true
 
 # chatra
 # https://chatra.io/
 chatra:
   enable: false
-  id:
+  id: pyiEKDCMK4hBnRffY
 
 # tidio
 # https://www.tidio.com/
 tidio:
-  enable: false
-  public_key:
+  enable: true
+  public_key: pfdfrpvqw7bgttjcsc7neg4wq4sxafhc
 
 # daovoice
 # http://daovoice.io/
@@ -764,7 +766,7 @@ aside:
     post_count: true
     last_push_date: true
     sort_order: # Don't modify the setting unless you know how it works
-  card_post_series: # (4。13.0新增)
+  card_post_series: # (4.13.0新增)
     enable: true
     series_title: false # The title shows the series name
     orderBy: 'date' # Order by title or date
