@@ -468,6 +468,9 @@ chat_hide_show: true
 <!-- endtab -->
 
 <!-- tab chatra -->
+{% note info warning %}
+QQ邮箱不可以
+{% endnote %}
 配置chatra,需要知道`Public key`。
 打开[chatra](https://chatra.com/cn/)并注册账号。
 ![查看Public key](2024-06-16 221617.jpg)
@@ -483,5 +486,43 @@ chatra:
 
 chatra的样式你可以`Chat Widget`自行配置
 ![聊天界面配置](2024-06-16-22-24-15.png)
+<!-- endtab -->
+
+<!-- tab tidio -->
+配置tidio，需要知道`Public key`
+打开[tidio](https://www.tidio.com/)并注册账号。【科学上网才可以！】
+你可以在`设置` > `Project data`中找到`Public key`
+![查看Public key](2024-06-18-00-30-02.png)
+
+修改**主题配置文件**
+{% codeblock lang:yml %}
+# tidio
+# https://www.tidio.com/
+tidio:
+  enable: true
+  public_key: XXXX
+{% endcodeblock %}
+<!-- endtab -->
+
+<!-- tab 补充 -->
+>daovoice
+
+[daovoice](https://blog.daovoice.io/)不维护了，注册不了
+
+>crisp
+
+[crisp](https://crisp.chat/en/)限制中国用户
+![crisp限制中国用户](2024-06-18-22-30-54.png)
+![crisp给出的解释](2024-06-18-22-35-37.png)
+
+>messenger
+
+Facebook 旗下的聊天服务[messenger](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/)
+![无法再使用聊天插件的任何功能](2024-06-19-16-55-21.png)
+
+>待试用
+
+开源即时聊天软件[ChatWoot](https://gitcode.com/chatwoot/chatwoot/overview)【问题：Heroku账号注册不了】
+支持独立部署的个人云社交媒体聊天服务[VoceChat](https://voce.chat/zh-CN)
 <!-- endtab -->
 {% endtabs %}
