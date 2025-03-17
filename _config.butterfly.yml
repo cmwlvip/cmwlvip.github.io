@@ -125,7 +125,8 @@ avatar:
   img: 
     # - /img/avatar001.gif #原avatar001.gif https://pic.imgdb.cn/item/63f9a201f144a01007f396ea.gif(压缩后)
     # - /img/avatar005.jpg #风景
-    - /img/avatar002.jpg
+    # - /img/avatar002.jpg
+    - /img/avatar001.jpg
   # 旋转
   effect: false
 
