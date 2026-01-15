@@ -3,7 +3,7 @@ title: 数据结构
 comments: true
 date: 2023-06-02 21:12:25
 updated: 2023-10-06
-sticky:
+sticky: 1
 description:
 categories: 数据结构
 tags:
@@ -11,6 +11,8 @@ tags:
     - C
 cover: https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png
 top_img: https://pic.imgdb.cn/item/6484622a1ddac507cc13349a.jpg
+# 简洁目录样式（true:侧边栏只有目录）
+toc_style_simple: true 
 ---
 
 ## C语言记录
