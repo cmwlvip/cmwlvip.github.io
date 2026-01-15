@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo脚手架(scaffolds) | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="scaffolds📁 —— Hexo的“模板工厂”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo脚手架(scaffolds)">
+<meta property="og:url" content="https://www.huangshiqing.website/2026/01/14/hexo-scaffolds/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="scaffolds📁 —— Hexo的“模板工厂”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2026-01-14T12:20:59.000Z">
+<meta property="article:modified_time" content="2026-01-14T12:20:59.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hexo脚手架(scaffolds)",
+  "url": "https://www.huangshiqing.website/2026/01/14/hexo-scaffolds/",
+  "image": "https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg",
+  "datePublished": "2026-01-14T12:20:59.000Z",
+  "dateModified": "2026-01-14T12:20:59.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Shiqing Huang",
+      "url": "https://www.huangshiqing.website"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://www.huangshiqing.website/2026/01/14/hexo-scaffolds/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 8 || hour >= 20
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo脚手架(scaffolds)',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/top_img002.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Ofra Serendipity</span></a><a class="nav-page-title" href="/"><span class="site-name">Hexo脚手架(scaffolds)</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hexo脚手架(scaffolds)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-14T12:20:59.000Z" title="发表于 2026-01-14 12:20:59">2026-01-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-14T12:20:59.000Z" title="更新于 2026-01-14 12:20:59">2026-01-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Hexo/">Hexo</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">739</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="📁scaffolds文件夹结构"><a href="#📁scaffolds文件夹结构" class="headerlink" title="📁scaffolds文件夹结构"></a>📁<code>scaffolds</code>文件夹结构</h2><p><code>scaffolds</code>文件夹下这三个模板文件构成了Hexo的内容创建基石，通过简单的命令行操作就能生成结构一致、格式规范的内容文件，大大提升了博客写作的效率和质量！</p>
+<p>如果说<code>scaffolds</code> 是Hexo的“模板工厂”，而 <code>hexo new</code> 系列命令就是调用这个工厂的生产线！</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">scaffolds/</span><br><span class="line">├── draft.md    # 草稿模板</span><br><span class="line">├── post.md     # 文章模板</span><br><span class="line">└── page.md     # 页面模板</span><br></pre></td></tr></table></figure>
+<p>默认内容</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line"><span class="section">tags:</span></span><br><span class="line"><span class="section">---</span></span><br></pre></td></tr></table></figure>
+<h2 id="📄post-md文章模板"><a href="#📄post-md文章模板" class="headerlink" title="📄post.md文章模板"></a>📄<code>post.md</code>文章模板</h2><p>最常用的模板，用于创建博客文章。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;文章标题&quot;</span>(引号可省略)</span><br></pre></td></tr></table></figure>
+<div class="note default modern"><p><a href="/2022/10/22/hello-world/" title="Hello World"><b>第一次使用Hexo发布文章</b></a></p>
+</div>
+<p>首先，<code>hexo new title</code>将新文章建立在<code>source/_posts</code>目录下，然后，<code>hexo generate</code>时会把Markdown文件编译成HTML页面存放在<code>public</code>目录下，之后<code>hexo deploy</code>把<code>public</code>目录下所有文章部署到Github。</p>
+<p>这种方式往往存在一些弊端：首先，若我们编辑的文章尚未完成，通过<code>hexo deploy</code>部署后会在网页上出现未完成的文章，这是我们不希望看到的；其次，随着编写文章的增多，在<code>source/_posts</code>目录下文件数量增多，每次寻找未编写完成的长文章未免有些麻烦。对于长文章而言通过建立<strong>文章草稿(draft)</strong>也许是更好的选择。</p>
+<h2 id="📝draft-md草稿模板"><a href="#📝draft-md草稿模板" class="headerlink" title="📝draft.md草稿模板"></a>📝<code>draft.md</code>草稿模板</h2><h3 id="创建为草稿"><a href="#创建为草稿" class="headerlink" title="创建为草稿"></a>创建为草稿</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft <span class="string">&quot;文章标题&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这会在 <code>source/_drafts</code> 目录下创建一个草稿文件。</p>
+<h3 id="查看草稿"><a href="#查看草稿" class="headerlink" title="查看草稿"></a>查看草稿</h3><p>要预览草稿，需要启动服务器时加上 <code>--draft</code> 参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server --draft</span><br></pre></td></tr></table></figure></p>
+<h3 id="发布草稿"><a href="#发布草稿" class="headerlink" title="发布草稿"></a>发布草稿</h3><p>当你想发布时，将草稿移动到正式文章：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo publish title</span><br></pre></td></tr></table></figure></p>
+<p>或者简写为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo p title</span><br></pre></td></tr></table></figure>
+<p>草稿会从 <code>source/_drafts</code> 移动到 <code>source/_posts</code> 目录。</p>
+<h2 id="🏠page-md页面模板"><a href="#🏠page-md页面模板" class="headerlink" title="🏠page.md页面模板"></a>🏠<code>page.md</code>页面模板</h2><p>用于创建独立页面（如关于、归档、分类等）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
+<h2 id="📊-Hexo三模板对比表"><a href="#📊-Hexo三模板对比表" class="headerlink" title="📊 Hexo三模板对比表"></a>📊 Hexo三模板对比表</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>draft.md</th>
+<th>post.md</th>
+<th>page.md</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>生成命令</strong></td>
+<td><code>hexo new draft &lt;title&gt;</code></td>
+<td><code>hexo new &lt;title&gt;</code></td>
+<td><code>hexo new page &lt;title&gt;</code></td>
+</tr>
+<tr>
+<td><strong>简写命令</strong></td>
+<td><code>hexo n draft &lt;title&gt;</code></td>
+<td><code>hexo n &lt;title&gt;</code></td>
+<td><code>hexo n page &lt;title&gt;</code></td>
+</tr>
+<tr>
+<td><strong>存储目录</strong></td>
+<td><code>source/_drafts/</code></td>
+<td><code>source/_posts/</code></td>
+<td><code>source/&lt;页面名&gt;/</code></td>
+</tr>
+<tr>
+<td><strong>生成文件</strong></td>
+<td><code>source/_drafts/标题.md</code></td>
+<td><code>source/_posts/标题.md</code></td>
+<td><code>source/页面名/index.md</code></td>
+</tr>
+<tr>
+<td><strong>是否发布</strong></td>
+<td>❌ 不生成到<code>public/</code></td>
+<td>✅ 生成到<code>public/</code></td>
+<td>✅ 生成到<code>public/</code></td>
+</tr>
+<tr>
+<td><strong>访问URL</strong></td>
+<td>无（不可访问）</td>
+<td><code>/年/月/日/标题/</code></td>
+<td><code>/页面名/</code></td>
+</tr>
+<tr>
+<td><strong>默认布局</strong></td>
+<td><code>draft</code></td>
+<td><code>post</code></td>
+<td><code>page</code></td>
+</tr>
+<tr>
+<td><strong>典型用途</strong></td>
+<td>草稿、未完成文章、灵感记录</td>
+<td>博客正文、技术文章</td>
+<td>独立页面（关于、归档、标签等）</td>
+</tr>
+<tr>
+<td><strong>Front-matter</strong></td>
+<td>简单</td>
+<td>完整</td>
+<td>简洁</td>
+</tr>
+<tr>
+<td><strong>URL路径</strong></td>
+<td>无</td>
+<td><code>/year/month/day/title/</code></td>
+<td><code>/页面名/</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note info modern"><p>📌 <strong>重要提醒</strong></p>
+<ol>
+<li>模板修改后，只影响新建的文件</li>
+<li>已有文件不会自动更新到新模板</li>
+<li>模板支持所有合法的<code>Front-matter</code>格式</li>
+<li>草稿(draft)发布时，<code>post.md</code>未预设的<code>Front-matter</code>会从<code>draft.md</code>继承，<code>post.md</code>已预设的<code>Front-matter</code>以<code>post.md</code>为准！</li>
+</ol>
+</div>
+<div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-01-14 12:20:59&quot;}" hidden></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website/2026/01/14/hexo-scaffolds/">https://www.huangshiqing.website/2026/01/14/hexo-scaffolds/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.huangshiqing.website" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a></div><div class="post-share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.png" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/wechat.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2023/06/10/virtualBox/" title="VirtualBox虚拟机磁盘扩容"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/648456981ddac507cc049e1e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">VirtualBox虚拟机磁盘扩容</div></div><div class="info-2"><div class="info-item-1">扩容只能增加，不能减少。  修改VirtualBox配置打开VirtualBox，虚机应处于关闭状态，左上角点管理 → 虚拟介质管理。  修改虚拟机配置查看磁盘分区1fdisk -l fdisk -l是一个用于列出系统磁盘分区信息的命令。其中，fdisk是Linux/Unix下的一个用于磁盘分区管理的工具，-l选项表示列出分区信息。执行该命令可以查看系统中所有硬盘和分区的详细信息，包括硬盘的设备文件名、分区大小、分区类型等等。该信息对于管理磁盘、安装操作系统或者调整分区大小等操作非常有用。   可以看到磁盘已经扩容到指定内存(32G),但是/dev/mapper/cl-root依然只有之前分配的那么多(13.4G) 使用fdisk分区管理工具1fdisk /dev/sda 执行该命令会进入fdisk分区管理工具的交互式界面，可以在该界面下进行分区、删除分区、编辑分区和写入分区表等操作。但是需要注意，该工具操作比较复杂，需要特别小心，以避免误操作导致数据丢失或系统无法启动的风险。  输入的指令依次为n→p → 3 → 回车 → 回车 → t → 3 → 8e → w 在Linux/...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2023/02/23/hexo-plugins/" title="hexo-plugins"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/63676da116f2c2beb11fa14a.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-23</div><div class="info-item-2">hexo-plugins</div></div><div class="info-2"><div class="info-item-1">记录一些使用过的Hexo插件</div></div></div></a><a class="pagination-related" href="/2022/10/22/hello-world/" title="Hello World"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/63676da116f2c2beb11fa14a.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-22</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot; More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment </div></div></div></a><a class="pagination-related" href="/2023/02/21/Butterfly/" title="Butterfly"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/6664117b5e6d1bfa055c008b.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-21</div><div class="info-item-2">Butterfly</div></div><div class="info-2"><div class="info-item-1"><b>Hexo Butterfly</b>主题使用文档整理<br>学会尊重他人劳动成果—学习来源：<a target="_blank" rel="noopener" href="https://butterfly.js.org/">Butterfly</a></div></div></div></a><a class="pagination-related" href="/2022/11/03/HexoTagPlugins/" title="Hexo Built-in Tag Plugins (Hexo内置标签外挂)"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/6364a40416f2c2beb1303eee.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="info-item-2">Hexo Built-in Tag Plugins (Hexo内置标签外挂)</div></div><div class="info-2"><div class="info-item-1">Tag plugins are different from post tags. They are ported from Octopress and provide a useful way for you to quickly add specific content to your posts. 标签外挂（Butterfly Tag Plugins）标签外挂是Hexo独有的功能，并不是标准的Markdown格式。 以下的写法，只适用于Butterfly主题，用在其它主题上不会有效果，甚至可能会报错。使用前请留意!  标签外挂虽然能为主题带来一些额外的功能和UI方面的强化，但是，标签外挂也有明显的限制，使用时请留意。  Note (Bootstrap Callout)引导标注。 通用设置用法一用法二（自定义icon）移植于next主题，并进行修改。 修改 主题配置文件 123456789101112note:  # Note tag style values:  #  - simple    bs-callout old alert style. Default.  #  ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Shiqing Huang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/cmwlvip" target="_blank" title="Gitee"><i class="fab fa-git"></i></a><a class="social-icon" href="mailto:2689050828@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%81scaffolds%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">📁scaffolds文件夹结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%84post-md%E6%96%87%E7%AB%A0%E6%A8%A1%E6%9D%BF"><span class="toc-number">2.</span> <span class="toc-text">📄post.md文章模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9Ddraft-md%E8%8D%89%E7%A8%BF%E6%A8%A1%E6%9D%BF"><span class="toc-number">3.</span> <span class="toc-text">📝draft.md草稿模板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%BA%E8%8D%89%E7%A8%BF"><span class="toc-number">3.1.</span> <span class="toc-text">创建为草稿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%8D%89%E7%A8%BF"><span class="toc-number">3.2.</span> <span class="toc-text">查看草稿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E8%8D%89%E7%A8%BF"><span class="toc-number">3.3.</span> <span class="toc-text">发布草稿</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8F%A0page-md%E9%A1%B5%E9%9D%A2%E6%A8%A1%E6%9D%BF"><span class="toc-number">4.</span> <span class="toc-text">🏠page.md页面模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8A-Hexo%E4%B8%89%E6%A8%A1%E6%9D%BF%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="toc-number">5.</span> <span class="toc-text">📊 Hexo三模板对比表</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/14/hexo-scaffolds/" title="Hexo脚手架(scaffolds)"><img src="/img/loading.gif" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo脚手架(scaffolds)"/></a><div class="content"><a class="title" href="/2026/01/14/hexo-scaffolds/" title="Hexo脚手架(scaffolds)">Hexo脚手架(scaffolds)</a><time datetime="2026-01-14T12:20:59.000Z" title="发表于 2026-01-14 12:20:59">2026-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/10/virtualBox/" title="VirtualBox虚拟机磁盘扩容"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/648456981ddac507cc049e1e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VirtualBox虚拟机磁盘扩容"/></a><div class="content"><a class="title" href="/2023/06/10/virtualBox/" title="VirtualBox虚拟机磁盘扩容">VirtualBox虚拟机磁盘扩容</a><time datetime="2023-06-10T19:35:23.000Z" title="发表于 2023-06-10 19:35:23">2023-06-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/02/dataStructure/" title="数据结构"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/6484545f1ddac507cc022402.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构"/></a><div class="content"><a class="title" href="/2023/06/02/dataStructure/" title="数据结构">数据结构</a><time datetime="2023-06-02T21:12:25.000Z" title="发表于 2023-06-02 21:12:25">2023-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/27/HadoopDemo/" title="Hadoop生态综合案例"><img src="/img/loading.gif" data-lazy-src="https://pic1.imgdb.cn/item/6366396d16f2c2beb1036f1c.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hadoop生态综合案例"/></a><div class="content"><a class="title" href="/2023/05/27/HadoopDemo/" title="Hadoop生态综合案例">Hadoop生态综合案例</a><time datetime="2023-05-27T14:32:15.000Z" title="发表于 2023-05-27 14:32:15">2023-05-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/17/rdd/" title="RDD"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/64219d12a682492fcc086ebb.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RDD"/></a><div class="content"><a class="title" href="/2023/05/17/rdd/" title="RDD">RDD</a><time datetime="2023-05-17T09:43:41.000Z" title="发表于 2023-05-17 09:43:41">2023-05-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/top_img002.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2022 - 2026 By Shiqing Huang</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天" style="display:none"><i class="fas fa-message"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script>(() => {
+  window.ChatraID = 'pyiEKDCMK4hBnRffY'
+  window.Chatra = window.Chatra || function() {
+    (window.Chatra.q = window.Chatra.q || []).push(arguments)
+  }
+
+  btf.getScript('https://call.chatra.io/chatra.js').then(() => {
+    const isChatBtn = true
+    const isChatHideShow = false
+
+    if (isChatBtn) {
+      const close = () => {
+        Chatra('minimizeWidget')
+        Chatra('hide')
+      }
+
+      const open = () => {
+        Chatra('openChat', true)
+        Chatra('show')
+      }
+
+      window.ChatraSetup = { startHidden: true }
+    
+      window.chatBtnFn = () => document.getElementById('chatra').classList.contains('chatra--expanded') ? close() : open()
+
+      document.getElementById('chat-btn').style.display = 'block'
+    } else if (isChatHideShow) {
+      window.chatBtn = {
+        hide: () => Chatra('hide'),
+        show: () => Chatra('show')
+      }
+    }
+  })
+})()</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/movies/"]):not([href="/books/"]):not([href="/games/"]):not([href="/songs/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜寻文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
