@@ -1,15 +1,19 @@
 ---
 title: C语言-哈希表
+tags:
+  - C
+categories:
+  - 数据结构
+description: uthash库：C语言哈希表终极解决方案
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-01-15 15:25:37
-tags:
-    - C
-categories:
-    - 数据结构
-description: uthash库：C语言哈希表终极解决方案
+updated: 2026-01-15 15:25:37
 sticky:
 cover:
 ---
+
 
 ## 为什么需要哈希表？
 

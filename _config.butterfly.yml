@@ -204,7 +204,7 @@ avatar:
     # - /img/avatar005.jpg #风景
     # - /img/avatar002.jpg
     # - /img/avatar002.jpg
-    - /img/avatar001.png
+    - /img/avatar001.jpg
   # 旋转
   effect: false
 
@@ -246,7 +246,7 @@ footer_img: true
 # Can set it to color, image URL or an array containing colors and/or image URLs
 # If an array is provided, a random background will be selected from the array on each load
 background: 
-  - /img/bg01.png
+  # - /img/bg01.png
   - /img/bg02.png
   # - /img/bg002.png
   # - /img/bg003.png
@@ -263,11 +263,11 @@ cover:
   position: both
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
   default_cover:
-    - /img/bg001.png
-    - /img/bg002.png
-    - /img/bg004.png
-    - /img/bg005.png
-    # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+    # - /img/bg001.png
+    # - /img/bg002.png
+    # - /img/bg004.png
+    # - /img/bg005.png
+    - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
