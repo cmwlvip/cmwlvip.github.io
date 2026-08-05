@@ -9,5 +9,5 @@ comments: false
 sticky: 
 toc_style_simple: false
 cover: 
-top_img: 
+top_img:
 ---

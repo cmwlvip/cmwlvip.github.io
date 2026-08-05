@@ -6,5 +6,5 @@ categories:
 description:
 sticky: 
 cover: 
-top_img: /img/top_img.jpg
+top_img: /img/top_img00X.jpg
 ---
