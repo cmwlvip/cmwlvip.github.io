@@ -1,0 +1,907 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Vue2 生命周期 | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Vue 实例生命周期概述Vue 实例的生命周期是指一个 Vue 实例从创建到销毁所经历的完整过程。该过程始于 new Vue() 的调用，终于实例被完全移除内存（如页面关闭或显式销毁）。整个生命周期被划分为四个逻辑阶段：创建阶段、挂载阶段、更新阶段和销毁阶段。Vue 2 提供了八个生命周期钩子函数，每个阶段执行特定的初始化或清理任务，开发者可通过生命周期钩子函数在关键节点插入自定义逻辑。  生命周">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue2 生命周期">
+<meta property="og:url" content="https://www.huangshiqing.website/2026/06/24/Vue008/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="Vue 实例生命周期概述Vue 实例的生命周期是指一个 Vue 实例从创建到销毁所经历的完整过程。该过程始于 new Vue() 的调用，终于实例被完全移除内存（如页面关闭或显式销毁）。整个生命周期被划分为四个逻辑阶段：创建阶段、挂载阶段、更新阶段和销毁阶段。Vue 2 提供了八个生命周期钩子函数，每个阶段执行特定的初始化或清理任务，开发者可通过生命周期钩子函数在关键节点插入自定义逻辑。  生命周">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png">
+<meta property="article:published_time" content="2026-06-24T21:39:43.000Z">
+<meta property="article:modified_time" content="2026-06-24T21:39:43.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Vue2 生命周期",
+  "url": "https://www.huangshiqing.website/2026/06/24/Vue008/",
+  "image": "https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png",
+  "datePublished": "2026-06-24T21:39:43.000Z",
+  "dateModified": "2026-06-24T21:39:43.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Shiqing Huang",
+      "url": "https://www.huangshiqing.website"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://www.huangshiqing.website/2026/06/24/Vue008/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 8 || hour >= 20
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vue2 生命周期',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg"></div><script>(() => {
+  const arr = ["background-image: url(/img/bg01.png);","background-image: url(/img/bg02.png);"]
+  const webBgDiv = document.getElementById('web_bg')
+
+  const setRandomBg = () => {
+    webBgDiv.style = arr[Math.floor(Math.random() * arr.length)]
+    requestAnimationFrame(() => webBgDiv.classList.add('bg-animation'))
+  }
+
+  document.addEventListener('pjax:send', () => {
+    webBgDiv.style = ''
+    webBgDiv.classList.remove('bg-animation')
+  })
+
+  document.addEventListener('pjax:complete', setRandomBg)
+  document.addEventListener('DOMContentLoaded', setRandomBg)
+})()
+</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/top_img003.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Ofra Serendipity</span></a><a class="nav-page-title" href="/"><span class="site-name">Vue2 生命周期</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Vue2 生命周期</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T21:39:43.000Z" title="发表于 2026-06-24 21:39:43">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T21:39:43.000Z" title="更新于 2026-06-24 21:39:43">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue/">Vue</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>35分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="Vue-实例生命周期概述"><a href="#Vue-实例生命周期概述" class="headerlink" title="Vue 实例生命周期概述"></a>Vue 实例生命周期概述</h2><p>Vue 实例的<strong>生命周期</strong>是指一个 Vue 实例从创建到销毁所经历的完整过程。该过程始于 <code>new Vue()</code> 的调用，终于实例被完全移除内存（如页面关闭或显式销毁）。整个生命周期被划分为四个逻辑阶段：<strong>创建阶段</strong>、<strong>挂载阶段</strong>、<strong>更新阶段</strong>和<strong>销毁阶段</strong>。Vue 2 提供了八个生命周期钩子函数，每个阶段执行特定的初始化或清理任务，开发者可通过生命周期钩子函数在关键节点插入自定义逻辑。</p>
+<p><img src="/img/loading.gif" data-lazy-src="/2026/06/24/Vue008/2026-06-24-22-05-42.png" alt="2026-06-24-22-05-42.png"></p>
+<h3 id="生命周期钩子函数"><a href="#生命周期钩子函数" class="headerlink" title="生命周期钩子函数"></a>生命周期钩子函数</h3><p><strong><code>created</code></strong> 和 <strong><code>mounted</code></strong> 是最常用且必须掌握的两个钩子，分别适用于不同场景：</p>
+<ul>
+<li><strong><code>created</code></strong> 钩子在实例完成数据观测、属性和方法的运算、<code>watch/event</code> 事件配置之后被调用，此时<strong>尚未挂载 DOM</strong>，但响应式数据已就绪；</li>
+<li><strong><code>mounted</code></strong> 钩子在实例挂载完成后被调用，此时 <strong><code>el</code></strong> 已被新创建的 <code>vm.$el</code> 替换，并挂载到实例上，<strong>DOM 已渲染完成</strong>，可安全操作真实 DOM 元素。</li>
+</ul>
+<blockquote>
+<p><strong>关键原则</strong>：</p>
+<ul>
+<li>若需访问或修改响应式数据（如发起初始请求），应使用 <strong><code>created</code></strong>；  </li>
+<li>若需直接操作 DOM（如获取焦点、初始化第三方库、测量元素尺寸），必须等待 <strong><code>mounted</code></strong> 及之后的钩子。</li>
+</ul>
+</blockquote>
+<h3 id="四个核心阶段及其职责"><a href="#四个核心阶段及其职责" class="headerlink" title="四个核心阶段及其职责"></a>四个核心阶段及其职责</h3><ol>
+<li><p><strong>创建阶段（Creation）</strong>  </p>
+<ul>
+<li>主要任务：完成 Vue 实例的初始化配置与响应式数据准备。  </li>
+<li>具体工作包括：  <ul>
+<li>解析 <code>data</code>、<code>props</code>、<code>computed</code>、<code>methods</code> 等选项；  </li>
+<li>将 <code>data</code> 中的普通 JavaScript 对象转换为<strong>响应式数据</strong>，即通过 <code>Object.defineProperty</code> 建立 getter/setter 监听；  </li>
+<li>初始化事件系统、计算属性依赖收集等内部机制。  </li>
+</ul>
+</li>
+<li><strong>关键结论</strong>：此阶段结束后，所有 <code>data</code> 属性已具备响应式能力，修改其值将触发视图更新。</li>
+</ul>
+</li>
+<li><p><strong>挂载阶段（Mounting）</strong>  </p>
+<ul>
+<li>主要任务：将 Vue 实例的模板编译为真实 DOM，并将其挂载至指定容器元素。  </li>
+<li>具体工作包括：  <ul>
+<li>编译模板（Template Compilation），生成渲染函数；  </li>
+<li>执行首次虚拟 DOM 渲染（Virtual DOM Reconciliation）；  </li>
+<li>将生成的真实 DOM 插入浏览器文档流（Document Flow）。  </li>
+</ul>
+</li>
+<li><strong>关键结论</strong>：挂载完成后，页面中可见的结构即为 Vue 渲染结果，此时 DOM 节点已就绪。</li>
+</ul>
+</li>
+<li><p><strong>更新阶段（Updating）</strong>  </p>
+<ul>
+<li>主要任务：响应数据变化，重新计算并更新视图。  </li>
+<li>触发条件：当响应式数据被修改时（如赋值操作、数组方法调用等）。  </li>
+<li>执行流程：  <ul>
+<li>数据变更 → 触发依赖通知 → 重新执行渲染函数 → 对比新旧虚拟 DOM → 更新真实 DOM。  </li>
+</ul>
+</li>
+<li><strong>关键特性</strong>：该阶段具有<strong>循环性</strong>，可多次触发；而创建与挂载阶段仅执行一次。</li>
+</ul>
+</li>
+<li><p><strong>销毁阶段（Destruction）</strong>  </p>
+<ul>
+<li>主要任务：释放 Vue 实例占用的资源，解除所有绑定关系。  </li>
+<li>具体工作包括：  <ul>
+<li>移除所有事件监听器；  </li>
+<li>清理定时器、异步请求等外部资源引用；  </li>
+<li>解除与父组件的关联；  </li>
+<li>将实例标记为不可用状态。  </li>
+</ul>
+</li>
+<li><strong>关键结论</strong>：销毁后，实例不再响应数据变化，也不再参与任何 Vue 内部机制。</li>
+</ul>
+</li>
+</ol>
+<h2 id="生命周期钩子函数详解"><a href="#生命周期钩子函数详解" class="headerlink" title="生命周期钩子函数详解"></a>生命周期钩子函数详解</h2><p>Vue 为每个生命周期阶段提供了两个钩子函数，分别在阶段<strong>开始前</strong>与<strong>结束后</strong>自动调用。八个标准钩子按执行顺序排列如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>钩子名称</th>
+<th>执行时机</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建</td>
+<td><code>beforeCreate</code></td>
+<td>实例初始化之后、数据观测和事件配置之前</td>
+<td><strong>不可访问 <code>this.data</code> 或 <code>this.methods</code></strong>；极少使用</td>
+</tr>
+<tr>
+<td></td>
+<td><code>created</code></td>
+<td>数据观测、属性和方法的运算已完成，<code>data</code> 已转为响应式，但尚未挂载到 DOM</td>
+<td><strong>发送初始化请求</strong>、初始化非响应式数据、启动定时器</td>
+</tr>
+<tr>
+<td>挂载</td>
+<td><code>beforeMount</code></td>
+<td>模板编译完成、首次渲染前，<code>$el</code> 未替换为真实 DOM</td>
+<td>访问原始模板字符串（含插值语法）；调试用途</td>
+</tr>
+<tr>
+<td></td>
+<td><code>mounted</code></td>
+<td>实例挂载完成，<code>$el</code> 已替换为真实 DOM 并插入文档</td>
+<td><strong>操作 DOM 元素</strong>、初始化第三方库（如 Chart.js）、获取 DOM 尺寸</td>
+</tr>
+<tr>
+<td>更新</td>
+<td><code>beforeUpdate</code></td>
+<td>数据更新导致重新渲染前，虚拟 DOM 已重新生成，但真实 DOM 尚未更新</td>
+<td>获取更新前的 DOM 状态；记录性能指标</td>
+</tr>
+<tr>
+<td></td>
+<td><code>updated</code></td>
+<td>虚拟 DOM 重绘和打补丁完成后，真实 DOM 已更新</td>
+<td><strong>操作更新后的 DOM</strong>；避免在此触发新状态变更（防死循环）</td>
+</tr>
+<tr>
+<td>销毁</td>
+<td><code>beforeDestroy</code></td>
+<td>实例销毁前，所有指令、事件监听器、子组件仍有效</td>
+<td><strong>清理外部资源</strong>（如 clearInterval、 clearTimeout）、解绑全局事件</td>
+</tr>
+<tr>
+<td></td>
+<td><code>destroyed</code></td>
+<td>实例销毁后，所有绑定、监听器、子实例均已被移除</td>
+<td>仅用于确认销毁完成；不可再访问 <code>this</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="（一）重点钩子函数规范说明"><a href="#（一）重点钩子函数规范说明" class="headerlink" title="（一）重点钩子函数规范说明"></a>（一）重点钩子函数规范说明</h3><h4 id="created-钩子"><a href="#created-钩子" class="headerlink" title="created 钩子"></a><code>created</code> 钩子</h4><ul>
+<li><strong>执行时机</strong>：响应式数据初始化完毕后，模板编译前。  </li>
+<li><strong>核心能力</strong>：  <ul>
+<li>可安全访问 <code>this.data</code>、<code>this.methods</code>、<code>this.computed</code>；  </li>
+<li>可发起 HTTP 请求并将响应数据赋值给响应式属性（如 <code>this.list = response.data</code>）；  </li>
+<li>支持同步/异步操作，不依赖 DOM 存在。  </li>
+</ul>
+</li>
+<li><strong>禁止行为</strong>：  <ul>
+<li>不得访问 <code>this.$el</code>（此时 DOM 未生成）；  </li>
+<li>不得直接操作 DOM 节点。  </li>
+</ul>
+</li>
+<li><p><strong>典型代码示例</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 发送初始化数据请求</span></span><br><span class="line">      <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;/api/data&#x27;</span>)</span><br><span class="line">      <span class="comment">// 将响应数据赋值给 data 中的 list 属性</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">list</span> = response.<span class="property">data</span>.<span class="property">data</span></span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;初始化请求失败&#x27;</span>, error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="mounted-钩子"><a href="#mounted-钩子" class="headerlink" title="mounted 钩子"></a><code>mounted</code> 钩子</h4><ul>
+<li><strong>执行时机</strong>：模板渲染完成，真实 DOM 已挂载至页面。  </li>
+<li><strong>核心能力</strong>：  <ul>
+<li><code>this.$el</code> 指向挂载容器的真实 DOM 元素；  </li>
+<li>可通过原生 DOM API 或 <code>this.$refs</code> 安全操作 DOM；  </li>
+<li>适合集成依赖 DOM 的第三方库（如地图 SDK、富文本编辑器）。  </li>
+</ul>
+</li>
+<li><strong>禁止行为</strong>：  <ul>
+<li>不应在其中修改响应式数据以触发新渲染（易引发无限循环）；  </li>
+<li>避免执行耗时同步操作阻塞主线程。  </li>
+</ul>
+</li>
+<li><p><strong>典型代码示例</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 获取并操作 DOM 元素</span></span><br><span class="line">  <span class="keyword">const</span> header = <span class="variable language_">this</span>.<span class="property">$el</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;h3&#x27;</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;挂载后标题内容：&#x27;</span>, header.<span class="property">textContent</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化图表库</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">chart</span> = <span class="keyword">new</span> <span class="title class_">Chart</span>(<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">canvas</span>, &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;bar&#x27;</span>,</span><br><span class="line">    <span class="attr">data</span>: <span class="variable language_">this</span>.<span class="property">chartData</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="（二）其他钩子函数使用场景"><a href="#（二）其他钩子函数使用场景" class="headerlink" title="（二）其他钩子函数使用场景"></a>（二）其他钩子函数使用场景</h3><ul>
+<li><code>beforeUpdate</code> 与 <code>updated</code>：适用于需要对比 DOM 变更前后状态的场景，例如实现动画过渡、性能监控。需注意 <code>updated</code> 中修改数据会再次触发更新，应谨慎使用。</li>
+<li><code>beforeDestroy</code>：<strong>必须用于清理非 Vue 管理的资源</strong>，包括但不限于：  <ul>
+<li><code>setInterval</code> / <code>setTimeout</code> 返回的 ID；  </li>
+<li><code>addEventListener</code> 绑定的全局事件（如 <code>window.resize</code>）；  </li>
+<li>WebSocket 连接、Canvas 动画帧请求。  </li>
+</ul>
+</li>
+<li><code>destroyed</code>：仅作状态确认，无实际业务逻辑价值；实例已不可用，<code>this</code> 上所有属性均失效。</li>
+</ul>
+<h2 id="生命周期执行顺序验证"><a href="#生命周期执行顺序验证" class="headerlink" title="生命周期执行顺序验证"></a>生命周期执行顺序验证</h2><p>以下为 Vue 实例完整生命周期中八个钩子的标准执行序列（按时间先后）：</p>
+<ol>
+<li><code>beforeCreate</code>  </li>
+<li><code>created</code>  </li>
+<li><code>beforeMount</code>  </li>
+<li><code>mounted</code>  </li>
+<li>（用户交互触发数据变更）  </li>
+<li><code>beforeUpdate</code>  </li>
+<li><code>updated</code>  </li>
+<li>（调用 <code>$destroy()</code> 或页面关闭）  </li>
+<li><code>beforeDestroy</code>  </li>
+<li><code>destroyed</code></li>
+</ol>
+<blockquote>
+<p><strong>验证要点</strong>：</p>
+<ul>
+<li><code>created</code> 中可访问响应式数据，<code>beforeCreate</code> 中访问 <code>this.xxx</code> 将返回 <code>undefined</code>；  </li>
+<li><code>mounted</code> 中 <code>document.querySelector()</code> 可获取渲染后的 DOM，<code>beforeMount</code> 中获取的是含插值语法的原始模板；  </li>
+<li><code>beforeUpdate</code> 中 DOM 内容仍为旧值，<code>updated</code> 中已同步为新值；  </li>
+<li><code>beforeDestroy</code> 执行后，实例仍可响应事件，<code>destroyed</code> 执行后所有 Vue 功能终止。</li>
+</ul>
+</blockquote>
+<h2 id="实践与注意事项"><a href="#实践与注意事项" class="headerlink" title="实践与注意事项"></a>实践与注意事项</h2><h3 id="（一）开发规范"><a href="#（一）开发规范" class="headerlink" title="（一）开发规范"></a>（一）开发规范</h3><ul>
+<li><strong>初始化请求统一置于 <code>created</code></strong>：确保响应式数据已就绪，避免赋值失败。  </li>
+<li><strong>DOM 操作严格限定于 <code>mounted</code> 及之后</strong>：杜绝在 <code>created</code> 或 <code>beforeMount</code> 中操作不存在的节点。  </li>
+<li><strong>资源清理必须在 <code>beforeDestroy</code> 中完成</strong>：防止内存泄漏，尤其注意定时器、事件监听器、WebSocket 连接。  </li>
+<li><strong>避免在 <code>updated</code> 中修改响应式数据</strong>：否则将触发新一轮更新，可能导致栈溢出或性能问题。  </li>
+</ul>
+<h3 id="（二）常见错误规避"><a href="#（二）常见错误规避" class="headerlink" title="（二）常见错误规避"></a>（二）常见错误规避</h3><ul>
+<li>错误：在 <code>beforeCreate</code> 中调用 <code>this.$http.get()</code> → 报错 <code>Cannot read property &#39;$http&#39; of undefined</code>。  </li>
+<li>错误：在 <code>created</code> 中执行 <code>document.getElementById(&#39;app&#39;).style.display = &#39;none&#39;</code> → 报错 <code>Cannot read property &#39;style&#39; of null</code>（DOM 未生成）。  </li>
+<li>错误：在 <code>mounted</code> 中频繁调用 <code>this.count++</code> → 引发连续 <code>beforeUpdate</code>/<code>updated</code> 循环。  </li>
+<li>错误：销毁组件时未清除 <code>setInterval</code> → 定时器持续运行，消耗系统资源。</li>
+</ul>
+<h3 id="（三）性能优化建议"><a href="#（三）性能优化建议" class="headerlink" title="（三）性能优化建议"></a>（三）性能优化建议</h3><ul>
+<li>对于复杂组件，可在 <code>beforeDestroy</code> 中手动取消未完成的 Axios 请求（使用 CancelToken）；  </li>
+<li>使用 <code>v-if</code> 控制组件显示/隐藏时，若需彻底销毁，应配合 <code>key</code> 属性强制重建实例；  </li>
+<li>大量列表渲染场景下，<code>updated</code> 钩子内避免执行高开销 DOM 查询，优先使用 <code>this.$refs</code> 或事件委托。</li>
+</ul>
+<h2 id="案例一：页面初始化数据请求与渲染"><a href="#案例一：页面初始化数据请求与渲染" class="headerlink" title="案例一：页面初始化数据请求与渲染"></a>案例一：页面初始化数据请求与渲染</h2><h3 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h3><p>实现新闻列表页面的初始化加载：进入页面时立即发送 HTTP 请求获取新闻数据，并将数据渲染至视图。</p>
+<h3 id="技术选型依据"><a href="#技术选型依据" class="headerlink" title="技术选型依据"></a>技术选型依据</h3><ul>
+<li>数据请求必须在响应式系统就绪后执行；</li>
+<li><code>beforeCreate</code> 钩子中 <code>this.data</code>、<code>this.methods</code> 等均未初始化，访问为 <code>undefined</code>；</li>
+<li><strong><code>created</code> 钩子中，<code>data</code> 已完成响应式转换，<code>this</code> 可正常访问所有响应式属性与方法，是发起初始化请求的唯一正确时机</strong>。</li>
+</ul>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><h4 id="模拟数据"><a href="#模拟数据" class="headerlink" title="模拟数据"></a>模拟数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟新闻假数据</span></span><br><span class="line">news_list = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Vue组件初始化请求最佳实践&quot;</span>,</span><br><span class="line">        <span class="string">&quot;source&quot;</span>: <span class="string">&quot;前端技术周刊&quot;</span>,</span><br><span class="line">        <span class="string">&quot;time&quot;</span>: <span class="string">&quot;2026-06-27 10:30&quot;</span>,</span><br><span class="line">        <span class="string">&quot;image&quot;</span>: <span class="string">&quot;https://picsum.photos/id/1011/300/200&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="string">&quot;title&quot;</span>: <span class="string">&quot;created与mounted钩子请求区别详解&quot;</span>,</span><br><span class="line">        <span class="string">&quot;source&quot;</span>: <span class="string">&quot;前端开发者平台&quot;</span>,</span><br><span class="line">        <span class="string">&quot;time&quot;</span>: <span class="string">&quot;2026-06-27 11:15&quot;</span>,</span><br><span class="line">        <span class="string">&quot;image&quot;</span>: <span class="string">&quot;https://picsum.photos/id/1025/300/200&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> APIRouter</span><br><span class="line"><span class="comment"># 创建路由实例</span></span><br><span class="line">router = APIRouter(prefix=<span class="string">&quot;/news&quot;</span>, tags=[<span class="string">&quot;新闻模拟接口&quot;</span>])</span><br><span class="line"><span class="comment"># 正常新闻列表接口 GET /news</span></span><br><span class="line"><span class="meta">@router.get(<span class="params"><span class="string">&quot;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_news</span>():</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;code&quot;</span>: <span class="number">200</span>,</span><br><span class="line">        <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">        <span class="string">&quot;data&quot;</span>: news_list</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="步骤-1：定义响应式数据结构"><a href="#步骤-1：定义响应式数据结构" class="headerlink" title="步骤 1：定义响应式数据结构"></a>步骤 1：定义响应式数据结构</h4><p>在组件 <code>data</code> 选项中声明初始状态：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">list</span>: [] <span class="comment">// 存储新闻列表数据的响应式数组</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="步骤-2：在-created-钩子中发起请求"><a href="#步骤-2：在-created-钩子中发起请求" class="headerlink" title="步骤 2：在 created 钩子中发起请求"></a>步骤 2：在 <code>created</code> 钩子中发起请求</h4><p>与 <code>data</code> 同级定义 <code>created</code> 钩子，使用 <code>axios</code>（或其他 HTTP 库）发送请求：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">fetchNewsList</span>()</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">fetchNewsList</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;http://127.0.0.1:8001/news&#x27;</span>)</span><br><span class="line">      <span class="comment">// 将响应数据赋值给 data 中的 list 属性</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">list</span> = response.<span class="property">data</span>.<span class="property">data</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取新闻列表失败:&#x27;</span>, error)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>请求结果必须显式赋值给 <code>this.list</code>，否则数据无法触发视图更新；  </li>
+<li><code>response.data.data</code> 为示例接口（后端挂起的接口）返回结构，实际需根据 API 文档调整路径。</li>
+</ul>
+</blockquote>
+<h4 id="步骤-3：模板中使用-v-for-渲染列表"><a href="#步骤-3：模板中使用-v-for-渲染列表" class="headerlink" title="步骤 3：模板中使用 v-for 渲染列表"></a>步骤 3：模板中使用 <code>v-for</code> 渲染列表</h4><p>遍历 <code>list</code> 并渲染每条新闻：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;(item, index) in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id || index&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;&#123; item.title &#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>来源：&#123;&#123; item.source &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>发布时间：&#123;&#123; item.time &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">&quot;item.image&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;新闻配图&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键规范</strong>：</p>
+<ul>
+<li><code>v-for</code> 必须配合 <code>:key</code> 使用，<strong>优先使用唯一标识 <code>item.id</code></strong>；若无 <code>id</code>，可退化为 <code>index</code>，但不推荐在列表可能重排序时使用；  </li>
+<li>所有插值表达式 <code>&#123;&#123; &#125;&#125;</code> 和指令绑定 <code>:</code> 均作用于 <code>this</code> 上下文，直接访问 <code>item</code> 属性即可。</li>
+</ul>
+</blockquote>
+<h4 id="步骤-4：验证数据流完整性"><a href="#步骤-4：验证数据流完整性" class="headerlink" title="步骤 4：验证数据流完整性"></a>步骤 4：验证数据流完整性</h4><ul>
+<li>刷新页面后，控制台输出请求成功日志；</li>
+<li>浏览器开发者工具 → Vue Devtools → 查看组件 <code>data.list</code> 已填充有效数组；</li>
+<li>页面 DOM 正确渲染全部新闻项，内容与响应数据一致。</li>
+</ul>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>页面初始化数据请求与渲染<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 新增：引入axios --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;(item, index) in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id || index&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">h3</span>&gt;</span>&#123;&#123; item.title &#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>来源：&#123;&#123; item.source &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>发布时间：&#123;&#123; item.time &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">&quot;item.image&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;新闻配图&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">el</span>: <span class="string">&quot;#app&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">list</span>: [],</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">this</span>.<span class="title function_">fetchNewsList</span>()</span></span><br><span class="line"><span class="language-javascript">&#125;,</span></span><br><span class="line"><span class="language-javascript"><span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">async</span> <span class="title function_">fetchNewsList</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;http://127.0.0.1:8001/news&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 将响应数据赋值给 data 中的 list 属性</span></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">this</span>.<span class="property">list</span> = response.<span class="property">data</span>.<span class="property">data</span></span></span><br><span class="line"><span class="language-javascript">    &#125; <span class="keyword">catch</span> (error) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取新闻列表失败:&#x27;</span>, error)</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript">&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="案例二：DOM-操作——输入框自动获取焦点"><a href="#案例二：DOM-操作——输入框自动获取焦点" class="headerlink" title="案例二：DOM 操作——输入框自动获取焦点"></a>案例二：DOM 操作——输入框自动获取焦点</h2><h3 id="需求说明-1"><a href="#需求说明-1" class="headerlink" title="需求说明"></a>需求说明</h3><p>搜索页面加载后，使搜索输入框自动获得焦点，提升用户交互效率。</p>
+<h3 id="技术选型依据-1"><a href="#技术选型依据-1" class="headerlink" title="技术选型依据"></a>技术选型依据</h3><ul>
+<li><code>autofocus</code> HTML 属性在 Vue 模板中<strong>无效</strong>，原因在于 Vue 的模板编译机制：初始 HTML 结构会被 Vue 解析并重建为虚拟 DOM，原生 <code>autofocus</code> 在重建过程中丢失；</li>
+<li><strong>只有在 <code>mounted</code> 钩子中，<code>vm.$el</code> 已挂载且真实 DOM 完全渲染完毕，方可安全执行 DOM 查询与操作</strong>；</li>
+<li>此阶段确保目标元素存在于文档中，且已完成 Vue 指令（如 <code>v-model</code>）的解析与绑定。</li>
+</ul>
+<h3 id="实现步骤-1"><a href="#实现步骤-1" class="headerlink" title="实现步骤"></a>实现步骤</h3><h4 id="步骤-1：模板中为输入框设置唯一标识"><a href="#步骤-1：模板中为输入框设置唯一标识" class="headerlink" title="步骤 1：模板中为输入框设置唯一标识"></a>步骤 1：模板中为输入框设置唯一标识</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">id</span>=<span class="string">&quot;searchInput&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;keyword&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入关键词&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="步骤-2：在-mounted-钩子中执行-DOM-操作"><a href="#步骤-2：在-mounted-钩子中执行-DOM-操作" class="headerlink" title="步骤 2：在 mounted 钩子中执行 DOM 操作"></a>步骤 2：在 <code>mounted</code> 钩子中执行 DOM 操作</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">keyword</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">focusSearchInput</span>()</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="title function_">focusSearchInput</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> input = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#searchInput&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> (input) &#123;</span><br><span class="line">      input.<span class="title function_">focus</span>()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">warn</span>(<span class="string">&#x27;未找到 ID 为 searchInput 的输入框&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>验证要点</strong>：</p>
+<ul>
+<li>刷新页面后，光标应立即定位至输入框内；  </li>
+<li>在 Vue Devtools 中检查该元素是否已移除 <code>v-model</code> 指令标记（表明模板已编译完成），确认操作时机正确。</li>
+</ul>
+</blockquote>
+<h4 id="步骤-3：替代方案（推荐使用-ref）"><a href="#步骤-3：替代方案（推荐使用-ref）" class="headerlink" title="步骤 3：替代方案（推荐使用 ref）"></a>步骤 3：替代方案（推荐使用 <code>ref</code>）</h4><p>为增强可维护性与避免全局选择器冲突，建议采用 Vue 的 <code>ref</code> 特性：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;searchInput&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;keyword&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入关键词&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.$nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">searchInput</span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">searchInput</span>.<span class="title function_">focus</span>()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>说明</strong>：<code>$nextTick</code> 确保在当前 DOM 更新循环结束后执行回调，适用于依赖 DOM 更新后的操作。</p>
+</blockquote>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>DOM 操作——输入框自动获取焦点<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;searchInput&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;keyword&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入关键词&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">data</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">keyword</span>: <span class="string">&quot;&quot;</span></span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">this</span>.$nextTick(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">searchInput</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="variable language_">this</span>.<span class="property">$refs</span>.<span class="property">searchInput</span>.<span class="title function_">focus</span>()</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;)</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Vue 2 的生命周期是理解框架运行机制的核心基础。掌握四个阶段的本质职责与八个钩子的精确执行时机，是编写健壮、可维护 Vue 应用的前提。开发者应明确：</p>
+<ul>
+<li><strong><code>created</code> 是数据初始化与请求发起的唯一安全位置</strong>；  </li>
+<li><strong><code>mounted</code> 是 DOM 操作与第三方库集成的起始点</strong>；  </li>
+<li><strong><code>beforeDestroy</code> 是释放外部资源的强制责任区</strong>。  </li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>钩子名称</th>
+<th>执行时机</th>
+<th>典型应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>created</code></strong></td>
+<td>实例创建完成，响应式数据就绪，<strong>DOM 未挂载</strong></td>
+<td>初始化数据请求、计算属性依赖初始化、事件总线订阅、非 DOM 相关逻辑准备</td>
+</tr>
+<tr>
+<td><strong><code>mounted</code></strong></td>
+<td>实例挂载完成，<strong>真实 DOM 已渲染</strong></td>
+<td>访问/操作 DOM 元素、初始化第三方 UI 库（如 Chart.js）、启动定时器、添加全局事件监听器</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其余钩子根据具体需求选择性使用，切忌滥用。熟练运用生命周期规则，可显著提升代码可靠性、可读性与运行效率。</p>
+<h3 id="必须遵守的工程实践准则"><a href="#必须遵守的工程实践准则" class="headerlink" title="必须遵守的工程实践准则"></a>必须遵守的工程实践准则</h3><ul>
+<li><strong>禁止在 <code>beforeCreate</code> 中访问 <code>this</code> 任何成员</strong>：此时 <code>data</code>、<code>methods</code>、<code>computed</code> 均未初始化；</li>
+<li><strong>避免在 <code>created</code> 中操作 DOM</strong>：<code>this.$el</code> 为 <code>undefined</code>，<code>document.querySelector</code> 可能返回 <code>null</code>；</li>
+<li><strong><code>mounted</code> 是 DOM 操作的最低安全边界</strong>：此前所有钩子均不能保证 DOM 存在；</li>
+<li><strong>资源清理义务</strong>：在 <code>beforeDestroy</code>（Vue 2）中清除定时器、解绑事件监听器、销毁第三方实例，防止内存泄漏；</li>
+<li><strong><code>key</code> 属性不可省略</strong>：<code>v-for</code> 必须提供稳定、唯一的 <code>:key</code>，否则 Vue 无法高效复用节点，导致渲染异常或状态错乱。</li>
+</ul>
+<h3 id="进阶提示"><a href="#进阶提示" class="headerlink" title="进阶提示"></a>进阶提示</h3><ul>
+<li><code>updated</code> 钩子适用于依赖 DOM 更新后的异步操作（如滚动位置同步），但应谨慎使用以避免无限循环；</li>
+<li><code>activated</code> / <code>deactivated</code> 仅适用于 <code>&lt;keep-alive&gt;</code> 包裹的组件，用于管理缓存组件的激活/停用状态；</li>
+<li>所有生命周期钩子均为<strong>实例方法</strong>，通过 <code>this</code> 访问组件上下文，不可定义为箭头函数（会丢失 <code>this</code> 绑定）。’’</li>
+</ul>
+<h2 id="Vue-2-综合案例：记账本（前后端交互）"><a href="#Vue-2-综合案例：记账本（前后端交互）" class="headerlink" title="Vue 2 综合案例：记账本（前后端交互）"></a>Vue 2 综合案例：记账本（前后端交互）</h2><h3 id="项目概述"><a href="#项目概述" class="headerlink" title="项目概述"></a>项目概述</h3><p>本教程基于 Vue 2 框架，实现一个完整的前后端分离记账应用——“记账清单”。该应用包含表单录入、数据列表渲染、动态图表联动及消费统计功能，所有数据均通过 HTTP 请求与后端接口交互，实现<strong>数据持久化</strong>。</p>
+<p>系统功能模块划分为以下四部分：</p>
+<ol>
+<li><strong>基本渲染</strong>：页面加载时发起 GET 请求获取账单列表，并完成 DOM 渲染与消费总额计算；</li>
+<li><strong>添加功能</strong>：用户输入消费名称与价格，通过 POST 请求提交至后端，成功后同步更新前端列表；</li>
+<li><strong>删除功能</strong>：点击对应账单的删除按钮，通过 DELETE 请求移除指定记录，随后刷新列表；</li>
+<li><strong>图表联动</strong>（后续扩展）：右侧图表随左侧列表数据变化实时更新（本节聚焦前三大核心功能）。</li>
+</ol>
+<blockquote>
+<p><strong>关键前提说明</strong>：</p>
+<ul>
+<li>所有数据操作均依赖后端 RESTful 接口，<strong>前端不维护本地持久状态</strong>；  </li>
+<li>数据变更（增/删）仅作用于服务端，前端必须主动拉取最新数据以保持视图一致性；  </li>
+<li>本案例严格遵循 Vue 2 生命周期与响应式原理，不使用 Composition API 或 Vue 3 特性。</li>
+</ul>
+</blockquote>
+<h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><h4 id="页面模板"><a href="#页面模板" class="headerlink" title="页面模板"></a>页面模板</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>记账清单<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main-wrap&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 左侧：添加表单 + 账单列表表格 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left-box&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 添加账单表单区域 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;card-title&quot;</span>&gt;</span>新增消费账单<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;form-row&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;input-name&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入消费名称&quot;</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;input-price&quot;</span> <span class="attr">type</span>=<span class="string">&quot;number&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入消费价格&quot;</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn-add&quot;</span>&gt;</span>添加账单<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">&lt;!-- 账单列表表格区域 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;card-title&quot;</span>&gt;</span>账单列表<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">th</span>&gt;</span>编号<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">th</span>&gt;</span>消费名称<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">th</span>&gt;</span>消费价格（元）<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">th</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 此处后续v-for渲染，先空行占位 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">&quot;4&quot;</span>&gt;</span>暂无账单数据<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 示例静态行，方便看样式，后续vue渲染会替换 --&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- &lt;tr&gt;</span></span><br><span class="line"><span class="comment">              &lt;td&gt;1&lt;/td&gt;</span></span><br><span class="line"><span class="comment">              &lt;td&gt;球鞋&lt;/td&gt;</span></span><br><span class="line"><span class="comment">              &lt;td class=&quot;red&quot;&gt;1299.00&lt;/td&gt;</span></span><br><span class="line"><span class="comment">              &lt;td&gt;&lt;button class=&quot;btn-del&quot;&gt;删除&lt;/button&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="comment">            &lt;/tr&gt; --&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 消费总计 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;total-box&quot;</span>&gt;</span></span><br><span class="line">          消费总计：<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;total-price&quot;</span>&gt;</span>0.00<span class="tag">&lt;/<span class="name">span</span>&gt;</span> 元</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 右侧：饼图容器 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right-box&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;card-title&quot;</span>&gt;</span>消费占比饼图<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- ECharts挂载容器，id固定为chart --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;chart&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    <span class="comment">/* 全局重置 */</span></span><br><span class="line">    * &#123;</span><br><span class="line">        <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">        <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">        <span class="attribute">font-family</span>: <span class="string">&quot;Microsoft YaHei&quot;</span>, sans-serif;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">body</span> &#123;</span><br><span class="line">        <span class="attribute">background-color</span>: <span class="number">#f5f7fa</span>;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">30px</span>;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.container</span> &#123;</span><br><span class="line">        <span class="attribute">max-width</span>: <span class="number">1200px</span>;</span><br><span class="line">        <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">h1</span> &#123;</span><br><span class="line">        <span class="attribute">text-align</span>: center;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#222</span>;</span><br><span class="line">        <span class="attribute">margin-bottom</span>: <span class="number">30px</span>;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">26px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 左右布局：表单+表格 | 饼图 */</span></span><br><span class="line">    <span class="selector-class">.main-wrap</span> &#123;</span><br><span class="line">        <span class="attribute">display</span>: flex;</span><br><span class="line">        <span class="attribute">gap</span>: <span class="number">30px</span>;</span><br><span class="line">        <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.left-box</span> &#123;</span><br><span class="line">        <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">        <span class="attribute">min-width</span>: <span class="number">600px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.right-box</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">1200px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 卡片通用样式 */</span></span><br><span class="line">    <span class="selector-class">.card</span> &#123;</span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">        <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">        <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">2px</span> <span class="number">12px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.08</span>);</span><br><span class="line">        <span class="attribute">margin-bottom</span>: <span class="number">25px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.card-title</span> &#123;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">        <span class="attribute">margin-bottom</span>: <span class="number">18px</span>;</span><br><span class="line">        <span class="attribute">padding-bottom</span>: <span class="number">10px</span>;</span><br><span class="line">        <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#eee</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 添加账单表单 */</span></span><br><span class="line">    <span class="selector-class">.form-row</span> &#123;</span><br><span class="line">        <span class="attribute">display</span>: flex;</span><br><span class="line">        <span class="attribute">gap</span>: <span class="number">15px</span>;</span><br><span class="line">        <span class="attribute">align-items</span>: center;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">input</span> &#123;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">14px</span>;</span><br><span class="line">        <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">        <span class="attribute">border-radius</span>: <span class="number">6px</span>;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">        <span class="attribute">outline</span>: none;</span><br><span class="line">        <span class="attribute">transition</span>: border <span class="number">0.2s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">input</span><span class="selector-pseudo">:focus</span> &#123;</span><br><span class="line">        <span class="attribute">border-color</span>: <span class="number">#409eff</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.input-name</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">260px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.input-price</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">160px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">button</span> &#123;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">22px</span>;</span><br><span class="line">        <span class="attribute">border</span>: none;</span><br><span class="line">        <span class="attribute">border-radius</span>: <span class="number">6px</span>;</span><br><span class="line">        <span class="attribute">cursor</span>: pointer;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">        <span class="attribute">transition</span>: opacity <span class="number">0.2s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">button</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">0.9</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.btn-add</span> &#123;</span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#409eff</span>;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.btn-del</span> &#123;</span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#f56c6c</span>;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">6px</span> <span class="number">12px</span>;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">13px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 账单表格 */</span></span><br><span class="line">    <span class="selector-tag">table</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">        <span class="attribute">border-collapse</span>: collapse;</span><br><span class="line">        <span class="attribute">margin-top</span>: <span class="number">10px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">th</span>,<span class="selector-tag">td</span> &#123;</span><br><span class="line">        <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#e4e7ed</span>;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">12px</span>;</span><br><span class="line">        <span class="attribute">text-align</span>: center;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">th</span> &#123;</span><br><span class="line">        <span class="attribute">background-color</span>: <span class="number">#fafafa</span>;</span><br><span class="line">        <span class="attribute">font-weight</span>: <span class="number">600</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">tbody</span> <span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">        <span class="attribute">background-color</span>: <span class="number">#f8f9fa</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 高价文字红色高亮（对应文档动态class red） */</span></span><br><span class="line">    <span class="selector-class">.red</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#f56c6c</span>;</span><br><span class="line">        <span class="attribute">font-weight</span>: bold;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 消费总计 */</span></span><br><span class="line">    <span class="selector-class">.total-box</span> &#123;</span><br><span class="line">        <span class="attribute">margin-top</span>: <span class="number">15px</span>;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">        <span class="attribute">font-weight</span>: <span class="number">500</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.total-price</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="number">#e6a23c</span>;</span><br><span class="line">        <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">        <span class="attribute">margin-left</span>: <span class="number">8px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* ECharts饼图容器（预留id=chart，固定宽高） */</span></span><br><span class="line">    <span class="selector-id">#chart</span> &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">        <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#eee</span>;</span><br><span class="line">        <span class="attribute">border-radius</span>: <span class="number">8px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="后端模拟数据"><a href="#后端模拟数据" class="headerlink" title="后端模拟数据"></a>后端模拟数据</h4><p>生成模拟数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 持久化文件路径</span></span><br><span class="line">DATA_FILE = os.path.join(os.path.dirname(__file__), <span class="string">&quot;bills.json&quot;</span>)</span><br><span class="line"><span class="comment"># 初始化数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">init_data</span>():</span><br><span class="line">    <span class="comment"># 模拟数据库账单数组</span></span><br><span class="line">    default_data = &#123;</span><br><span class="line">        <span class="string">&quot;bill_list&quot;</span>: [</span><br><span class="line">            &#123;<span class="string">&quot;id&quot;</span>: <span class="number">1</span>, <span class="string">&quot;creator&quot;</span>: <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;牙刷&quot;</span>, <span class="string">&quot;price&quot;</span>: <span class="number">5</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;id&quot;</span>: <span class="number">2</span>, <span class="string">&quot;creator&quot;</span>: <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;牛奶&quot;</span>, <span class="string">&quot;price&quot;</span>: <span class="number">12</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&quot;id&quot;</span>: <span class="number">3</span>, <span class="string">&quot;creator&quot;</span>: <span class="string">&quot;admin&quot;</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;笔记本&quot;</span>, <span class="string">&quot;price&quot;</span>: <span class="number">2500</span>&#125;,</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">&quot;next_id&quot;</span>: <span class="number">4</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># 文件不存在则创建并写入默认数据</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(DATA_FILE):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(DATA_FILE, <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            json.dump(default_data, f, ensure_ascii=<span class="literal">False</span>, indent=<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 读取文件</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(DATA_FILE, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">return</span> json.load(f)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">store = init_data()</span><br><span class="line">bill_list = store[<span class="string">&quot;bill_list&quot;</span>]</span><br><span class="line">next_id = store[<span class="string">&quot;next_id&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存数据到本地json文件</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_data</span>():</span><br><span class="line">    <span class="keyword">global</span> store</span><br><span class="line">    store[<span class="string">&quot;bill_list&quot;</span>] = bill_list</span><br><span class="line">    store[<span class="string">&quot;next_id&quot;</span>] = next_id</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(DATA_FILE, <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(store, f, ensure_ascii=<span class="literal">False</span>, indent=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>提供api</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> APIRouter, Query, Body, Path</span><br><span class="line"><span class="comment"># 导入整个数据模块，不要解构</span></span><br><span class="line"><span class="keyword">import</span> mock.mock_bill_data <span class="keyword">as</span> bill_data</span><br><span class="line"></span><br><span class="line">router = APIRouter(prefix=<span class="string">&quot;/api/bills&quot;</span>, tags=[<span class="string">&quot;账单Mock接口&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询</span></span><br><span class="line"><span class="meta">@router.get(<span class="params"><span class="string">&quot;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_bill_list</span>(<span class="params">creator: <span class="built_in">str</span> | <span class="literal">None</span> = Query(<span class="params"><span class="literal">None</span></span>)</span>):</span><br><span class="line">    res_data = bill_data.bill_list</span><br><span class="line">    <span class="keyword">if</span> creator:</span><br><span class="line">        res_data = [i <span class="keyword">for</span> i <span class="keyword">in</span> bill_data.bill_list <span class="keyword">if</span> i[<span class="string">&quot;creator&quot;</span>] == creator]</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;code&quot;</span>: <span class="number">200</span>, <span class="string">&quot;data&quot;</span>: res_data, <span class="string">&quot;message&quot;</span>: <span class="string">&quot;ok&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新增</span></span><br><span class="line"><span class="meta">@router.post(<span class="params"><span class="string">&quot;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_bill</span>(<span class="params"></span></span><br><span class="line"><span class="params">    creator: <span class="built_in">str</span> = Body(<span class="params">embed=<span class="literal">True</span></span>),</span></span><br><span class="line"><span class="params">    name: <span class="built_in">str</span> = Body(<span class="params">embed=<span class="literal">True</span></span>),</span></span><br><span class="line"><span class="params">    price: <span class="built_in">int</span> = Body(<span class="params">embed=<span class="literal">True</span></span>)</span></span><br><span class="line"><span class="params"></span>):</span><br><span class="line">    new_bill = &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: bill_data.next_id,</span><br><span class="line">        <span class="string">&quot;creator&quot;</span>: creator,</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: name,</span><br><span class="line">        <span class="string">&quot;price&quot;</span>: price</span><br><span class="line">    &#125;</span><br><span class="line">    bill_data.bill_list.append(new_bill)</span><br><span class="line">    bill_data.next_id += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 新增：写入本地文件持久化</span></span><br><span class="line">    bill_data.save_data()</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;code&quot;</span>: <span class="number">200</span>, <span class="string">&quot;data&quot;</span>: new_bill, <span class="string">&quot;message&quot;</span>: <span class="string">&quot;ok&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line"><span class="meta">@router.delete(<span class="params"><span class="string">&quot;/&#123;id&#125;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_bill</span>(<span class="params"><span class="built_in">id</span>: <span class="built_in">int</span> = Path(<span class="params"></span>)</span>):</span><br><span class="line">    old_len = <span class="built_in">len</span>(bill_data.bill_list)</span><br><span class="line">    bill_data.bill_list = [i <span class="keyword">for</span> i <span class="keyword">in</span> bill_data.bill_list <span class="keyword">if</span> i[<span class="string">&quot;id&quot;</span>] != <span class="built_in">id</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(bill_data.bill_list) == old_len:</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">&quot;code&quot;</span>: <span class="number">400</span>, <span class="string">&quot;data&quot;</span>: <span class="literal">None</span>, <span class="string">&quot;message&quot;</span>: <span class="string">&quot;未找到该账单&quot;</span>&#125;</span><br><span class="line">    <span class="comment"># 删除后同步写入文件</span></span><br><span class="line">    bill_data.save_data()</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;code&quot;</span>: <span class="number">200</span>, <span class="string">&quot;data&quot;</span>: <span class="literal">None</span>, <span class="string">&quot;message&quot;</span>: <span class="string">&quot;ok&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基本渲染功能实现"><a href="#基本渲染功能实现" class="headerlink" title="基本渲染功能实现"></a>基本渲染功能实现</h3><h4 id="功能目标"><a href="#功能目标" class="headerlink" title="功能目标"></a>功能目标</h4><p>页面初始化时自动获取账单数据，渲染表格列表，并实时计算消费总额。</p>
+<h4 id="实现步骤-2"><a href="#实现步骤-2" class="headerlink" title="实现步骤"></a>实现步骤</h4><h5 id="步骤-1：在-created-钩子中发起初始请求"><a href="#步骤-1：在-created-钩子中发起初始请求" class="headerlink" title="步骤 1：在 created 钩子中发起初始请求"></a>步骤 1：在 <code>created</code> 钩子中发起初始请求</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">    <span class="attr">el</span>: <span class="string">&#x27;.container&#x27;</span>,</span><br><span class="line">    <span class="attr">data</span>:&#123;</span><br><span class="line">        <span class="attr">list</span>: [] <span class="comment">// 响应式数据：存储账单列表</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">getList</span>()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">methods</span>: &#123;</span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">getList</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">const</span> res = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;http://127.0.0.1:8001/api/bills&#x27;</span>, &#123;</span><br><span class="line">                    <span class="attr">params</span>: &#123; <span class="attr">creator</span>: <span class="string">&#x27;admin&#x27;</span> &#125; <span class="comment">// 注意：此处为 params 对象</span></span><br><span class="line">                &#125;)</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">list</span> = res.<span class="property">data</span>.<span class="property">data</span> <span class="comment">// 将响应数据存入响应式属性</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取账单列表失败:&#x27;</span>, err)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：</p>
+<ul>
+<li>必须在 <code>created</code> 生命周期钩子中调用，确保组件实例创建后立即执行；  </li>
+<li><code>await</code> 必须置于 <code>async</code> 函数内，否则语法报错；  </li>
+<li><code>res.data.data</code> 是接口约定的数据路径，需根据实际响应结构调整。</li>
+</ul>
+</blockquote>
+<h5 id="步骤-2：模板中渲染账单列表"><a href="#步骤-2：模板中渲染账单列表" class="headerlink" title="步骤 2：模板中渲染账单列表"></a>步骤 2：模板中渲染账单列表</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>编号<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>消费名称<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>消费价格（元）<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">v-if</span>=<span class="string">&quot;list.length===0&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">&quot;4&quot;</span>&gt;</span>暂无账单数据<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span> <span class="attr">v-for</span>=<span class="string">&quot;(item,index) in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;item.id&quot;</span> <span class="attr">v-else</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123;index+1&#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123;item.name&#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">:class</span>=<span class="string">&quot;&#123;red: item.price&gt;500&#125;&quot;</span>&gt;</span>&#123;&#123;item.price.toFixed(2)&#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">button</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：</p>
+<ul>
+<li><code>v-for</code> 使用 <code>item.id</code> 作为 <code>:key</code>，确保列表更新的高效性；  </li>
+<li>编号采用 <code>index + 1</code> 实现连续序号；  </li>
+<li>价格保留两位小数：<code>.toFixed(2)</code>；  </li>
+<li>动态类名控制：<code>:class=&quot;&#123; red: item.price &gt; 500 &#125;&quot;</code> 实现高亮逻辑。</li>
+</ul>
+</blockquote>
+<h5 id="步骤-3：使用计算属性实现消费总额统计"><a href="#步骤-3：使用计算属性实现消费总额统计" class="headerlink" title="步骤 3：使用计算属性实现消费总额统计"></a>步骤 3：使用计算属性实现消费总额统计</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">computed</span>:&#123;</span><br><span class="line">    <span class="title function_">totalPrice</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">reduce</span>(<span class="function">(<span class="params">sum,item</span>)=&gt;</span>sum+item.<span class="property">price</span>,<span class="number">0</span>).<span class="title function_">toFixed</span>(<span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模板中引用：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>消费总计：&#123;&#123; totalPrice &#125;&#125; 元<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：  </p>
+<ul>
+<li><code>computed</code> 属性具备响应式依赖追踪，当 <code>list</code> 变更时自动重新求值；  </li>
+<li><code>reduce</code> 初始值设为 <code>0</code>，避免空数组导致 <code>NaN</code>；  </li>
+<li>最终结果统一 <code>.toFixed(2)</code> 格式化。</li>
+</ul>
+</blockquote>
+<h3 id="添加功能实现"><a href="#添加功能实现" class="headerlink" title="添加功能实现"></a>添加功能实现</h3><h4 id="功能目标-1"><a href="#功能目标-1" class="headerlink" title="功能目标"></a>功能目标</h4><p>用户填写消费名称与价格，点击“添加账单”按钮后，向后端提交新记录，并刷新列表。</p>
+<h4 id="实现步骤-3"><a href="#实现步骤-3" class="headerlink" title="实现步骤"></a>实现步骤</h4><h5 id="步骤-1：收集表单数据（双向绑定）"><a href="#步骤-1：收集表单数据（双向绑定）" class="headerlink" title="步骤 1：收集表单数据（双向绑定）"></a>步骤 1：收集表单数据（双向绑定）</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">list</span>: [],</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;&#x27;</span>,   <span class="comment">// 绑定消费名称输入框</span></span><br><span class="line">      <span class="attr">price</span>: <span class="literal">null</span> <span class="comment">// 绑定消费价格输入框（数值类型）</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>模板绑定：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">v-model.trim</span>=<span class="string">&quot;name&quot;</span> <span class="attr">class</span>=<span class="string">&quot;input-name&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入消费名称&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">v-model.number</span>=<span class="string">&quot;price&quot;</span> <span class="attr">class</span>=<span class="string">&quot;input-price&quot;</span> <span class="attr">type</span>=<span class="string">&quot;number&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;请输入消费价格&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleAdd&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn-add&quot;</span>&gt;</span>添加账单<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：</p>
+<ul>
+<li><code>v-model.trim</code> 自动去除首尾空格；  </li>
+<li><code>v-model.number</code> 强制转换为数值类型，避免字符串拼接错误。</li>
+</ul>
+</blockquote>
+<h5 id="步骤-2：定义添加方法并发送-POST-请求"><a href="#步骤-2：定义添加方法并发送-POST-请求" class="headerlink" title="步骤 2：定义添加方法并发送 POST 请求"></a>步骤 2：定义添加方法并发送 POST 请求</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">handleAdd</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 表单校验</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">name</span>.<span class="title function_">trim</span>()) &#123;</span><br><span class="line">      <span class="title function_">alert</span>(<span class="string">&#x27;请输入消费名称&#x27;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable language_">this</span>.<span class="property">price</span> !== <span class="string">&#x27;number&#x27;</span> || <span class="built_in">isNaN</span>(<span class="variable language_">this</span>.<span class="property">price</span>) || <span class="variable language_">this</span>.<span class="property">price</span> &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="title function_">alert</span>(<span class="string">&#x27;请输入正确的消费价格&#x27;</span>)</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">await</span> axios.<span class="title function_">post</span>(<span class="string">&#x27;/api/bills&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">creator</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="variable language_">this</span>.<span class="property">name</span>,</span><br><span class="line">        <span class="attr">price</span>: <span class="variable language_">this</span>.<span class="property">price</span></span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="comment">// 清空表单</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">name</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">price</span> = <span class="literal">null</span></span><br><span class="line">      <span class="comment">// 重新渲染列表（关键！）</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">getList</span>()</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;添加账单失败:&#x27;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：</p>
+<ul>
+<li><strong>必须执行 <code>this.getList()</code></strong>：添加操作仅修改服务端数据，前端需主动拉取最新状态；  </li>
+<li>校验逻辑前置，避免无效请求；  </li>
+<li>成功后清空输入框，提升用户体验。</li>
+</ul>
+</blockquote>
+<h3 id="删除功能实现"><a href="#删除功能实现" class="headerlink" title="删除功能实现"></a>删除功能实现</h3><h4 id="功能目标-2"><a href="#功能目标-2" class="headerlink" title="功能目标"></a>功能目标</h4><p>点击某条账单的“删除”按钮，向后端发送 DELETE 请求移除该记录，并刷新列表。</p>
+<h4 id="实现步骤-4"><a href="#实现步骤-4" class="headerlink" title="实现步骤"></a>实现步骤</h4><h5 id="步骤-1：为删除按钮绑定事件并传参"><a href="#步骤-1：为删除按钮绑定事件并传参" class="headerlink" title="步骤 1：为删除按钮绑定事件并传参"></a>步骤 1：为删除按钮绑定事件并传参</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleDelete(item.id)&quot;</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="步骤-2：定义删除方法并发送-DELETE-请求"><a href="#步骤-2：定义删除方法并发送-DELETE-请求" class="headerlink" title="步骤 2：定义删除方法并发送 DELETE 请求"></a>步骤 2：定义删除方法并发送 DELETE 请求</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">handleDelete</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">confirm</span>(<span class="string">&#x27;确认删除该账单？&#x27;</span>)) <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">await</span> axios.<span class="title function_">delete</span>(<span class="string">`/api/bills/<span class="subst">$&#123;id&#125;</span>`</span>)</span><br><span class="line">      <span class="comment">// 重新渲染列表（关键！）</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">getList</span>()</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;删除账单失败:&#x27;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键点说明</strong>：</p>
+<ul>
+<li>DELETE 请求的 <code>id</code> 通过 URL 路径参数传递（<code>/api/bills/123</code>）；  </li>
+<li>使用 <code>confirm()</code> 提供二次确认，防止误操作；  </li>
+<li><strong>必须执行 <code>this.getList()</code></strong>：删除操作仅影响服务端，前端需同步最新数据。</li>
+</ul>
+</blockquote>
+<h3 id="ECharts图表的实现"><a href="#ECharts图表的实现" class="headerlink" title="ECharts图表的实现"></a>ECharts图表的实现</h3><h4 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://echarts.apache.org/zh/index.html">ECharts官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jsdelivr.com/package/npm/echarts">jsDelivr CDN引入</a></li>
+<li><a target="_blank" rel="noopener" href="https://echarts.apache.org/examples/zh/editor.html?c=pie-simple">本案例使用的饼图示例</a></li>
+</ul>
+<p>通过CDN引入<code>ECharts</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://cdn.jsdelivr.net/npm/echarts@6.1.0/dist/echarts.min.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Vue-实例结构要求"><a href="#Vue-实例结构要求" class="headerlink" title="Vue 实例结构要求"></a>Vue 实例结构要求</h4><ul>
+<li><code>data</code> 中定义用于存储业务数据的响应式属性（如 <code>list</code>）  </li>
+<li><code>methods</code> 中封装数据请求与视图更新逻辑  </li>
+<li>正确使用 Vue 生命周期钩子控制执行时序  </li>
+</ul>
+<h4 id="初始化饼图实例（mounted-钩子中执行）"><a href="#初始化饼图实例（mounted-钩子中执行）" class="headerlink" title="初始化饼图实例（mounted 钩子中执行）"></a>初始化饼图实例（mounted 钩子中执行）</h4><p>ECharts 图表初始化必须在 DOM 元素挂载完成后进行。<strong>Vue 的 <code>mounted</code> 钩子是唯一安全执行 DOM 操作的时机</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">    <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 1. 通过 document.querySelector 获取容器元素</span></span><br><span class="line">        <span class="keyword">const</span> chartDom = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#chart&#x27;</span>)</span><br><span class="line">        <span class="comment">// 2. 调用 echarts.init 初始化实例</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">myChart</span> = echarts.<span class="title function_">init</span>(chartDom)</span><br><span class="line">        <span class="comment">// 3. 设置初始配置项（仅含基础结构，数据暂为空）</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">myChart</span>.<span class="title function_">setOption</span>(&#123;</span><br><span class="line">            <span class="attr">title</span>: &#123;</span><br><span class="line">                <span class="attr">text</span>: <span class="string">&#x27;消费账单列表&#x27;</span>,</span><br><span class="line">                <span class="attr">left</span>: <span class="string">&#x27;center&#x27;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">tooltip</span>: &#123;</span><br><span class="line">                <span class="attr">trigger</span>: <span class="string">&#x27;item&#x27;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">legend</span>: &#123;</span><br><span class="line">                <span class="attr">orient</span>: <span class="string">&#x27;vertical&#x27;</span>,</span><br><span class="line">                <span class="attr">left</span>: <span class="string">&#x27;left&#x27;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">series</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">name</span>: <span class="string">&#x27;消费账单&#x27;</span>,</span><br><span class="line">                    <span class="attr">type</span>: <span class="string">&#x27;pie&#x27;</span>,</span><br><span class="line">                    <span class="attr">radius</span>: <span class="string">&#x27;50%&#x27;</span>,</span><br><span class="line">                    <span class="comment">// 初始为空数组，后续动态填充</span></span><br><span class="line">                    <span class="attr">data</span>: [</span><br><span class="line">                        <span class="comment">// &#123; value: 2500, name: &#x27;笔记本&#x27; &#125;, //样例数据</span></span><br><span class="line">                    ],</span><br><span class="line">                    <span class="attr">emphasis</span>: &#123;</span><br><span class="line">                        <span class="attr">itemStyle</span>: &#123;</span><br><span class="line">                            <span class="attr">shadowBlur</span>: <span class="number">10</span>,</span><br><span class="line">                            <span class="attr">shadowOffsetX</span>: <span class="number">0</span>,</span><br><span class="line">                            <span class="attr">shadowColor</span>: <span class="string">&#x27;rgba(0, 0, 0, 0.5)&#x27;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>关键说明</strong>：</p>
+<ul>
+<li><code>this.myChart</code> 必须挂载到 Vue 实例上（<code>this</code>），否则无法在其他方法中访问；  </li>
+<li>初始化配置中 <code>series.data</code> 设为 <code>[]</code>，为后续动态更新预留接口；  </li>
+<li><strong>严禁在 <code>created</code> 或 <code>beforeMount</code> 中初始化图表</strong>，此时 DOM 尚未生成，<code>querySelector</code> 将返回 <code>null</code>。</li>
+</ul>
+</blockquote>
+<h4 id="动态更新饼图数据（数据获取后触发）"><a href="#动态更新饼图数据（数据获取后触发）" class="headerlink" title="动态更新饼图数据（数据获取后触发）"></a>动态更新饼图数据（数据获取后触发）</h4><p>图表数据需随业务数据变化实时同步。更新操作通过 <code>setOption</code> 方法完成，<strong>仅需传入待更新的配置片段，无需重复设置已存在的选项</strong>。</p>
+<h5 id="数据格式映射规则"><a href="#数据格式映射规则" class="headerlink" title="数据格式映射规则"></a>数据格式映射规则</h5><p>假设原始账单数据结构为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;球鞋&#x27;</span>, <span class="attr">price</span>: <span class="number">1299</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;防晒霜&#x27;</span>, <span class="attr">price</span>: <span class="number">789</span> &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>ECharts <code>series.data</code> 要求格式为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="attr">value</span>: <span class="number">1299</span>, <span class="attr">name</span>: <span class="string">&#x27;球鞋&#x27;</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">value</span>: <span class="number">789</span>, <span class="attr">name</span>: <span class="string">&#x27;防晒霜&#x27;</span> &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="使用-map-方法完成格式转换"><a href="#使用-map-方法完成格式转换" class="headerlink" title="使用 map 方法完成格式转换"></a>使用 map 方法完成格式转换</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 methods 中定义数据请求方法</span></span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="keyword">async</span> <span class="title function_">getList</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> res = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;http://127.0.0.1:8001/api/bills&#x27;</span>, &#123;</span><br><span class="line">                <span class="attr">params</span>: &#123; <span class="attr">creator</span>: <span class="string">&#x27;admin&#x27;</span> &#125; <span class="comment">// 注意：此处为 params 对象</span></span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">list</span> = res.<span class="property">data</span>.<span class="property">data</span> <span class="comment">// 将响应数据存入响应式属性</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取账单列表失败:&#x27;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">            <span class="comment">// 更新图表：仅传递 series.data 字段</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">myChart</span>.<span class="title function_">setOption</span>(&#123;</span><br><span class="line">            <span class="attr">series</span>: [&#123;</span><br><span class="line">                <span class="attr">data</span>: <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> (&#123;</span><br><span class="line">                    <span class="attr">value</span>: item.<span class="property">price</span>,</span><br><span class="line">                    <span class="attr">name</span>: item.<span class="property">name</span></span><br><span class="line">                &#125;))</span><br><span class="line">            &#125;]</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>技术要点</strong>：</p>
+<ul>
+<li><code>map</code> 返回新数组，不修改原数组，符合 Vue 响应式系统对不可变数据的要求；  </li>
+<li>箭头函数中直接返回对象字面量时，<strong>必须用圆括号包裹</strong> <code>(&#123;&#125;)</code>，避免语法解析错误；  </li>
+<li><code>setOption</code> 调用位置应在请求成功回调内，确保数据已更新至 <code>this.list</code>。</li>
+</ul>
+</blockquote>
+<h4 id="配置项详解（核心字段说明）"><a href="#配置项详解（核心字段说明）" class="headerlink" title="配置项详解（核心字段说明）"></a>配置项详解（核心字段说明）</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>类型</th>
+<th>说明</th>
+<th>是否必需</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title.text</code></td>
+<td>String</td>
+<td>图表主标题文本</td>
+<td>否（可省略）</td>
+</tr>
+<tr>
+<td><code>tooltip.trigger</code></td>
+<td>String</td>
+<td>提示框触发类型，<code>&#39;item&#39;</code> 表示悬停扇形区域时显示</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>legend.orient</code></td>
+<td>String</td>
+<td>图例布局方向，<code>&#39;vertical&#39;</code> 为垂直排列</td>
+<td>否（默认 <code>&#39;horizontal&#39;</code>）</td>
+</tr>
+<tr>
+<td><code>legend.left</code></td>
+<td>String/Number</td>
+<td>图例水平位置，<code>&#39;left&#39;</code> 表示靠左对齐</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>series.type</code></td>
+<td>String</td>
+<td>图表类型，饼图固定为 <code>&#39;pie&#39;</code></td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>series.radius</code></td>
+<td>String/Array</td>
+<td>饼图半径，支持 <code>&#39;50%&#39;</code> 或 <code>[‘30%’, ‘70%’]</code>（环形图）</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>series.data</code></td>
+<td>Array</td>
+<td>数据项数组，每项为 <code>&#123; value: Number, name: String &#125;</code> 结构</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>注意</strong>：所有未在 <code>setOption</code> 中显式传入的配置项将保持初始化时的值，<strong>无需重复设置</strong>。</p>
+</blockquote>
+<h4 id="生命周期与执行时序规范"><a href="#生命周期与执行时序规范" class="headerlink" title="生命周期与执行时序规范"></a>生命周期与执行时序规范</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>执行时机</th>
+<th>推荐钩子</th>
+<th>典型操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>初始化准备</strong></td>
+<td>组件实例创建后、DOM 挂载前</td>
+<td><code>created</code></td>
+<td>发起首次数据请求、定义响应式数据</td>
+</tr>
+<tr>
+<td><strong>DOM 操作入口</strong></td>
+<td>真实 DOM 节点已挂载完毕</td>
+<td><code>mounted</code></td>
+<td>初始化第三方库（ECharts、Swiper 等）、绑定事件监听器</td>
+</tr>
+<tr>
+<td><strong>数据驱动更新</strong></td>
+<td>业务数据变更后</td>
+<td><code>methods</code> 内部</td>
+<td>调用 <code>setOption</code>、触发 <code>v-for</code> 重渲染</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>反例警示</strong>：</p>
+<ul>
+<li>在 <code>created</code> 中调用 <code>echarts.init()</code> → 报错 <code>Cannot read property &#39;init&#39; of undefined</code>；  </li>
+<li>在 <code>data</code> 中直接声明 <code>myChart: null</code> → 无法在 <code>mounted</code> 外访问实例；  </li>
+<li><code>setOption</code> 传入完整配置对象而非增量更新 → 性能浪费且易覆盖已有配置。</li>
+</ul>
+</blockquote>
+<h4 id="总结与实践建议"><a href="#总结与实践建议" class="headerlink" title="总结与实践建议"></a>总结与实践建议</h4><ul>
+<li><strong>图表初始化必须与 DOM 生命周期严格对齐</strong>：<code>mounted</code> 是 ECharts 初始化的<strong>唯一合法入口</strong>；  </li>
+<li><strong>数据更新遵循“最小化原则”</strong>：仅通过 <code>setOption</code> 传递变更字段，避免全量重绘；  </li>
+<li><strong>数据转换是前端职责</strong>：业务 API 返回的数据结构通常需经 <code>map</code>/<code>filter</code> 等方法适配可视化需求；  </li>
+<li><strong>封装复用性逻辑</strong>：将 <code>getList</code> 抽离为独立方法，在添加、删除操作后统一调用，保障视图一致性；  </li>
+<li><strong>性能优化延伸</strong>：当数据量较大时，可结合 <code>echarts.connect</code> 实现多图表联动，或启用 <code>renderAsImage</code> 提升渲染效率。</li>
+</ul>
+<div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-06-24 21:39:43&quot;}" hidden></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website/2026/06/24/Vue008/">https://www.huangshiqing.website/2026/06/24/Vue008/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.huangshiqing.website" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Vue/">Vue</a><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post-share"><div class="social-share" data-image="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.png" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/wechat.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/23/Vue007/" title="Vue2 实战案例：水果购物车"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Vue2 实战案例：水果购物车</div></div><div class="info-2"><div class="info-item-1">功能需求分析购物车模块共包含以下六个功能需求：  动态渲染：根据商品数据列表渲染购物车条目，支持结构互斥显示（有数据时显示购物车主体，无数据时显示空状态）。 删除功能：点击删除按钮移除指定商品，通过 ID 过滤原数组实现数据更新。 数量修改：通过加减按钮调整单个商品购买数量，需限制最小值为 1。 全选/反选：底部全选复选框状态由所有商品选中状态动态计算；勾选/取消全选时同步更新所有商品选中状态。 选中项统计：实时统计已选商品的总数量与总价，仅计入 is_checked 为 true 的条目。 本地持久化：将用户操作后的购物车数据序列化后存入 localStorage，页面刷新后从本地读取并初始化状态。   说明：本案例未调用后端接口，所有数据操作均在前端完成，localStorage 作为持久化存储方案。  样式模板CSS12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970...</div></div></div></a><a class="pagination-related" href="/2026/07/01/MySQL/" title="MySQL 安装"><img class="cover" src="/img/loading.gif" data-lazy-src="/img/cover002.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MySQL 安装</div></div><div class="info-2"><div class="info-item-1">MySQL安装教程</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2023/03/01/vue/" title="Vue"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-01</div><div class="info-item-2">Vue</div></div><div class="info-2"><div class="info-item-1">Vue 系列文章</div></div></div></a><a class="pagination-related" href="/2026/07/06/Vue011/" title="Vue 组件通信"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-06</div><div class="info-item-2">Vue 组件通信</div></div><div class="info-2"><div class="info-item-1">组件通信概述组件通信是指不同 Vue 组件之间进行数据传递与事件交互的机制。Vue 采用单向数据流设计原则，每个组件的数据（data）具有独立作用域，组件仅能直接访问自身定义的数据，无法直接读取或修改其他组件的数据。 例如：组件 A 的 data 中定义的变量 message，在组件 B 的模板或逻辑中无法直接引用。若组件 B 需要使用该值，必须由组件 A 主动通过标准化的通信机制将数据传递给组件 B。 因此，组件通信的本质是建立受控、可追溯、符合响应式原理的数据流动通道，其具体方案的选择取决于组件之间的关系类型。 组件关系分类在 Vue 应用中，组件间关系可严格划分为两类： 父子关系 定义：一个组件（父组件）在模板中直接渲染另一个组件（子组件），即子组件标签作为父组件模板的一部分被声明。 判定标准：存在明确的 DOM 包含层级，子组件实例由父组件创建并管理生命周期。 示例：1234567&lt;!-- 父组件 Parent.vue --&gt;&lt;template&gt;  &lt;div&gt;    &lt;Child /&gt; &lt;!-- Child 是 Par...</div></div></div></a><a class="pagination-related" href="/2026/07/03/Vue010/" title="Vue组件基础"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-03</div><div class="info-item-2">Vue组件基础</div></div><div class="info-2"><div class="info-item-1">Vue 2 组件化开发与根组件详解组件化开发概述组件化开发的定义组件化开发是指将一个完整的网页或应用界面，按照功能与职责划分为若干个独立、可复用的单元——即组件。每个组件均具备以下三个基本要素：  独立的结构（template）：定义组件的 HTML 模板；   独立的样式（style）：定义组件专属的 CSS 或预处理器样式；   独立的行为（script）：定义组件的数据、方法、计算属性、侦听器及生命周期钩子等逻辑。  传统开发模式的局限性在未采用组件化开发的项目中，通常将全部 HTML 结构、CSS 样式与 JavaScript 逻辑集中于单一文件中：   所有 DOM 结构写入一个 HTML 文件；   所有样式通过 &lt;link&gt; 引入或内联于 &lt;style&gt; 标签；   所有交互逻辑集中于一个或多个 JS 文件。    该模式在小型项目中具有开发便捷性，但存在显著缺陷：   可维护性差：当页面代码量达数百行时，定位特定模块的结构、样式或逻辑异常困难；   复用性缺失：相同功能模块（如页头、页脚）需在多处重复编写，修改需同步多处；   协作效率低：...</div></div></div></a><a class="pagination-related" href="/2026/07/01/Vue009/" title="Vue-CLI 脚手架工程化开发"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-01</div><div class="info-item-2">Vue-CLI 脚手架工程化开发</div></div><div class="info-2"><div class="info-item-1">工程化开发模式概述传统开发模式与工程化开发模式的本质区别 传统开发模式：    直接在 HTML 文件中通过 &lt;script&gt; 标签引入 Vue.js 等依赖；   编写的 JavaScript 和 CSS 代码即为浏览器最终运行的代码；   无构建过程，不支持现代前端语法特性（如 ES6+、单文件组件、预处理器等）。   工程化开发模式：    基于构建工具（如 Webpack、Vite）对源代码进行编译、转换和打包；   开发者编写的源代码并非浏览器直接可执行的代码；   构建工具负责将高级语法（如 import/export、async/await）、预处理器（如 Sass、Less）、单文件组件（.vue）等，转换为兼容目标浏览器的标准 JavaScript 和 CSS；   核心价值在于提升开发体验与代码质量，支持模块化、类型检查、热更新、代码分割等能力。    工程化开发面临的挑战 Webpack 等构建工具配置复杂，需手动编写大量 loader、plugin 及 resolve 规则；   不同项目间存在大量重复性基础配置（如 babel-loader、...</div></div></div></a><a class="pagination-related" href="/2026/06/23/Vue007/" title="Vue2 实战案例：水果购物车"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-23</div><div class="info-item-2">Vue2 实战案例：水果购物车</div></div><div class="info-2"><div class="info-item-1">功能需求分析购物车模块共包含以下六个功能需求：  动态渲染：根据商品数据列表渲染购物车条目，支持结构互斥显示（有数据时显示购物车主体，无数据时显示空状态）。 删除功能：点击删除按钮移除指定商品，通过 ID 过滤原数组实现数据更新。 数量修改：通过加减按钮调整单个商品购买数量，需限制最小值为 1。 全选/反选：底部全选复选框状态由所有商品选中状态动态计算；勾选/取消全选时同步更新所有商品选中状态。 选中项统计：实时统计已选商品的总数量与总价，仅计入 is_checked 为 true 的条目。 本地持久化：将用户操作后的购物车数据序列化后存入 localStorage，页面刷新后从本地读取并初始化状态。   说明：本案例未调用后端接口，所有数据操作均在前端完成，localStorage 作为持久化存储方案。  样式模板CSS12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970...</div></div></div></a><a class="pagination-related" href="/2026/06/01/Vue001/" title="Vue快速上手"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-01</div><div class="info-item-2">Vue快速上手</div></div><div class="info-2"><div class="info-item-1">初识Vue</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Shiqing Huang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/cmwlvip" target="_blank" title="Gitee"><i class="fab fa-git"></i></a><a class="social-icon" href="mailto:2689050828@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-%E5%AE%9E%E4%BE%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">Vue 实例生命周期概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">生命周期钩子函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E6%A0%B8%E5%BF%83%E9%98%B6%E6%AE%B5%E5%8F%8A%E5%85%B6%E8%81%8C%E8%B4%A3"><span class="toc-number">1.2.</span> <span class="toc-text">四个核心阶段及其职责</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">生命周期钩子函数详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E9%87%8D%E7%82%B9%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0%E8%A7%84%E8%8C%83%E8%AF%B4%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">（一）重点钩子函数规范说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#created-%E9%92%A9%E5%AD%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">created 钩子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mounted-%E9%92%A9%E5%AD%90"><span class="toc-number">2.1.2.</span> <span class="toc-text">mounted 钩子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%85%B6%E4%BB%96%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.2.</span> <span class="toc-text">（二）其他钩子函数使用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E9%AA%8C%E8%AF%81"><span class="toc-number">3.</span> <span class="toc-text">生命周期执行顺序验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%8E%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">实践与注意事项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">4.1.</span> <span class="toc-text">（一）开发规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E8%A7%84%E9%81%BF"><span class="toc-number">4.2.</span> <span class="toc-text">（二）常见错误规避</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.3.</span> <span class="toc-text">（三）性能优化建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80%EF%BC%9A%E9%A1%B5%E9%9D%A2%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E8%AF%B7%E6%B1%82%E4%B8%8E%E6%B8%B2%E6%9F%93"><span class="toc-number">5.</span> <span class="toc-text">案例一：页面初始化数据请求与渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">5.1.</span> <span class="toc-text">需求说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%BE%9D%E6%8D%AE"><span class="toc-number">5.2.</span> <span class="toc-text">技术选型依据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-number">5.3.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE"><span class="toc-number">5.3.1.</span> <span class="toc-text">模拟数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E5%AE%9A%E4%B9%89%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">5.3.2.</span> <span class="toc-text">步骤 1：定义响应式数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%9C%A8-created-%E9%92%A9%E5%AD%90%E4%B8%AD%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82"><span class="toc-number">5.3.3.</span> <span class="toc-text">步骤 2：在 created 钩子中发起请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E6%A8%A1%E6%9D%BF%E4%B8%AD%E4%BD%BF%E7%94%A8-v-for-%E6%B8%B2%E6%9F%93%E5%88%97%E8%A1%A8"><span class="toc-number">5.3.4.</span> <span class="toc-text">步骤 3：模板中使用 v-for 渲染列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E9%AA%8C%E8%AF%81%E6%95%B0%E6%8D%AE%E6%B5%81%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">5.3.5.</span> <span class="toc-text">步骤 4：验证数据流完整性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">5.4.</span> <span class="toc-text">完整代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%BA%8C%EF%BC%9ADOM-%E6%93%8D%E4%BD%9C%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E6%A1%86%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96%E7%84%A6%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">案例二：DOM 操作——输入框自动获取焦点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%AF%B4%E6%98%8E-1"><span class="toc-number">6.1.</span> <span class="toc-text">需求说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%E4%BE%9D%E6%8D%AE-1"><span class="toc-number">6.2.</span> <span class="toc-text">技术选型依据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4-1"><span class="toc-number">6.3.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E6%A8%A1%E6%9D%BF%E4%B8%AD%E4%B8%BA%E8%BE%93%E5%85%A5%E6%A1%86%E8%AE%BE%E7%BD%AE%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86"><span class="toc-number">6.3.1.</span> <span class="toc-text">步骤 1：模板中为输入框设置唯一标识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%9C%A8-mounted-%E9%92%A9%E5%AD%90%E4%B8%AD%E6%89%A7%E8%A1%8C-DOM-%E6%93%8D%E4%BD%9C"><span class="toc-number">6.3.2.</span> <span class="toc-text">步骤 2：在 mounted 钩子中执行 DOM 操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%88%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-ref%EF%BC%89"><span class="toc-number">6.3.3.</span> <span class="toc-text">步骤 3：替代方案（推荐使用 ref）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-1"><span class="toc-number">6.4.</span> <span class="toc-text">完整代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%85%E9%A1%BB%E9%81%B5%E5%AE%88%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%E5%87%86%E5%88%99"><span class="toc-number">7.1.</span> <span class="toc-text">必须遵守的工程实践准则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%E6%8F%90%E7%A4%BA"><span class="toc-number">7.2.</span> <span class="toc-text">进阶提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-2-%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%AE%B0%E8%B4%A6%E6%9C%AC%EF%BC%88%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">Vue 2 综合案例：记账本（前后端交互）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0"><span class="toc-number">8.1.</span> <span class="toc-text">项目概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="toc-number">8.2.</span> <span class="toc-text">快速开始</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E6%A8%A1%E6%9D%BF"><span class="toc-number">8.2.1.</span> <span class="toc-text">页面模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE"><span class="toc-number">8.2.2.</span> <span class="toc-text">后端模拟数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B8%B2%E6%9F%93%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">8.3.</span> <span class="toc-text">基本渲染功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E7%9B%AE%E6%A0%87"><span class="toc-number">8.3.1.</span> <span class="toc-text">功能目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4-2"><span class="toc-number">8.3.2.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E5%9C%A8-created-%E9%92%A9%E5%AD%90%E4%B8%AD%E5%8F%91%E8%B5%B7%E5%88%9D%E5%A7%8B%E8%AF%B7%E6%B1%82"><span class="toc-number">8.3.2.1.</span> <span class="toc-text">步骤 1：在 created 钩子中发起初始请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E6%A8%A1%E6%9D%BF%E4%B8%AD%E6%B8%B2%E6%9F%93%E8%B4%A6%E5%8D%95%E5%88%97%E8%A1%A8"><span class="toc-number">8.3.2.2.</span> <span class="toc-text">步骤 2：模板中渲染账单列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%AE%9E%E7%8E%B0%E6%B6%88%E8%B4%B9%E6%80%BB%E9%A2%9D%E7%BB%9F%E8%AE%A1"><span class="toc-number">8.3.2.3.</span> <span class="toc-text">步骤 3：使用计算属性实现消费总额统计</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">8.4.</span> <span class="toc-text">添加功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E7%9B%AE%E6%A0%87-1"><span class="toc-number">8.4.1.</span> <span class="toc-text">功能目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4-3"><span class="toc-number">8.4.2.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E6%94%B6%E9%9B%86%E8%A1%A8%E5%8D%95%E6%95%B0%E6%8D%AE%EF%BC%88%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%EF%BC%89"><span class="toc-number">8.4.2.1.</span> <span class="toc-text">步骤 1：收集表单数据（双向绑定）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%AE%9A%E4%B9%89%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%B9%B6%E5%8F%91%E9%80%81-POST-%E8%AF%B7%E6%B1%82"><span class="toc-number">8.4.2.2.</span> <span class="toc-text">步骤 2：定义添加方法并发送 POST 请求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">8.5.</span> <span class="toc-text">删除功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E7%9B%AE%E6%A0%87-2"><span class="toc-number">8.5.1.</span> <span class="toc-text">功能目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4-4"><span class="toc-number">8.5.2.</span> <span class="toc-text">实现步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E4%B8%BA%E5%88%A0%E9%99%A4%E6%8C%89%E9%92%AE%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%B9%B6%E4%BC%A0%E5%8F%82"><span class="toc-number">8.5.2.1.</span> <span class="toc-text">步骤 1：为删除按钮绑定事件并传参</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%AE%9A%E4%B9%89%E5%88%A0%E9%99%A4%E6%96%B9%E6%B3%95%E5%B9%B6%E5%8F%91%E9%80%81-DELETE-%E8%AF%B7%E6%B1%82"><span class="toc-number">8.5.2.2.</span> <span class="toc-text">步骤 2：定义删除方法并发送 DELETE 请求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ECharts%E5%9B%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">8.6.</span> <span class="toc-text">ECharts图表的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E4%BE%9D%E8%B5%96"><span class="toc-number">8.6.1.</span> <span class="toc-text">环境依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue-%E5%AE%9E%E4%BE%8B%E7%BB%93%E6%9E%84%E8%A6%81%E6%B1%82"><span class="toc-number">8.6.2.</span> <span class="toc-text">Vue 实例结构要求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A5%BC%E5%9B%BE%E5%AE%9E%E4%BE%8B%EF%BC%88mounted-%E9%92%A9%E5%AD%90%E4%B8%AD%E6%89%A7%E8%A1%8C%EF%BC%89"><span class="toc-number">8.6.3.</span> <span class="toc-text">初始化饼图实例（mounted 钩子中执行）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%9B%B4%E6%96%B0%E9%A5%BC%E5%9B%BE%E6%95%B0%E6%8D%AE%EF%BC%88%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%E5%90%8E%E8%A7%A6%E5%8F%91%EF%BC%89"><span class="toc-number">8.6.4.</span> <span class="toc-text">动态更新饼图数据（数据获取后触发）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E6%98%A0%E5%B0%84%E8%A7%84%E5%88%99"><span class="toc-number">8.6.4.1.</span> <span class="toc-text">数据格式映射规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-map-%E6%96%B9%E6%B3%95%E5%AE%8C%E6%88%90%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="toc-number">8.6.4.2.</span> <span class="toc-text">使用 map 方法完成格式转换</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E8%AF%A6%E8%A7%A3%EF%BC%88%E6%A0%B8%E5%BF%83%E5%AD%97%E6%AE%B5%E8%AF%B4%E6%98%8E%EF%BC%89"><span class="toc-number">8.6.5.</span> <span class="toc-text">配置项详解（核心字段说明）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%B8%8E%E6%89%A7%E8%A1%8C%E6%97%B6%E5%BA%8F%E8%A7%84%E8%8C%83"><span class="toc-number">8.6.6.</span> <span class="toc-text">生命周期与执行时序规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="toc-number">8.6.7.</span> <span class="toc-text">总结与实践建议</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/07/21/docker-install/" title="windows docket安装"><img src="/img/loading.gif" data-lazy-src="/img/cover001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows docket安装"/></a><div class="content"><a class="title" href="/2026/07/21/docker-install/" title="windows docket安装">windows docket安装</a><time datetime="2026-07-21T18:40:21.000Z" title="发表于 2026-07-21 18:40:21">2026-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/19/Vue017/" title="Pinia"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pinia"/></a><div class="content"><a class="title" href="/2026/07/19/Vue017/" title="Pinia">Pinia</a><time datetime="2026-07-19T09:52:11.000Z" title="发表于 2026-07-19 09:52:11">2026-07-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/17/Vue016/" title="Vue2到vue3"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue2到vue3"/></a><div class="content"><a class="title" href="/2026/07/17/Vue016/" title="Vue2到vue3">Vue2到vue3</a><time datetime="2026-07-17T23:31:15.000Z" title="发表于 2026-07-17 23:31:15">2026-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/13/Vue015/" title="Vuex状态管理全套用法"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vuex状态管理全套用法"/></a><div class="content"><a class="title" href="/2026/07/13/Vue015/" title="Vuex状态管理全套用法">Vuex状态管理全套用法</a><time datetime="2026-07-13T14:48:22.000Z" title="发表于 2026-07-13 14:48:22">2026-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/11/Vue014/" title="Vue CLI 自定义创建项目与 ESLint 代码规范"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue CLI 自定义创建项目与 ESLint 代码规范"/></a><div class="content"><a class="title" href="/2026/07/11/Vue014/" title="Vue CLI 自定义创建项目与 ESLint 代码规范">Vue CLI 自定义创建项目与 ESLint 代码规范</a><time datetime="2026-07-11T12:53:56.000Z" title="发表于 2026-07-11 12:53:56">2026-07-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/top_img003.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2022 - 2026 By Shiqing Huang</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天" style="display:none"><i class="fas fa-message"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script>(() => {
+  window.ChatraID = 'pyiEKDCMK4hBnRffY'
+  window.Chatra = window.Chatra || function() {
+    (window.Chatra.q = window.Chatra.q || []).push(arguments)
+  }
+
+  btf.getScript('https://call.chatra.io/chatra.js').then(() => {
+    const isChatBtn = true
+    const isChatHideShow = false
+
+    if (isChatBtn) {
+      const close = () => {
+        Chatra('minimizeWidget')
+        Chatra('hide')
+      }
+
+      const open = () => {
+        Chatra('openChat', true)
+        Chatra('show')
+      }
+
+      window.ChatraSetup = { startHidden: true }
+    
+      window.chatBtnFn = () => document.getElementById('chatra').classList.contains('chatra--expanded') ? close() : open()
+
+      document.getElementById('chat-btn').style.display = 'block'
+    } else if (isChatHideShow) {
+      window.chatBtn = {
+        hide: () => Chatra('hide'),
+        show: () => Chatra('show')
+      }
+    }
+  })
+})()</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/movies/"]):not([href="/books/"]):not([href="/games/"]):not([href="/songs/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜寻文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Pinia | Ofra Serendipity</title><meta name="author" content="Shiqing Huang"><meta name="copyright" content="Shiqing Huang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Vue 3 状态管理工具 PiniaPinia 简介与官方定位在掌握 Vue 3 核心语法后，进入项目实战前需要引入状态管理工具。Pinia 是 Vue 官方目前最新推荐的状态管理库，已被正式纳入 Vue 官方生态系统。在 Vue 官方文档中，Pinia 已全面替代 Vuex 成为首选的状态管理方案。虽然 Pinia 与 Vuex 均可在 Vue 3 中进行状态管理，但官方强烈推荐使用 Pinia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pinia">
+<meta property="og:url" content="https://www.huangshiqing.website/2026/07/19/Vue017/index.html">
+<meta property="og:site_name" content="Ofra Serendipity">
+<meta property="og:description" content="Vue 3 状态管理工具 PiniaPinia 简介与官方定位在掌握 Vue 3 核心语法后，进入项目实战前需要引入状态管理工具。Pinia 是 Vue 官方目前最新推荐的状态管理库，已被正式纳入 Vue 官方生态系统。在 Vue 官方文档中，Pinia 已全面替代 Vuex 成为首选的状态管理方案。虽然 Pinia 与 Vuex 均可在 Vue 3 中进行状态管理，但官方强烈推荐使用 Pinia">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png">
+<meta property="article:published_time" content="2026-07-19T09:52:11.000Z">
+<meta property="article:modified_time" content="2026-07-19T09:52:11.000Z">
+<meta property="article:author" content="Shiqing Huang">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pinia",
+  "url": "https://www.huangshiqing.website/2026/07/19/Vue017/",
+  "image": "https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png",
+  "datePublished": "2026-07-19T09:52:11.000Z",
+  "dateModified": "2026-07-19T09:52:11.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Shiqing Huang",
+      "url": "https://www.huangshiqing.website"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon01.png"><link rel="canonical" href="https://www.huangshiqing.website/2026/07/19/Vue017/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 8 || hour >= 20
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":-1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: Shiqing Huang","link":"链接: ","source":"来源: Ofra Serendipity","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Pinia',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg"></div><script>(() => {
+  const arr = ["background-image: url(/img/bg01.png);","background-image: url(/img/bg02.png);"]
+  const webBgDiv = document.getElementById('web_bg')
+
+  const setRandomBg = () => {
+    webBgDiv.style = arr[Math.floor(Math.random() * arr.length)]
+    requestAnimationFrame(() => webBgDiv.classList.add('bg-animation'))
+  }
+
+  document.addEventListener('pjax:send', () => {
+    webBgDiv.style = ''
+    webBgDiv.classList.remove('bg-animation')
+  })
+
+  document.addEventListener('pjax:complete', setRandomBg)
+  document.addEventListener('DOMContentLoaded', setRandomBg)
+})()
+</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/top_img00X.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Ofra Serendipity</span></a><a class="nav-page-title" href="/"><span class="site-name">Pinia</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-heart-pulse"></i><span> Fun</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book-open"></i><span> Book</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fab fa-steam"></i><span> Game</span></a></li><li><a class="site-page child" href="/songs/"><i class="fa-fw fas fa-music"></i><span> Song</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-headphones"></i><span> Music</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-wrench"></i><span> Tools</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/translation/"><i class="fa-fw fas fa-language"></i><span> Translation</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-star"></i><span> Reference</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/2023/02/26/acwing/"><i class="fa-fw fas fa-arrow-right"></i><span> Acwing</span></a></li><li><a class="site-page child" href="/2022/11/03/KeyboardShutcut/"><i class="fa-fw fas fa-arrow-right"></i><span> 实用快捷键</span></a></li><li><a class="site-page child" href="/2022/10/27/TheCharmOfMarkdown/"><i class="fa-fw fas fa-arrow-right"></i><span> 了不起的 Markdown</span></a></li><li><a class="site-page child" href="/2022/11/03/HexoTagPlugins/"><i class="fa-fw fas fa-arrow-right"></i><span> Hexo Built-in Tag Plugins</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Pinia</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-19T09:52:11.000Z" title="发表于 2026-07-19 09:52:11">2026-07-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-19T09:52:11.000Z" title="更新于 2026-07-19 09:52:11">2026-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue/">Vue</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="Vue-3-状态管理工具-Pinia"><a href="#Vue-3-状态管理工具-Pinia" class="headerlink" title="Vue 3 状态管理工具 Pinia"></a>Vue 3 状态管理工具 Pinia</h2><h3 id="Pinia-简介与官方定位"><a href="#Pinia-简介与官方定位" class="headerlink" title="Pinia 简介与官方定位"></a>Pinia 简介与官方定位</h3><p>在掌握 Vue 3 核心语法后，进入项目实战前需要引入状态管理工具。<strong>Pinia</strong> 是 Vue 官方目前最新推荐的状态管理库，已被正式纳入 Vue 官方生态系统。在 Vue 官方文档中，Pinia 已全面替代 Vuex 成为首选的状态管理方案。虽然 Pinia 与 Vuex 均可在 Vue 3 中进行状态管理，但<strong>官方强烈推荐使用 Pinia</strong>。</p>
+<h3 id="Pinia-与-Vuex-的核心优势对比"><a href="#Pinia-与-Vuex-的核心优势对比" class="headerlink" title="Pinia 与 Vuex 的核心优势对比"></a>Pinia 与 Vuex 的核心优势对比</h3><h4 id="更简洁的-API-设计"><a href="#更简洁的-API-设计" class="headerlink" title="更简洁的 API 设计"></a>更简洁的 API 设计</h4><p>相较于 Vuex，Pinia 提供了更清晰、简单的 API，大幅降低了学习成本。</p>
+<ul>
+<li><strong>Vuex 的核心概念</strong>：包含 <code>state</code>、<code>mutation</code>、<code>action</code>、<code>getter</code> 以及用于分模块的 <code>module</code>，概念繁多。在 Vuex 中，异步操作需通过 <code>action</code> 处理，且 <code>action</code> 不能直接修改 <code>state</code>，必须通过 <code>commit</code> 提交 <code>mutation</code> 来修改数据，逻辑较为繁琐。</li>
+<li><strong>Pinia 的核心概念</strong>：仅保留了 <strong><code>state</code></strong>（提供数据）、<strong><code>action</code></strong>（处理业务逻辑）和 <strong><code>getter</code></strong>（基于 <code>state</code> 的计算属性）三个核心概念。</li>
+<li><strong>核心改进</strong>：Pinia <strong>移除了 <code>mutation</code></strong>。在 Pinia 中，<strong><code>action</code> 既支持异步操作，又可以直接修改 <code>state</code></strong>。这相当于将 Vuex 中的 <code>mutation</code> 和 <code>action</code> 合二为一，使得代码逻辑更加清晰，页面中只需直接调用 <code>action</code> 中的方法即可完成数据修改。</li>
+</ul>
+<h4 id="完美支持组合式-API（Composition-API）"><a href="#完美支持组合式-API（Composition-API）" class="headerlink" title="完美支持组合式 API（Composition API）"></a>完美支持组合式 API（Composition API）</h4><p>为了与 Vue 3 的新语法保持统一，Pinia 提供了符合<strong>组合式风格</strong>的 API。</p>
+<ul>
+<li><strong>选项式 API 的局限性</strong>：传统的选项式写法会将所有的 <code>state</code>、<code>action</code> 和 <code>getter</code> 分别集中放置。当项目规模扩大或数据量增加时，这种按类型聚合的代码结构会导致维护困难。</li>
+<li><strong>组合式 API 的优势</strong>：Pinia 支持将数据声明、数据修改方法以及相关的计算属性<strong>按业务逻辑进行组合</strong>。代码呈现为模块化的代码块，每个代码块包含独立的数据、方法和 <code>getter</code>，从而大幅提升了大型项目的<strong>可维护性</strong>。在实际开发中，推荐优先使用组合式 API 风格。</li>
+</ul>
+<h4 id="摒弃-Modules-概念，实现天然模块化"><a href="#摒弃-Modules-概念，实现天然模块化" class="headerlink" title="摒弃 Modules 概念，实现天然模块化"></a>摒弃 Modules 概念，实现天然模块化</h4><p>Pinia <strong>移除了 <code>modules</code> 概念</strong>，无需再处理复杂的命名空间（<code>namespaced</code>）配置。</p>
+<ul>
+<li>在 Pinia 中，每一个创建的仓库（<code>store</code>）<strong>默认就是一个独立的模块</strong>。</li>
+<li>各个 <code>store</code> 拥有独立的数据空间，同时<strong>天然支持跨模块调用数据</strong>。这种设计赋予了状态管理极强的独立性，简化了多模块状态管理的配置过程。</li>
+</ul>
+<h4 id="卓越的-TypeScript-支持"><a href="#卓越的-TypeScript-支持" class="headerlink" title="卓越的 TypeScript 支持"></a>卓越的 TypeScript 支持</h4><p>相较于 Vuex 对 TypeScript 支持较弱的问题，Pinia 在设计之初就充分考虑了类型推导，提供了<strong>极其完善的 TypeScript 支持</strong>，能够为开发者提供更好的类型提示和代码检查体验。</p>
+<h2 id="Pinia-状态管理工具配置与使用"><a href="#Pinia-状态管理工具配置与使用" class="headerlink" title="Pinia 状态管理工具配置与使用"></a>Pinia 状态管理工具配置与使用</h2><h3 id="Pinia-项目初始化策略"><a href="#Pinia-项目初始化策略" class="headerlink" title="Pinia 项目初始化策略"></a>Pinia 项目初始化策略</h3><p><strong>Pinia</strong> 是 Vue 官方推荐的新一代状态管理工具，用于替代传统的 Vuex。在实际开发中，Pinia 的配置可以在创建 Vue 项目时自动添加。但为了深入理解其底层运行机制，本教程将从零开始，手动创建一个空的 Vue 3 项目，并严格按照官方文档的说明进行安装与配置。</p>
+<p>掌握手动配置流程后，在后续的实际项目中，可直接在脚手架初始化阶段勾选 Pinia 选项，由工具自动完成相关配置的初始化。</p>
+<h3 id="创建与清理-Vue-3-基础项目"><a href="#创建与清理-Vue-3-基础项目" class="headerlink" title="创建与清理 Vue 3 基础项目"></a>创建与清理 Vue 3 基础项目</h3><h4 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h4><p>在终端中进入目标目录（如 E 盘根目录），使用 npm 创建最新版本的 Vue 项目。</p>
+<p>执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm create vue@latest</span><br></pre></td></tr></table></figure>
+<p>根据终端提示，进行如下项目配置选择：</p>
+<ul>
+<li><strong>Project name</strong>：输入项目名称，例如 <code>pinia-demo</code>。</li>
+<li><strong>Add TypeScript</strong>：选择 <code>No</code>（本阶段暂不需要）。</li>
+<li><strong>Add JSX Support</strong>：选择 <code>No</code>。</li>
+<li><strong>Add Vue Router</strong>：选择 <code>No</code>（暂不添加单页面应用路由）。</li>
+<li><strong>Add Pinia</strong>：选择 <code>No</code>（本次旨在演示手动配置过程）。</li>
+<li><strong>Add Vitest / Testing Solution</strong>：选择 <code>No</code>（暂不需要单元测试）。</li>
+<li><strong>Add ESLint</strong>：选择 <code>Yes</code>（开启代码质量检查）。</li>
+<li><strong>Add Prettier</strong>：根据团队规范选择，本示例中暂不配置。</li>
+</ul>
+<p>项目创建完成后，进入项目目录并安装依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> pinia-demo</span><br><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<p>看到终端输出成功提示及本地运行地址，即表示基础项目创建成功。</p>
+<h4 id="清理默认模板"><a href="#清理默认模板" class="headerlink" title="清理默认模板"></a>清理默认模板</h4><p>通过代码编辑器（如 VS Code）打开项目，对默认生成的模板内容进行清理，以构建纯净的实验环境。</p>
+<ul>
+<li>删除 <code>src/assets</code> 目录及其内容。</li>
+<li>删除 <code>src/components</code> 目录及其内容。</li>
+<li>打开 <code>src/main.js</code>，移除默认引入的样式文件。</li>
+<li>打开 <code>src/App.vue</code>，移除默认的模板结构与样式，仅保留最基础的根组件结构。</li>
+</ul>
+<h3 id="搭建多组件数据共享演示环境"><a href="#搭建多组件数据共享演示环境" class="headerlink" title="搭建多组件数据共享演示环境"></a>搭建多组件数据共享演示环境</h3><p>Pinia 的核心作用是解决<strong>多组件共享数据</strong>的问题。为了演示该特性，需要在根组件下创建两个子组件，并实现三个组件间的数据联动。</p>
+<h4 id="创建子组件"><a href="#创建子组件" class="headerlink" title="创建子组件"></a>创建子组件</h4><p>在 <code>src</code> 目录下新建 <code>components</code> 文件夹，并创建两个子组件文件：<code>Son1.vue</code> 和 <code>Son2.vue</code>。</p>
+<p>在 <code>Son1.vue</code> 中编写基础模板：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="title function_">defineOptions</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">name</span>: <span class="string">&#x27;Son1Come&#x27;</span></span></span><br><span class="line"><span class="language-javascript">&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>我是子组件 1<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 预留数据渲染与修改按钮的位置 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 <code>Son2.vue</code> 中编写基础模板：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="title function_">defineOptions</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">name</span>: <span class="string">&#x27;Son2Come&#x27;</span></span></span><br><span class="line"><span class="language-javascript">&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>我是子组件 2<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 预留数据渲染与修改按钮的位置 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置根组件与组件通信需求"><a href="#配置根组件与组件通信需求" class="headerlink" title="配置根组件与组件通信需求"></a>配置根组件与组件通信需求</h4><p>在 <code>src/App.vue</code> 中导入并使用这两个子组件：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="title class_">Son1</span> <span class="keyword">from</span> <span class="string">&#x27;./components/Son1.vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="title class_">Son2</span> <span class="keyword">from</span> <span class="string">&#x27;./components/Son2.vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是父组件<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Son1</span>&gt;</span><span class="tag">&lt;/<span class="name">Son1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Son2</span>&gt;</span><span class="tag">&lt;/<span class="name">Son2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>业务需求设定</strong>：<br>在 <code>App.vue</code> 根组件中定义一个共享状态 <code>count</code>（初始值为 0）。<code>Sub1</code> 和 <code>Sub2</code> 不仅需要渲染该数字，还需要提供按钮来修改该数字。点击“加”或“减”按钮时，三个组件中的 <code>count</code> 值必须实现<strong>实时联动更新</strong>。</p>
+<h3 id="Pinia-的安装与核心配置"><a href="#Pinia-的安装与核心配置" class="headerlink" title="Pinia 的安装与核心配置"></a>Pinia 的安装与核心配置</h3><h4 id="安装-Pinia-依赖"><a href="#安装-Pinia-依赖" class="headerlink" title="安装 Pinia 依赖"></a>安装 Pinia 依赖</h4><p>参考 Vue 官方文档或 Pinia 官方文档，使用包管理器安装 Pinia：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pinia</span><br></pre></td></tr></table></figure>
+<h4 id="配置-Pinia-实例"><a href="#配置-Pinia-实例" class="headerlink" title="配置 Pinia 实例"></a>配置 Pinia 实例</h4><p>安装完成后，需要在项目的入口文件 <code>src/main.js</code> 中创建 Pinia 实例，并将其挂载到 Vue 应用上。</p>
+<h5 id="Vue-3-环境下的标准配置"><a href="#Vue-3-环境下的标准配置" class="headerlink" title="Vue 3 环境下的标准配置"></a>Vue 3 环境下的标准配置</h5><p>在 Vue 3 中，通过 <code>createPinia</code> 创建实例，并使用 <code>app.use()</code> 进行挂载。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; createPinia &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 创建 Vue 应用实例</span></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 创建 Pinia 实例</span></span><br><span class="line"><span class="keyword">const</span> pinia = <span class="title function_">createPinia</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 将 Pinia 实例挂载到 Vue 应用上</span></span><br><span class="line">app.<span class="title function_">use</span>(pinia)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 挂载根组件</span></span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>知识点强调</strong>：</p>
+<ul>
+<li><strong>createPinia</strong>：用于生成 Pinia 的核心实例对象。</li>
+<li><strong>app.use(pinia)</strong>：将状态管理插件注入到 Vue 实例中，使其在整个组件树中生效。</li>
+<li>上述代码支持链式调用（如 <code>createApp(App).use(pinia).mount(&#39;#app&#39;)</code>），但为了代码的可读性，建议拆分为多行并添加注释。</li>
+</ul>
+<h5 id="Vue-2-环境下的处理方案"><a href="#Vue-2-环境下的处理方案" class="headerlink" title="Vue 2 环境下的处理方案"></a>Vue 2 环境下的处理方案</h5><p>针对 Vue 2 项目，Pinia 同样提供了完善的支持，但需要额外安装组合式 API 插件，并在配置方式上有所区别。</p>
+<p><strong>安装依赖</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pinia @vue/composition-api</span><br></pre></td></tr></table></figure>
+<p><strong>Vue 2 配置代码</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; createPinia, <span class="title class_">PiniaVuePlugin</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 安装 Composition API 插件</span></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>(<span class="title class_">PiniaVuePlugin</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 创建 Pinia 实例</span></span><br><span class="line"><span class="keyword">const</span> pinia = <span class="title function_">createPinia</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 创建 Vue 2 实例并注入 Pinia</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  pinia,</span><br><span class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> <span class="title function_">h</span>(<span class="title class_">App</span>)</span><br><span class="line">&#125;).$mount(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：在 Vue 2 中，必须通过 <code>Vue.use(PiniaVuePlugin)</code> 启用组合式 API 支持，并将 <code>pinia</code> 实例作为选项传入 <code>new Vue()</code> 的配置对象中。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本节完成了 Pinia 状态管理工具的前期准备工作，核心内容包括：</p>
+<ol>
+<li><strong>环境搭建</strong>：从零创建并清理了一个纯净的 Vue 3 项目，构建了包含一个根组件和两个子组件的演示环境。</li>
+<li><strong>需求明确</strong>：确立了多组件共享同一状态（<code>count</code>）并实现双向联动修改的业务需求。</li>
+<li><strong>插件配置</strong>：按照官方文档规范，完成了 Pinia 依赖的安装，并在 <code>main.js</code> 中成功创建了 Pinia 实例并完成挂载。同时补充了 Vue 2 环境下的差异化配置方案。</li>
+</ol>
+<p>接下来，将深入探讨 Pinia 的核心概念（如 <strong>Store 仓库</strong>、<strong>State 状态</strong>、<strong>Getters 计算属性</strong> 和 <strong>Actions 操作方法</strong>），并正式实现多组件数据联动的具体功能。</p>
+<h2 id="Pinia-状态管理核心概念"><a href="#Pinia-状态管理核心概念" class="headerlink" title="Pinia 状态管理核心概念"></a>Pinia 状态管理核心概念</h2><p>在 Pinia 中，状态管理的核心在于维护独立的状态模块。为了管理特定的数据状态（例如计数器的加减操作），需要创建专门的 <strong>Store（仓库）模块</strong>。组件通过引入并使用该 Store，即可实现状态的读取与修改。所有独立的 Store 模块最终都会挂载到同一个全局状态树上。</p>
+<h3 id="定义-Store-的两种语法风格"><a href="#定义-Store-的两种语法风格" class="headerlink" title="定义 Store 的两种语法风格"></a>定义 Store 的两种语法风格</h3><p>在 Pinia 中定义 Store，需要导入 <code>defineStore</code> 函数。该函数接收两个核心参数：</p>
+<ol>
+<li><strong>唯一标识（ID）</strong>：作为仓库的唯一名称，用于区分不同的 Store 模块。</li>
+<li><strong>配置项</strong>：用于定义 Store 的具体内容，支持<strong>选项式 API</strong> 和 <strong>组合式 API</strong> 两种风格。</li>
+</ol>
+<h4 id="选项式-API-Option-Store"><a href="#选项式-API-Option-Store" class="headerlink" title="选项式 API (Option Store)"></a>选项式 API (Option Store)</h4><p>第二个参数传入一个配置对象，包含 <code>state</code>、<code>getters</code> 和 <code>actions</code> 选项：</p>
+<ul>
+<li><strong>state</strong>：通过箭头函数返回一个对象来提供初始数据。</li>
+<li><strong>getters</strong>：提供基于 state 派生的计算属性，第一个参数为 <code>state</code>，用于访问内部数据。</li>
+<li><strong>actions</strong>：提供操作数据的方法。与 Vuex 不同，Pinia <strong>取消了 mutations</strong>，将同步与异步操作统一合并至 <code>actions</code> 中。在 actions 内部，通过 <code>this</code> 直接访问和修改 state 中的数据，且原生支持异步操作。</li>
+</ul>
+<h4 id="组合式-API-Setup-Store"><a href="#组合式-API-Setup-Store" class="headerlink" title="组合式 API (Setup Store)"></a>组合式 API (Setup Store)</h4><p>第二个参数传入一个 <strong>Setup 函数</strong>，其语法与 Vue 的组合式 API 高度一致：</p>
+<ul>
+<li>使用 <code>ref</code> 或 <code>reactive</code> 定义 <strong>state（状态）</strong>。</li>
+<li>使用 <code>computed</code> 定义 <strong>getters（计算属性）</strong>。</li>
+<li>使用普通 <code>function</code> 定义 <strong>actions（操作方法）</strong>。</li>
+<li>最终通过 <code>return</code> 将需要暴露的状态和方法返回。</li>
+</ul>
+<p><strong>风格选择建议</strong>：<br>官方推荐使用<strong>组合式 API (Setup Store)</strong>。选项式 API 强制将同类选项（如所有 state、所有 actions）集中放置，不利于复杂业务逻辑的维护；而组合式 API 允许将同一业务逻辑的状态、计算属性和操作方法聚合在一起，代码结构更清晰，且与组件内的组合式 API 编码风格保持统一。两者底层实现一致，可根据团队规范灵活选择。</p>
+<h3 id="实战：创建与定义-Store"><a href="#实战：创建与定义-Store" class="headerlink" title="实战：创建与定义 Store"></a>实战：创建与定义 Store</h3><h4 id="创建-Store-文件"><a href="#创建-Store-文件" class="headerlink" title="创建 Store 文件"></a>创建 Store 文件</h4><p>在项目的 <code>src</code> 目录下新建 <code>store</code> 文件夹，并创建具体的仓库文件（如 <code>counter.js</code>）。Pinia 支持创建任意多个子仓库，且各仓库之间相互独立。</p>
+<h4 id="编写-Store-代码"><a href="#编写-Store-代码" class="headerlink" title="编写 Store 代码"></a>编写 Store 代码</h4><p>在 <code>counter.js</code> 中引入 <code>defineStore</code> 并定义仓库：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; defineStore &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; ref, computed &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// defineStore 返回一个函数，必须将其导出</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> useCounterStore = <span class="title function_">defineStore</span>(<span class="string">&#x27;counter&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 1. 声明 State (状态)</span></span><br><span class="line">  <span class="keyword">const</span> count = <span class="title function_">ref</span>(<span class="number">100</span>)</span><br><span class="line">  <span class="keyword">const</span> message = <span class="title function_">ref</span>(<span class="string">&#x27;hello pinia&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2. 声明 Getters (计算属性)</span></span><br><span class="line">  <span class="keyword">const</span> double = <span class="title function_">computed</span>(<span class="function">() =&gt;</span> count.<span class="property">value</span> * <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3. 声明 Actions (操作方法)</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">addCount</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    count.<span class="property">value</span>++</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">subCount</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    count.<span class="property">value</span>--</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 4. 返回暴露的数据与方法</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    count,</span><br><span class="line">    message,</span><br><span class="line">    double,</span><br><span class="line">    addCount,</span><br><span class="line">    subCount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="在组件中使用-Store"><a href="#在组件中使用-Store" class="headerlink" title="在组件中使用 Store"></a>在组件中使用 Store</h3><h4 id="引入与获取-Store-实例"><a href="#引入与获取-Store-实例" class="headerlink" title="引入与获取 Store 实例"></a>引入与获取 Store 实例</h4><p>在组件中导入对应的 Store 函数并调用，即可获取当前仓库的实例对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useCounterStore &#125; <span class="keyword">from</span> <span class="string">&#x27;@/store/counter&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用函数获取仓库实例</span></span><br><span class="line"><span class="keyword">const</span> counterStore = <span class="title function_">useCounterStore</span>()</span><br></pre></td></tr></table></figure>
+<h4 id="访问状态与计算属性"><a href="#访问状态与计算属性" class="headerlink" title="访问状态与计算属性"></a>访问状态与计算属性</h4><p>通过仓库实例直接访问暴露的状态和计算属性：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>当前计数：&#123;&#123; counterStore.count &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>提示信息：&#123;&#123; counterStore.message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>双倍计数：&#123;&#123; counterStore.double &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>重要警告</strong>：<strong>禁止对 Store 实例进行解构赋值</strong>。直接解构会导致数据丢失响应式特性。必须通过 <code>实例名.属性名</code> 的方式进行访问。</p>
+<h4 id="修改状态-调用-Actions"><a href="#修改状态-调用-Actions" class="headerlink" title="修改状态 (调用 Actions)"></a>修改状态 (调用 Actions)</h4><p>页面中不应直接修改 Store 内的状态，而应通过调用实例上的 Actions 方法来修改数据：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;counterStore.addCount&quot;</span>&gt;</span>增加<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;counterStore.subCount&quot;</span>&gt;</span>减少<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Actions 方法内部不仅支持同步操作，也完全支持异步操作（如发送网络请求后修改状态）。</p>
+<h4 id="跨组件状态共享"><a href="#跨组件状态共享" class="headerlink" title="跨组件状态共享"></a>跨组件状态共享</h4><p>Pinia 的核心优势在于跨组件状态共享。在任意组件（如组件 A、组件 B）中，只需重复上述引入和调用 <code>useCounterStore()</code> 的步骤，即可获取同一个 Store 实例，实现状态的实时同步与共享。</p>
+<h3 id="Pinia-与-Vuex-的核心差异总结"><a href="#Pinia-与-Vuex-的核心差异总结" class="headerlink" title="Pinia 与 Vuex 的核心差异总结"></a>Pinia 与 Vuex 的核心差异总结</h3><p>相较于传统的 Vuex，Pinia 在架构设计和 API 调用上进行了大幅简化：</p>
+<ol>
+<li><strong>移除 Mutations</strong>：不再区分同步的 Mutations 和异步的 Actions，所有数据修改逻辑统一在 Actions 中处理。</li>
+<li><strong>简化调用方式</strong>：在组件中调用 Actions 时，直接通过 <code>实例名.方法名()</code> 调用，无需记忆并使用 <code>commit</code> 或 <code>dispatch</code> 等辅助触发函数。</li>
+<li><strong>完美的 TypeScript 支持</strong>：组合式 API 的写法使得类型推导更加自然和准确。</li>
+<li><strong>扁平化模块设计</strong>：每个 Store 都是独立的扁平化模块，避免了 Vuex 中复杂的嵌套模块与命名空间问题。</li>
+</ol>
+<h2 id="Pinia-异步-Action-的实现与数据渲染"><a href="#Pinia-异步-Action-的实现与数据渲染" class="headerlink" title="Pinia 异步 Action 的实现与数据渲染"></a>Pinia 异步 Action 的实现与数据渲染</h2><h3 id="异步-Action"><a href="#异步-Action" class="headerlink" title="异步 Action"></a>异步 Action</h3><p>在 Pinia 状态管理中，<strong>Action</strong> 不仅支持同步操作，同样原生支持<strong>异步操作</strong>。</p>
+<ul>
+<li>在 Action 函数内部，无需刻意区分同步或异步逻辑。</li>
+<li>可以直接修改状态数据，也可以先发送异步请求，在获取数据后再更新状态。</li>
+<li>其编写方式与在组件中获取异步数据的逻辑完全一致。</li>
+</ul>
+<h3 id="需求与接口说明"><a href="#需求与接口说明" class="headerlink" title="需求与接口说明"></a>需求与接口说明</h3><h4 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h4><p>在 Pinia 中获取<strong>频道列表数据</strong>，并将获取到的数据渲染到 App 组件的模板中。</p>
+<h4 id="接口数据结构"><a href="#接口数据结构" class="headerlink" title="接口数据结构"></a>接口数据结构</h4><p>接口用于获取新闻类频道列表（如财经、体育等）。返回的数据结构如下：</p>
+<ul>
+<li>根节点包含 <code>data</code> 对象。</li>
+<li><code>data</code> 中包含 <code>channels</code> 数组。</li>
+<li><code>channels</code> 数组中的每个对象包含 <code>id</code> 和 <code>name</code> 属性。</li>
+</ul>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>由于需要发送网络请求，需在项目中安装 <strong>axios</strong> 库。<br>在终端执行以下命令进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm add axios</span><br></pre></td></tr></table></figure>
+<p>安装完成后，重新启动项目以使依赖生效。</p>
+<h3 id="创建与配置-Store-模块"><a href="#创建与配置-Store-模块" class="headerlink" title="创建与配置 Store 模块"></a>创建与配置 Store 模块</h3><h4 id="新建-Store-文件"><a href="#新建-Store-文件" class="headerlink" title="新建 Store 文件"></a>新建 Store 文件</h4><p>在 <code>store</code> 目录下新建 <code>channel.js</code> 文件，用于管理频道相关状态。</p>
+<h4 id="定义-Store-模块"><a href="#定义-Store-模块" class="headerlink" title="定义 Store 模块"></a>定义 Store 模块</h4><p>使用 <strong>defineStore</strong> 定义仓库，并遵循 Pinia 的命名规范（以 <code>use</code> 开头，<code>Store</code> 结尾，中间为仓库名）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; defineStore &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出 useChannelStore 方法</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> useChannelStore = <span class="title function_">defineStore</span>(<span class="string">&#x27;channel&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 1. 声明数据</span></span><br><span class="line">  <span class="comment">// 使用 ref 定义响应式数据，初始值为空数组</span></span><br><span class="line">  <span class="keyword">const</span> channelList = <span class="title function_">ref</span>([])</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2. 声明操作数据的方法（支持异步）</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">getList</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 发送 GET 请求获取频道数据</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> axios.<span class="title function_">get</span>(<span class="string">&#x27;接口地址&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 解构获取返回数据中的 channels 数组</span></span><br><span class="line">    <span class="comment">// axios 返回的 res 包含 data 属性，后台返回的数据结构中又包含一层 data</span></span><br><span class="line">    <span class="keyword">const</span> &#123; <span class="attr">data</span>: &#123; channels &#125; &#125; = res.<span class="property">data</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将获取到的数据赋值给 channelList</span></span><br><span class="line">    channelList.<span class="property">value</span> = channels</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 打印数据以验证请求结果</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(channels)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3. 导出数据和操作方法</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    channelList,</span><br><span class="line">    getList</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>核心知识点解析</strong>：</p>
+<ul>
+<li><strong>defineStore</strong>：用于定义 Pinia 仓库，第一个参数为仓库名称，第二个参数为 Setup 函数。</li>
+<li><strong>ref</strong>：用于声明响应式状态数据。</li>
+<li><strong>async/await</strong>：在 Action 中直接使用异步函数处理网络请求。</li>
+<li><strong>数据解构</strong>：根据 axios 和后端接口的数据包装层级，正确解构出目标数据。</li>
+</ul>
+<h3 id="在组件中调用与渲染数据"><a href="#在组件中调用与渲染数据" class="headerlink" title="在组件中调用与渲染数据"></a>在组件中调用与渲染数据</h3><p>在 Vue 2 环境中（Vue 2.7+ 或配合 <code>@vue/composition-api</code> 插件），可通过组件的 <strong>setup</strong> 选项引入并调用 Store。</p>
+<h4 id="组件逻辑编写"><a href="#组件逻辑编写" class="headerlink" title="组件逻辑编写"></a>组件逻辑编写</h4><p>在 <code>App.vue</code> 中引入 <code>useChannelStore</code>，并配置点击事件与数据渲染逻辑。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useChannelStore &#125; <span class="keyword">from</span> <span class="string">&#x27;@/store/channel&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">setup</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 实例化 Store</span></span><br><span class="line">    <span class="keyword">const</span> channelStore = <span class="title function_">useChannelStore</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义点击事件处理函数</span></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleGetChannels</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      channelStore.<span class="title function_">getList</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回模板所需的数据和方法</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      channelStore,</span><br><span class="line">      handleGetChannels</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="模板渲染编写"><a href="#模板渲染编写" class="headerlink" title="模板渲染编写"></a>模板渲染编写</h4><p>在模板中使用 <strong>v-for</strong> 指令遍历 <code>channelList</code>，并绑定点击事件触发异步请求。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">hr</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 绑定点击事件，触发异步 Action --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleGetChannels&quot;</span>&gt;</span>获取频道数据<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 渲染频道列表 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">v-for</span>=<span class="string">&quot;item in channelStore.channelList&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">:key</span>=<span class="string">&quot;item.id&quot;</span></span></span><br><span class="line"><span class="tag">      &gt;</span></span><br><span class="line">        &#123;&#123; item.name &#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>核心知识点解析</strong>：</p>
+<ul>
+<li><strong>Store 实例化</strong>：在 <code>setup</code> 函数中调用 <code>useChannelStore()</code> 获取 Store 实例。</li>
+<li><strong>状态访问</strong>：在模板中直接通过 <code>channelStore.channelList</code> 访问响应式数据，无需额外解构。</li>
+<li><strong>v-for 渲染</strong>：使用 <code>v-for</code> 遍历数组时，必须绑定唯一的 <strong>:key</strong> 属性（此处使用 <code>item.id</code>）。</li>
+</ul>
+<h3 id="总结与验证"><a href="#总结与验证" class="headerlink" title="总结与验证"></a>总结与验证</h3><h4 id="运行验证"><a href="#运行验证" class="headerlink" title="运行验证"></a>运行验证</h4><ul>
+<li>启动项目并打开浏览器开发者工具。</li>
+<li>点击“获取频道数据”按钮，观察控制台（Console）是否打印出对应的频道数据。</li>
+<li>检查 Pinia 开发者工具（Devtools），确认 <code>channel</code> 仓库中的 <code>channelList</code> 状态已更新。</li>
+<li>确认页面成功渲染出对应的频道名称列表。</li>
+</ul>
+<h4 id="核心总结"><a href="#核心总结" class="headerlink" title="核心总结"></a>核心总结</h4><ul>
+<li>Pinia 的 <strong>Action</strong> 天然支持异步操作，只需在方法内部正常编写异步请求逻辑即可。</li>
+<li>相比于 Vuex，Pinia 在处理异步操作时无需区分 <code>mutations</code> 和 <code>actions</code>，代码结构更加扁平、简洁。</li>
+<li>将网络请求封装在 Store 的 Action 中，有利于实现业务逻辑与视图组件的解耦。</li>
+</ul>
+<h2 id="Vue-状态管理：Store-解构与响应式原理"><a href="#Vue-状态管理：Store-解构与响应式原理" class="headerlink" title="Vue 状态管理：Store 解构与响应式原理"></a>Vue 状态管理：Store 解构与响应式原理</h2><h3 id="问题引入：Store-解构导致响应式丢失"><a href="#问题引入：Store-解构导致响应式丢失" class="headerlink" title="问题引入：Store 解构导致响应式丢失"></a>问题引入：Store 解构导致响应式丢失</h3><p>在实际开发中，直接对 Store 对象进行解构以获取所需状态时，会引发<strong>响应式丢失</strong>的问题。</p>
+<h4 id="问题现象演示"><a href="#问题现象演示" class="headerlink" title="问题现象演示"></a>问题现象演示</h4><p>假设存在一个 <code>counterStore</code>，从中直接解构出 <code>count</code> 和 <code>message</code> 状态：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> counterStore = <span class="title function_">useCounterStore</span>();</span><br><span class="line"><span class="keyword">const</span> &#123; count, message &#125; = counterStore;</span><br></pre></td></tr></table></figure>
+<p>在页面初始渲染时，数据能够正常显示。但当触发状态更新操作（如点击增加按钮）时，Store 内部的底层数据已发生改变，而页面中通过解构获取的 <code>count</code> 和 <code>message</code> 并未同步更新。此现象表明，<strong>直接解构 Store 对象会导致状态丢失响应式特性</strong>。</p>
+<h4 id="解决方案：引入-storeToRefs"><a href="#解决方案：引入-storeToRefs" class="headerlink" title="解决方案：引入 storeToRefs"></a>解决方案：引入 storeToRefs</h4><p>为了解决解构导致的响应式丢失问题，Pinia 提供了 <code>storeToRefs</code> 方法。在解构 Store 时，使用该方法包裹 Store 实例，即可保持状态的响应式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; storeToRefs &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> counterStore = <span class="title function_">useCounterStore</span>();</span><br><span class="line"><span class="keyword">const</span> &#123; count, message &#125; = <span class="title function_">storeToRefs</span>(counterStore);</span><br></pre></td></tr></table></figure>
+<p>经过 <code>storeToRefs</code> 处理后，再次触发状态更新，页面数据能够正常响应并同步更新。</p>
+<h3 id="官方文档解析与底层原理"><a href="#官方文档解析与底层原理" class="headerlink" title="官方文档解析与底层原理"></a>官方文档解析与底层原理</h3><h4 id="Store-的懒加载与模块化管理"><a href="#Store-的懒加载与模块化管理" class="headerlink" title="Store 的懒加载与模块化管理"></a>Store 的懒加载与模块化管理</h4><p>根据官方文档说明，在调用 <code>useStore</code> 之前，<strong>Store 实例不会被创建</strong>。这意味着即使在项目中定义了大量的 Store 模块，只要某个 Store 未被任何组件导入和使用，该 Store 就不会被初始化。这种<strong>懒加载机制</strong>有助于优化应用性能。</p>
+<p>此外，官方建议<strong>在不同的文件中定义各个 Store</strong>。将状态、计算属性和操作按业务模块分门别类地存放在独立文件中，能够显著提升代码的可维护性。</p>
+<h4 id="Store-的底层包装与-Proxy-劫持"><a href="#Store-的底层包装与-Proxy-劫持" class="headerlink" title="Store 的底层包装与 Proxy 劫持"></a>Store 的底层包装与 Proxy 劫持</h4><p>官方文档明确指出：<strong>Store 是一个使用 <code>reactive</code> 包装的对象</strong>。因此，在访问 Store 内部的属性时，无需像使用 <code>ref</code> 那样添加 <code>.value</code> 后缀。</p>
+<p>然而，文档同时强调<strong>不能直接解构 Store 对象</strong>，因为这会破坏其响应性。其底层原理在于：<code>reactive</code> 的响应式实现依赖于 ES6 的 <strong><code>Proxy</code> 代理机制</strong>。<code>Proxy</code> 是针对整个对象及其嵌套属性进行拦截和监听的。</p>
+<h4 id="解构破坏响应式的根本原因"><a href="#解构破坏响应式的根本原因" class="headerlink" title="解构破坏响应式的根本原因"></a>解构破坏响应式的根本原因</h4><p>当对 Store 对象进行解构时（例如 <code>const &#123; name, doubleCount &#125; = store</code>），实际上是声明了新的独立变量，并将 Store 对象中对应属性的<strong>当前值</strong>直接赋给了这些变量。</p>
+<p>这一赋值操作导致新变量与原始的响应式对象<strong>完全脱离了关联</strong>，相当于进行了一次基本数据类型的值拷贝。因此，后续对 Store 内部状态的修改，无法触发这些独立变量的更新，从而导致响应式失效。</p>
+<h3 id="storeToRefs-实践"><a href="#storeToRefs-实践" class="headerlink" title="storeToRefs 实践"></a>storeToRefs 实践</h3><h4 id="状态与方法的解构规范"><a href="#状态与方法的解构规范" class="headerlink" title="状态与方法的解构规范"></a>状态与方法的解构规范</h4><p>为了从 Store 中提取属性并保持响应式，必须使用 <code>storeToRefs</code> 方法。该方法会<strong>为每一个响应式属性创建一个 <code>ref</code> 引用</strong>，从而确保解构后的变量依然与 Store 保持响应式连接。</p>
+<p>在实际开发中，Store 通常包含状态（State/Getters）和动作（Actions）。针对这两类属性，解构的最佳实践如下：</p>
+<ul>
+<li><strong>解构状态（属性）</strong>：必须使用 <code>storeToRefs</code> 进行包裹，以维持数据的响应式。</li>
+<li><strong>解构动作（方法）</strong>：<strong>直接解构即可</strong>。因为方法本身是固定的函数，不需要响应式处理，直接解构不会影响其正常调用。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> store = <span class="title function_">useCounterStore</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确做法：状态使用 storeToRefs，方法直接解构</span></span><br><span class="line"><span class="keyword">const</span> &#123; count, message &#125; = <span class="title function_">storeToRefs</span>(store);</span><br><span class="line"><span class="keyword">const</span> &#123; increment, fetchData &#125; = store;</span><br></pre></td></tr></table></figure>
+<h4 id="直接访问与解构访问的场景选择"><a href="#直接访问与解构访问的场景选择" class="headerlink" title="直接访问与解构访问的场景选择"></a>直接访问与解构访问的场景选择</h4><p>除了使用解构语法，开发者也可以始终通过 <code>store.propertyName</code> 的方式直接访问状态和方法。</p>
+<ul>
+<li><strong>直接访问（<code>store.xxx</code>）</strong>：语法统一，无需引入额外方法，适用于 Store 内部属性和方法较少的场景。</li>
+<li><strong>解构访问</strong>：当 Store 内部定义了海量的状态和方法时，频繁使用 <code>store.xxx</code> 会导致代码冗长。此时采用解构语法可以简化代码结构，提升可读性。</li>
+</ul>
+<p>开发者应根据实际业务场景和代码复杂度，灵活选择最合适的访问方式。</p>
+<h3 id="实战演练：综合应用-storeToRefs"><a href="#实战演练：综合应用-storeToRefs" class="headerlink" title="实战演练：综合应用 storeToRefs"></a>实战演练：综合应用 storeToRefs</h3><p>以下通过一个具体的业务场景，演示如何结合使用直接解构与 <code>storeToRefs</code>。假设当前组件需要使用 <code>channelStore</code> 中的 <code>channelList</code>（状态）和 <code>getList</code>（动作）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; storeToRefs &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useChannelStore &#125; <span class="keyword">from</span> <span class="string">&#x27;@/stores/channel&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> channelStore = <span class="title function_">useChannelStore</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 解构动作（方法）：直接解构</span></span><br><span class="line"><span class="keyword">const</span> &#123; getList &#125; = channelStore;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 解构状态（属性）：使用 storeToRefs 保持响应式</span></span><br><span class="line"><span class="keyword">const</span> &#123; channelList &#125; = <span class="title function_">storeToRefs</span>(channelStore);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 调用方法获取数据</span></span><br><span class="line"><span class="title function_">getList</span>();</span><br></pre></td></tr></table></figure>
+<p>通过上述改造，组件能够成功发送异步请求，并将获取到的数据正确渲染至页面。同时，由于 <code>channelList</code> 经过了 <code>storeToRefs</code> 处理，后续若该状态发生变更，页面视图也会自动进行响应式更新。</p>
+<h3 id="store-解构总结"><a href="#store-解构总结" class="headerlink" title="store 解构总结"></a>store 解构总结</h3><p>在 Vue 状态管理中，处理 Store 数据解构时需严格遵循响应式规则。<strong>直接解构 Store 对象会破坏 <code>Proxy</code> 代理，导致响应式丢失</strong>。通过引入并合理使用 <code>storeToRefs</code>，可以有效提取状态并维持响应式连接。同时，需明确区分状态与动作的解构方式，结合项目实际情况选择最优的代码组织形式，以编写出严谨、高效且易于维护的前端代码。</p>
+<h2 id="Pinia-状态管理与数据持久化教程"><a href="#Pinia-状态管理与数据持久化教程" class="headerlink" title="Pinia 状态管理与数据持久化教程"></a>Pinia 状态管理与数据持久化教程</h2><h3 id="Pinia-调试工具的使用"><a href="#Pinia-调试工具的使用" class="headerlink" title="Pinia 调试工具的使用"></a>Pinia 调试工具的使用</h3><p>在开发过程中，可以通过 <strong>Vue Devtools</strong> 浏览器插件对 Pinia 进行调试。</p>
+<ul>
+<li>打开浏览器开发者工具，切换至 <strong>Vue Devtools</strong> 面板。</li>
+<li>选择 <strong>Pinia</strong> 选项卡，即可实时查看和调试 Store 中的状态数据。</li>
+<li>此调试方式与 Vue 2 时代调试 Vuex 的体验基本一致，能够直观地追踪状态变化。</li>
+</ul>
+<h3 id="二、-Pinia-数据持久化插件简介"><a href="#二、-Pinia-数据持久化插件简介" class="headerlink" title="二、 Pinia 数据持久化插件简介"></a>二、 Pinia 数据持久化插件简介</h3><p>在传统的 Vue 2 与 Vuex 开发中，实现数据本地持久化通常需要手动封装 <code>localStorage.getItem</code> 和 <code>localStorage.setItem</code> 方法。为了提升开发效率，Pinia 提供了官方的持久化插件 <a target="_blank" rel="noopener" href="https://prazdevs.github.io/pinia-plugin-persistedstate/zh/">pinia-plugin-persistedstate</a>。</p>
+<ul>
+<li>该插件能够自动处理状态数据的本地存储与读取。</li>
+<li>其 API 设计与 Vuex 生态中的 <code>vuex-persistedstate</code> 高度相似。掌握该插件后，也可将其思路平移至 Vue 2 的 Vuex 项目中。</li>
+<li>在实际企业级开发中，使用成熟插件替代手动封装是标准规范。</li>
+</ul>
+<h3 id="持久化插件的安装与基础配置"><a href="#持久化插件的安装与基础配置" class="headerlink" title="持久化插件的安装与基础配置"></a>持久化插件的安装与基础配置</h3><h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><p>使用 npm 或其他包管理器安装持久化插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i pinia-plugin-persistedstate</span><br></pre></td></tr></table></figure>
+<p><em>注：请确保当前项目使用的 Pinia 版本高于 2.0.0。</em></p>
+<h4 id="在-main-js-中注册插件"><a href="#在-main-js-中注册插件" class="headerlink" title="在 main.js 中注册插件"></a>在 main.js 中注册插件</h4><p>持久化插件需要挂载到 <strong>Pinia 实例</strong>上，而不是直接挂载到 Vue App 实例上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createPinia &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> piniaPluginPersistedstate <span class="keyword">from</span> <span class="string">&#x27;pinia-plugin-persistedstate&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pinia = <span class="title function_">createPinia</span>()</span><br><span class="line"><span class="comment">// 将持久化插件注册到 Pinia 实例</span></span><br><span class="line">pinia.<span class="title function_">use</span>(piniaPluginPersistedstate)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(pinia)</span><br></pre></td></tr></table></figure>
+<h4 id="在-Store-模块中开启持久化"><a href="#在-Store-模块中开启持久化" class="headerlink" title="在 Store 模块中开启持久化"></a>在 Store 模块中开启持久化</h4><p>在需要持久化的 Store 模块中，添加 <code>persist</code> 配置项。</p>
+<p><strong>组合式 API (Setup 语法)：</strong><br>在 <code>defineStore</code> 的第三个参数（配置对象）中添加 <code>persist: true</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; defineStore &#125; <span class="keyword">from</span> <span class="string">&#x27;pinia&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> useCounterStore = <span class="title function_">defineStore</span>(<span class="string">&#x27;counter&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> count = <span class="title function_">ref</span>(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> message = <span class="title function_">ref</span>(<span class="string">&#x27;Hello Pinia&#x27;</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123; count, message &#125;</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="comment">// 开启当前模块的持久化</span></span><br><span class="line">  <span class="attr">persist</span>: <span class="literal">true</span> </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>选项式 API (Options 语法)：</strong><br>在与 <code>state</code>、<code>getters</code>、<code>actions</code> 同级的位置添加 <code>persist: true</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> useCounterStore = <span class="title function_">defineStore</span>(<span class="string">&#x27;counter&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123; <span class="attr">count</span>: <span class="number">0</span>, <span class="attr">message</span>: <span class="string">&#x27;Hello Pinia&#x27;</span> &#125;),</span><br><span class="line">  <span class="comment">// 开启当前模块的持久化</span></span><br><span class="line">  <span class="attr">persist</span>: <span class="literal">true</span> </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>配置完成后，刷新页面时，插件会自动优先从本地存储中读取数据，并在数据变更时自动同步至本地存储。</p>
+<h3 id="持久化插件的高级配置"><a href="#持久化插件的高级配置" class="headerlink" title="持久化插件的高级配置"></a>持久化插件的高级配置</h3><blockquote>
+<p>更多配置可以查看<a target="_blank" rel="noopener" href="https://prazdevs.github.io/pinia-plugin-persistedstate/zh/guide/config.html">官网配置</a></p>
+</blockquote>
+<p>默认情况下，插件使用 <code>localStorage</code> 进行存储，以 Store 的 <code>id</code> 作为存储的 <code>key</code>，并对整个 <code>state</code> 进行 <code>JSON.stringify</code> 序列化与 <code>JSON.parse</code> 反序列化。如需自定义，可将 <code>persist</code> 配置为一个对象。</p>
+<h4 id="自定义存储键名-key"><a href="#自定义存储键名-key" class="headerlink" title="自定义存储键名 (key)"></a>自定义存储键名 (key)</h4><p>修改本地存储中的键名，避免多项目或模块间的命名冲突。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">persist</span>: &#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;custom-counter-key&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="更改存储方式-storage"><a href="#更改存储方式-storage" class="headerlink" title="更改存储方式 (storage)"></a>更改存储方式 (storage)</h4><p>默认使用 <code>localStorage</code>。若需更改为 <code>sessionStorage</code>，可直接赋值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">persist</span>: &#123;</span><br><span class="line">  <span class="attr">storage</span>: sessionStorage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>注：传入的对象必须具备 <code>getItem</code> 和 <code>setItem</code> 方法。</em></p>
+<h4 id="指定持久化状态-paths"><a href="#指定持久化状态-paths" class="headerlink" title="指定持久化状态 (paths)"></a>指定持久化状态 (paths)</h4><p>默认情况下，整个 <code>state</code> 都会被持久化。若只需持久化部分数据，可通过 <code>paths</code> 数组指定具体的属性名，支持嵌套属性（如 <code>&#39;user.name&#39;</code>）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">persist</span>: &#123;</span><br><span class="line">  <span class="comment">// 仅持久化 count 属性，message 属性不会被持久化</span></span><br><span class="line">  <span class="attr">paths</span>: [<span class="string">&#x27;count&#x27;</span>] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Pinia-核心知识点总结"><a href="#Pinia-核心知识点总结" class="headerlink" title="Pinia 核心知识点总结"></a>Pinia 核心知识点总结</h3><ol>
+<li><strong>核心定位</strong>：<strong>Pinia</strong> 是 Vue 官方推荐的新一代状态管理工具，旨在替代 Vue 2 时代的 <strong>Vuex</strong>，同时完美兼容 Vue 2 与 Vue 3。</li>
+<li><strong>移除 Mutations</strong>：Pinia 彻底移除了 <code>mutations</code> 概念。所有的状态修改逻辑统一在 <strong><code>actions</code></strong> 中处理，且 <code>actions</code> 同时支持<strong>同步与异步</strong>操作。</li>
+<li><strong>Getters 的实现</strong>：在组合式 API (Setup) 中，<code>getters</code> 直接通过 Vue 的 <strong><code>computed</code></strong> 计算属性来实现。</li>
+<li><strong>保持响应式解构</strong>：从 Pinia Store 中解构赋值时，为保持数据的响应式特性，必须使用 <strong><code>storeToRefs</code></strong> 函数进行包裹。</li>
+<li><strong>数据持久化</strong>：通过引入并配置 <strong><code>pinia-plugin-persistedstate</code></strong> 插件，可快速、优雅地实现状态数据的本地持久化，无需手动操作 Web Storage API。</li>
+</ol>
+<div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-07-19 09:52:11&quot;}" hidden></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website">Shiqing Huang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.huangshiqing.website/2026/07/19/Vue017/">https://www.huangshiqing.website/2026/07/19/Vue017/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.huangshiqing.website" target="_blank">Ofra Serendipity</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Vue/">Vue</a><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post-share"><div class="social-share" data-image="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.png" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/wechat.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/17/Vue016/" title="Vue2到vue3"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Vue2到vue3</div></div><div class="info-2"><div class="info-item-1">Vue 3入门与优势解析学习 Vue 3 的核心驱动力市场需求与薪资提升在前端开发岗位中，技术栈的掌握程度直接决定了薪资水平与职业发展。  Vue 2：通常适用于职业起步阶段，能够帮助开发者获取基础薪资。 Vue 3：已成为获取中高薪的必备核心技能。掌握 Vue 3 能够显著提升开发者的核心竞争力。  官方版本迭代策略Vue 作者尤雨溪（Evan You）及官方团队已明确 Vue 3 的战略地位：  默认版本：Vue 3 现已成为脚手架创建项目及官方文档展示的默认版本。 版本维护：Vue 2 已停止新增功能，仅进行日常维护与漏洞修复。官方全面主推 Vue 3 生态。  平滑的学习曲线与向前兼容从 Vue 2 升级到 Vue 3 的学习成本极低：  向前兼容：Vue 3 兼容了绝大部分 Vue 2 的核心语法。 快速过渡：具备 Vue 2 基础的开发者，仅需极短时间即可掌握 Vue 3 的核心特性与语法差异，实现技术栈的平滑升级。  Vue 3 的四大核心优势Vue 3 在底层架构与 API 设计上进行了全面重构，具备以下四大核心优势： 更易维护 组合式 API (Composit...</div></div></div></a><a class="pagination-related" href="/2026/07/21/docker-install/" title="windows docket安装"><img class="cover" src="/img/loading.gif" data-lazy-src="/img/cover001.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">windows docket安装</div></div><div class="info-2"><div class="info-item-1">windows设置功能-&gt; 启用或关闭Windows功能   适用于Linux 的 Windows 子系统 虚拟机平台  重启电脑，在命令提示符窗口输入以下指令： 12wsl --set-default-version 2wsl --update --web-download  安装dockerdocker 安装包下载好以后安装即可 如果想指定安装目录，管理员身份用命令提示符窗口进入下载的包的目录 1start /w &quot;&quot; &quot;Docker Desktop Installer.exe&quot; install --installation-dir=D:\dev\Docker  close and log out 会重新登录Windows  dock run hello-world 出现以下界面表示docker安装成功  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/07/17/Vue016/" title="Vue2到vue3"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-17</div><div class="info-item-2">Vue2到vue3</div></div><div class="info-2"><div class="info-item-1">Vue 3入门与优势解析学习 Vue 3 的核心驱动力市场需求与薪资提升在前端开发岗位中，技术栈的掌握程度直接决定了薪资水平与职业发展。  Vue 2：通常适用于职业起步阶段，能够帮助开发者获取基础薪资。 Vue 3：已成为获取中高薪的必备核心技能。掌握 Vue 3 能够显著提升开发者的核心竞争力。  官方版本迭代策略Vue 作者尤雨溪（Evan You）及官方团队已明确 Vue 3 的战略地位：  默认版本：Vue 3 现已成为脚手架创建项目及官方文档展示的默认版本。 版本维护：Vue 2 已停止新增功能，仅进行日常维护与漏洞修复。官方全面主推 Vue 3 生态。  平滑的学习曲线与向前兼容从 Vue 2 升级到 Vue 3 的学习成本极低：  向前兼容：Vue 3 兼容了绝大部分 Vue 2 的核心语法。 快速过渡：具备 Vue 2 基础的开发者，仅需极短时间即可掌握 Vue 3 的核心特性与语法差异，实现技术栈的平滑升级。  Vue 3 的四大核心优势Vue 3 在底层架构与 API 设计上进行了全面重构，具备以下四大核心优势： 更易维护 组合式 API (Composit...</div></div></div></a><a class="pagination-related" href="/2026/06/01/Vue001/" title="Vue快速上手"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-01</div><div class="info-item-2">Vue快速上手</div></div><div class="info-2"><div class="info-item-1">初识Vue</div></div></div></a><a class="pagination-related" href="/2026/07/01/Vue009/" title="Vue-CLI 脚手架工程化开发"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-01</div><div class="info-item-2">Vue-CLI 脚手架工程化开发</div></div><div class="info-2"><div class="info-item-1">工程化开发模式概述传统开发模式与工程化开发模式的本质区别 传统开发模式：    直接在 HTML 文件中通过 &lt;script&gt; 标签引入 Vue.js 等依赖；   编写的 JavaScript 和 CSS 代码即为浏览器最终运行的代码；   无构建过程，不支持现代前端语法特性（如 ES6+、单文件组件、预处理器等）。   工程化开发模式：    基于构建工具（如 Webpack、Vite）对源代码进行编译、转换和打包；   开发者编写的源代码并非浏览器直接可执行的代码；   构建工具负责将高级语法（如 import/export、async/await）、预处理器（如 Sass、Less）、单文件组件（.vue）等，转换为兼容目标浏览器的标准 JavaScript 和 CSS；   核心价值在于提升开发体验与代码质量，支持模块化、类型检查、热更新、代码分割等能力。    工程化开发面临的挑战 Webpack 等构建工具配置复杂，需手动编写大量 loader、plugin 及 resolve 规则；   不同项目间存在大量重复性基础配置（如 babel-loader、...</div></div></div></a><a class="pagination-related" href="/2026/07/03/Vue010/" title="Vue组件基础"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-03</div><div class="info-item-2">Vue组件基础</div></div><div class="info-2"><div class="info-item-1">Vue 2 组件化开发与根组件详解组件化开发概述组件化开发的定义组件化开发是指将一个完整的网页或应用界面，按照功能与职责划分为若干个独立、可复用的单元——即组件。每个组件均具备以下三个基本要素：  独立的结构（template）：定义组件的 HTML 模板；   独立的样式（style）：定义组件专属的 CSS 或预处理器样式；   独立的行为（script）：定义组件的数据、方法、计算属性、侦听器及生命周期钩子等逻辑。  传统开发模式的局限性在未采用组件化开发的项目中，通常将全部 HTML 结构、CSS 样式与 JavaScript 逻辑集中于单一文件中：   所有 DOM 结构写入一个 HTML 文件；   所有样式通过 &lt;link&gt; 引入或内联于 &lt;style&gt; 标签；   所有交互逻辑集中于一个或多个 JS 文件。    该模式在小型项目中具有开发便捷性，但存在显著缺陷：   可维护性差：当页面代码量达数百行时，定位特定模块的结构、样式或逻辑异常困难；   复用性缺失：相同功能模块（如页头、页脚）需在多处重复编写，修改需同步多处；   协作效率低：...</div></div></div></a><a class="pagination-related" href="/2026/06/12/Vue002/" title="Vue2的常用指令"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-12</div><div class="info-item-2">Vue2的常用指令</div></div><div class="info-2"><div class="info-item-1">Vue2的常用指令</div></div></div></a><a class="pagination-related" href="/2026/07/11/Vue014/" title="Vue CLI 自定义创建项目与 ESLint 代码规范"><img class="cover" src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-11</div><div class="info-item-2">Vue CLI 自定义创建项目与 ESLint 代码规范</div></div><div class="info-2"><div class="info-item-1">Vue CLI 自定义创建项目与工程化配置在之前的学习中，已经掌握了 Vue Router 的基本使用步骤。但在实际开发中，手动配置路由存在明显的痛点：每次创建新项目都需要手动安装 vue-router、导入并创建路由实例、配置路由规则以及搭建初始项目骨架，过程繁琐且效率低下。 为了解决这一问题，可以使用 Vue CLI 的自定义创建项目功能，在初始化阶段一次性搭建好包含路由及代码规范的完整项目骨架。本节课的核心目标是掌握自定义创建项目的流程，并初步引入 ESLint 代码规范工具，为后续学习 Vuex 状态管理以及企业级项目开发奠定基础。 自定义创建项目实操步骤初始化项目确保已全局安装 Vue CLI 脚手架。在目标目录下打开终端（如 PowerShell），执行以下命令创建项目： 1vue create 项目名称 例如，创建一个名为 demo 的移动端测试项目： 1vue create demo 选择项目特性 (Features)命令执行后，脚手架会提示选择预设模式。使用键盘上下方向键选择第三项 Manually select features（自定义选择特性），按回车确认。...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-lazy-src="/img/avatar002.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Shiqing Huang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cmwlvip"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cmwlvip" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://gitee.com/cmwlvip" target="_blank" title="Gitee"><i class="fab fa-git"></i></a><a class="social-icon" href="mailto:2689050828@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-3-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Pinia"><span class="toc-number">1.</span> <span class="toc-text">Vue 3 状态管理工具 Pinia</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E7%AE%80%E4%BB%8B%E4%B8%8E%E5%AE%98%E6%96%B9%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.1.</span> <span class="toc-text">Pinia 简介与官方定位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E4%B8%8E-Vuex-%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.</span> <span class="toc-text">Pinia 与 Vuex 的核心优势对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E7%AE%80%E6%B4%81%E7%9A%84-API-%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">更简洁的 API 设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E7%BE%8E%E6%94%AF%E6%8C%81%E7%BB%84%E5%90%88%E5%BC%8F-API%EF%BC%88Composition-API%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">完美支持组合式 API（Composition API）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%91%92%E5%BC%83-Modules-%E6%A6%82%E5%BF%B5%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%A4%A9%E7%84%B6%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">摒弃 Modules 概念，实现天然模块化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%93%E8%B6%8A%E7%9A%84-TypeScript-%E6%94%AF%E6%8C%81"><span class="toc-number">1.2.4.</span> <span class="toc-text">卓越的 TypeScript 支持</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pinia-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">Pinia 状态管理工具配置与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AD%96%E7%95%A5"><span class="toc-number">2.1.</span> <span class="toc-text">Pinia 项目初始化策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%B8%85%E7%90%86-Vue-3-%E5%9F%BA%E7%A1%80%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.2.</span> <span class="toc-text">创建与清理 Vue 3 基础项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.2.1.</span> <span class="toc-text">初始化项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E7%90%86%E9%BB%98%E8%AE%A4%E6%A8%A1%E6%9D%BF"><span class="toc-number">2.2.2.</span> <span class="toc-text">清理默认模板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%A4%9A%E7%BB%84%E4%BB%B6%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB%E6%BC%94%E7%A4%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">2.3.</span> <span class="toc-text">搭建多组件数据共享演示环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E7%BB%84%E4%BB%B6"><span class="toc-number">2.3.1.</span> <span class="toc-text">创建子组件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%A0%B9%E7%BB%84%E4%BB%B6%E4%B8%8E%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E9%9C%80%E6%B1%82"><span class="toc-number">2.3.2.</span> <span class="toc-text">配置根组件与组件通信需求</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.4.</span> <span class="toc-text">Pinia 的安装与核心配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Pinia-%E4%BE%9D%E8%B5%96"><span class="toc-number">2.4.1.</span> <span class="toc-text">安装 Pinia 依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Pinia-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.4.2.</span> <span class="toc-text">配置 Pinia 实例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Vue-3-%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E6%A0%87%E5%87%86%E9%85%8D%E7%BD%AE"><span class="toc-number">2.4.2.1.</span> <span class="toc-text">Vue 3 环境下的标准配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Vue-2-%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88"><span class="toc-number">2.4.2.2.</span> <span class="toc-text">Vue 2 环境下的处理方案</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pinia-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">Pinia 状态管理核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-Store-%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%AF%AD%E6%B3%95%E9%A3%8E%E6%A0%BC"><span class="toc-number">3.1.</span> <span class="toc-text">定义 Store 的两种语法风格</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E9%A1%B9%E5%BC%8F-API-Option-Store"><span class="toc-number">3.1.1.</span> <span class="toc-text">选项式 API (Option Store)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%BC%8F-API-Setup-Store"><span class="toc-number">3.1.2.</span> <span class="toc-text">组合式 API (Setup Store)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%AE%9A%E4%B9%89-Store"><span class="toc-number">3.2.</span> <span class="toc-text">实战：创建与定义 Store</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-Store-%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.1.</span> <span class="toc-text">创建 Store 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E5%86%99-Store-%E4%BB%A3%E7%A0%81"><span class="toc-number">3.2.2.</span> <span class="toc-text">编写 Store 代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8-Store"><span class="toc-number">3.3.</span> <span class="toc-text">在组件中使用 Store</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E4%B8%8E%E8%8E%B7%E5%8F%96-Store-%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.3.1.</span> <span class="toc-text">引入与获取 Store 实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E7%8A%B6%E6%80%81%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-number">3.3.2.</span> <span class="toc-text">访问状态与计算属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81-%E8%B0%83%E7%94%A8-Actions"><span class="toc-number">3.3.3.</span> <span class="toc-text">修改状态 (调用 Actions)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%A8%E7%BB%84%E4%BB%B6%E7%8A%B6%E6%80%81%E5%85%B1%E4%BA%AB"><span class="toc-number">3.3.4.</span> <span class="toc-text">跨组件状态共享</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E4%B8%8E-Vuex-%E7%9A%84%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E6%80%BB%E7%BB%93"><span class="toc-number">3.4.</span> <span class="toc-text">Pinia 与 Vuex 的核心差异总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pinia-%E5%BC%82%E6%AD%A5-Action-%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%B8%B2%E6%9F%93"><span class="toc-number">4.</span> <span class="toc-text">Pinia 异步 Action 的实现与数据渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5-Action"><span class="toc-number">4.1.</span> <span class="toc-text">异步 Action</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E4%B8%8E%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E"><span class="toc-number">4.2.</span> <span class="toc-text">需求与接口说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82"><span class="toc-number">4.2.1.</span> <span class="toc-text">业务需求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.2.</span> <span class="toc-text">接口数据结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">4.3.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%85%8D%E7%BD%AE-Store-%E6%A8%A1%E5%9D%97"><span class="toc-number">4.4.</span> <span class="toc-text">创建与配置 Store 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA-Store-%E6%96%87%E4%BB%B6"><span class="toc-number">4.4.1.</span> <span class="toc-text">新建 Store 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-Store-%E6%A8%A1%E5%9D%97"><span class="toc-number">4.4.2.</span> <span class="toc-text">定义 Store 模块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E7%BB%84%E4%BB%B6%E4%B8%AD%E8%B0%83%E7%94%A8%E4%B8%8E%E6%B8%B2%E6%9F%93%E6%95%B0%E6%8D%AE"><span class="toc-number">4.5.</span> <span class="toc-text">在组件中调用与渲染数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E9%80%BB%E8%BE%91%E7%BC%96%E5%86%99"><span class="toc-number">4.5.1.</span> <span class="toc-text">组件逻辑编写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%B8%B2%E6%9F%93%E7%BC%96%E5%86%99"><span class="toc-number">4.5.2.</span> <span class="toc-text">模板渲染编写</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-number">4.6.</span> <span class="toc-text">总结与验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E9%AA%8C%E8%AF%81"><span class="toc-number">4.6.1.</span> <span class="toc-text">运行验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93"><span class="toc-number">4.6.2.</span> <span class="toc-text">核心总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%9AStore-%E8%A7%A3%E6%9E%84%E4%B8%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">Vue 状态管理：Store 解构与响应式原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%BC%95%E5%85%A5%EF%BC%9AStore-%E8%A7%A3%E6%9E%84%E5%AF%BC%E8%87%B4%E5%93%8D%E5%BA%94%E5%BC%8F%E4%B8%A2%E5%A4%B1"><span class="toc-number">5.1.</span> <span class="toc-text">问题引入：Store 解构导致响应式丢失</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1%E6%BC%94%E7%A4%BA"><span class="toc-number">5.1.1.</span> <span class="toc-text">问题现象演示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E5%BC%95%E5%85%A5-storeToRefs"><span class="toc-number">5.1.2.</span> <span class="toc-text">解决方案：引入 storeToRefs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90%E4%B8%8E%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">官方文档解析与底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Store-%E7%9A%84%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%A8%A1%E5%9D%97%E5%8C%96%E7%AE%A1%E7%90%86"><span class="toc-number">5.2.1.</span> <span class="toc-text">Store 的懒加载与模块化管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Store-%E7%9A%84%E5%BA%95%E5%B1%82%E5%8C%85%E8%A3%85%E4%B8%8E-Proxy-%E5%8A%AB%E6%8C%81"><span class="toc-number">5.2.2.</span> <span class="toc-text">Store 的底层包装与 Proxy 劫持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%84%E7%A0%B4%E5%9D%8F%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0"><span class="toc-number">5.2.3.</span> <span class="toc-text">解构破坏响应式的根本原因</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#storeToRefs-%E5%AE%9E%E8%B7%B5"><span class="toc-number">5.3.</span> <span class="toc-text">storeToRefs 实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E4%B8%8E%E6%96%B9%E6%B3%95%E7%9A%84%E8%A7%A3%E6%9E%84%E8%A7%84%E8%8C%83"><span class="toc-number">5.3.1.</span> <span class="toc-text">状态与方法的解构规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E4%B8%8E%E8%A7%A3%E6%9E%84%E8%AE%BF%E9%97%AE%E7%9A%84%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9"><span class="toc-number">5.3.2.</span> <span class="toc-text">直接访问与解构访问的场景选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83%EF%BC%9A%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8-storeToRefs"><span class="toc-number">5.4.</span> <span class="toc-text">实战演练：综合应用 storeToRefs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#store-%E8%A7%A3%E6%9E%84%E6%80%BB%E7%BB%93"><span class="toc-number">5.5.</span> <span class="toc-text">store 解构总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pinia-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%99%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">Pinia 状态管理与数据持久化教程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">6.1.</span> <span class="toc-text">Pinia 调试工具的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-Pinia-%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6%E7%AE%80%E4%BB%8B"><span class="toc-number">6.2.</span> <span class="toc-text">二、 Pinia 数据持久化插件简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">6.3.</span> <span class="toc-text">持久化插件的安装与基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-number">6.3.1.</span> <span class="toc-text">安装插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-main-js-%E4%B8%AD%E6%B3%A8%E5%86%8C%E6%8F%92%E4%BB%B6"><span class="toc-number">6.3.2.</span> <span class="toc-text">在 main.js 中注册插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-Store-%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%BC%80%E5%90%AF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">6.3.3.</span> <span class="toc-text">在 Store 模块中开启持久化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6%E7%9A%84%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-number">6.4.</span> <span class="toc-text">持久化插件的高级配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%98%E5%82%A8%E9%94%AE%E5%90%8D-key"><span class="toc-number">6.4.1.</span> <span class="toc-text">自定义存储键名 (key)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F-storage"><span class="toc-number">6.4.2.</span> <span class="toc-text">更改存储方式 (storage)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E6%8C%81%E4%B9%85%E5%8C%96%E7%8A%B6%E6%80%81-paths"><span class="toc-number">6.4.3.</span> <span class="toc-text">指定持久化状态 (paths)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pinia-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">6.5.</span> <span class="toc-text">Pinia 核心知识点总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/07/21/docker-install/" title="windows docket安装"><img src="/img/loading.gif" data-lazy-src="/img/cover001.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows docket安装"/></a><div class="content"><a class="title" href="/2026/07/21/docker-install/" title="windows docket安装">windows docket安装</a><time datetime="2026-07-21T18:40:21.000Z" title="发表于 2026-07-21 18:40:21">2026-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/19/Vue017/" title="Pinia"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pinia"/></a><div class="content"><a class="title" href="/2026/07/19/Vue017/" title="Pinia">Pinia</a><time datetime="2026-07-19T09:52:11.000Z" title="发表于 2026-07-19 09:52:11">2026-07-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/17/Vue016/" title="Vue2到vue3"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue2到vue3"/></a><div class="content"><a class="title" href="/2026/07/17/Vue016/" title="Vue2到vue3">Vue2到vue3</a><time datetime="2026-07-17T23:31:15.000Z" title="发表于 2026-07-17 23:31:15">2026-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/13/Vue015/" title="Vuex状态管理全套用法"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vuex状态管理全套用法"/></a><div class="content"><a class="title" href="/2026/07/13/Vue015/" title="Vuex状态管理全套用法">Vuex状态管理全套用法</a><time datetime="2026-07-13T14:48:22.000Z" title="发表于 2026-07-13 14:48:22">2026-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/07/11/Vue014/" title="Vue CLI 自定义创建项目与 ESLint 代码规范"><img src="/img/loading.gif" data-lazy-src="https://pic.imgdb.cn/item/640095d5f144a01007f48c86.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue CLI 自定义创建项目与 ESLint 代码规范"/></a><div class="content"><a class="title" href="/2026/07/11/Vue014/" title="Vue CLI 自定义创建项目与 ESLint 代码规范">Vue CLI 自定义创建项目与 ESLint 代码规范</a><time datetime="2026-07-11T12:53:56.000Z" title="发表于 2026-07-11 12:53:56">2026-07-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/top_img00X.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2022 - 2026 By Shiqing Huang</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3</a></span></div><div class="footer_custom_text">Hi, welcome to my <a href="">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天" style="display:none"><i class="fas fa-message"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script>(() => {
+  window.ChatraID = 'pyiEKDCMK4hBnRffY'
+  window.Chatra = window.Chatra || function() {
+    (window.Chatra.q = window.Chatra.q || []).push(arguments)
+  }
+
+  btf.getScript('https://call.chatra.io/chatra.js').then(() => {
+    const isChatBtn = true
+    const isChatHideShow = false
+
+    if (isChatBtn) {
+      const close = () => {
+        Chatra('minimizeWidget')
+        Chatra('hide')
+      }
+
+      const open = () => {
+        Chatra('openChat', true)
+        Chatra('show')
+      }
+
+      window.ChatraSetup = { startHidden: true }
+    
+      window.chatBtnFn = () => document.getElementById('chatra').classList.contains('chatra--expanded') ? close() : open()
+
+      document.getElementById('chat-btn').style.display = 'block'
+    } else if (isChatHideShow) {
+      window.chatBtn = {
+        hide: () => Chatra('hide'),
+        show: () => Chatra('show')
+      }
+    }
+  })
+})()</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/movies/"]):not([href="/books/"]):not([href="/games/"]):not([href="/songs/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜寻文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
