@@ -51,3 +51,15 @@ start /w "" "Docker Desktop Installer.exe" install --installation-dir=D:\dev\Doc
 `dock run hello-world` 出现以下界面表示docker安装成功
 
 ![2026-06-25-10-51-42.png](docker-install/2026-06-25-10-51-42.png)
+
+## docker的使用
+
+### qdrant安装
+
+```cmd
+docker pull qdrant/qdrant:latest
+
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 -v D:\\dev\\qdrant_storage:/qdrant/storage qdrant/qdrant
+```
+
+>`D:\dev\qdrant_storage:`这个是可以修改的，就是挂到你想要的本地位置，到时候容器删了，数据也在。
