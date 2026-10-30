@@ -1,14 +1,18 @@
 ---
 title: Python使用
-top_img: /img/top_img.jpg
-date: 2026-05-31 09:58:58
-tags: 
-- Python
+tags:
+  - Python
 categories: Python
 description: Python安装的那些包
+comments: false
+toc_style_simple: false
+top_img: /img/top_img.jpg
+date: 2026-05-31 09:58:58
+updated: 2026-05-31 09:58:58
 sticky:
 cover:
 ---
+
 
 
 ## Python基本指令

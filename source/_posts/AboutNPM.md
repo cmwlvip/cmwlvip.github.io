@@ -3,7 +3,7 @@ title: npm——Node 包管理器
 date: 2022-11-20 11:31:10
 updated: 2022-11-24
 description: npm 安装过的包
-categories: npm
+categories: Node
 tags:
     - npm
     - Node.js

@@ -1,13 +1,18 @@
 ---
 title: pyenv
+tags:
+  - Python
+categories: Python
+description: pyenv-win 管理 Windows 下多版本 Python
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-05-30 13:33:56
-tags:
-categories:
-description:
+updated: 2026-05-30 13:33:56
 sticky:
 cover:
 ---
+
 ## 为什么使用pyenv
 
 pyenv 是一个简单的 Python 版本管理工具。它能让用户轻松地在不同的 Python 版本之间切换。

@@ -1,13 +1,17 @@
 ---
 title: file-sharing
+description: 在局域网实现多端文件共享
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-07 11:16:16
+updated: 2026-06-07 11:16:16
 tags:
 categories:
-description: 在局域网实现多端文件共享
 sticky:
 cover:
 ---
+
 
 ## 基础环境
 

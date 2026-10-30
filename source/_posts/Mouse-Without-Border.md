@@ -1,13 +1,17 @@
 ---
 title: Mouse-Without-Border
+categories: Tools
+description: 用 “无界鼠标” 实现局域网下键鼠共享
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-05 18:00:27
+updated: 2026-06-05 18:00:27
 tags:
-categories:
-description:
 sticky:
 cover:
 ---
+
 
 ## 概述
 

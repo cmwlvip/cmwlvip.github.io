@@ -1,13 +1,17 @@
 ---
 title: tools-install
+categories: Tools
+description: 记录一些开发工具
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-06 18:02:38
+updated: 2026-06-06 18:02:38
 tags:
-categories:
-description:
 sticky:
 cover:
 ---
+
 
 
 ## Visual Studio Code

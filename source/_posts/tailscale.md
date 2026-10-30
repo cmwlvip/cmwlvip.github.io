@@ -1,13 +1,17 @@
 ---
 title: tailscale
+categories: Tools
+description: TailScale 局域网构建
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-04 12:24:06
+updated: 2026-06-04 12:24:06
 tags:
-categories:
-description:
 sticky:
 cover:
 ---
+
 
 
 ## 概述

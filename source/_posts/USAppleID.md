@@ -1,13 +1,17 @@
 ---
 title: USAppleID
+description: 美区苹果ID注册
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-05 21:26:10
+updated: 2026-06-05 21:26:10
 tags:
 categories:
-description: 美区苹果ID注册
 sticky:
 cover:
 ---
+
 
 
 ## 注册美区ID准备

@@ -1,14 +1,18 @@
 ---
 title: VS Code 扩展
+tags:
+  - VS Code
+description: 盘点那些实用的VS Code扩展
+comments: false
+toc_style_simple: false
 top_img: /img/top_img002.jpg
 date: 2026-06-07 19:16:33
-tags:
-    - VS Code
-categories:
-description: 盘点那些实用的VS Code扩展
+updated: 2026-06-07 19:16:33
+categories: Dev
 sticky:
 cover:
 ---
+
 ## Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code
 
 ![简体中文](VS-Code-Plugin/2026-06-08-12-01-45.png)

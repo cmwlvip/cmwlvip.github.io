@@ -1,13 +1,17 @@
 ---
 title: 电脑作为播放器
+description: 电脑作为播放器
+comments: false
+toc_style_simple: false
 top_img: /img/top_img.jpg
 date: 2026-06-03 15:31:47
+updated: 2026-06-03 15:31:47
 tags:
 categories:
-description:
 sticky:
 cover:
 ---
+
 
 
 ## 场景描述

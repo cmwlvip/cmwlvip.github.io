@@ -3,7 +3,7 @@ title: NVM
 date: 2022-11-24 15:42:25
 updated: 2022-11-24
 description: NVM —— Node.js 版本管理器
-categories: npm
+categories: Node
 tags:
     - nvm
     - Node.js
