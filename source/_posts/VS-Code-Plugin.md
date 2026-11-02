@@ -63,6 +63,8 @@ cover:
 | `pasteImage.showFilePathConfirmInputBox` | `false`                                                      |
 | `pasteImage.suffix`                      | `""`                                                         |
 
+> 如果经常用 `Hexo` 写文章可以，把 `pasteImage.insertPattern` 改成 `![${imageFileName}](${imageFilePath})`、`pasteImage.path` 改成 `${currentFileDir}/${currentFileNameWithoutExt}` 就能在同文件名相同的文件夹下存放图片。
+
 ### 设置描述
 
 #### Base Path
@@ -106,7 +108,7 @@ Force set the file separator style to unix style. If set false, separator style 
 
 用来强制把路径分隔符统一成 Unix 风格的 `/`，而不是跟着系统走。
 
-![Windows原生：用](VS-Code-Plugin/2026-06-08-11-00-22.png)\"" />
+![Windows原生：用"\" ](VS-Code-Plugin/2026-06-08-11-00-22.png)
 
 #### Insert Pattern
 
